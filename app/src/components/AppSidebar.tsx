@@ -76,7 +76,7 @@ export function AppSidebar() {
               <span className={`w-2 h-2 rounded-full inline-block ${wrongChain ? "bg-amber-500" : "bg-[#010FEE] animate-pulse"}`}></span>
               <span>{wrongChain ? "Wrong network" : "Base Mainnet"}</span>
             </div>
-            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${wrongChain ? "bg-amber-200 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200" : "text-[#010FEE] dark:text-blue-400 bg-[#EEF2FF] dark:bg-blue-950/60"}`}>{wrongChain ? `Chain ${chainId}` : "8453 · Live"}</span>
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${wrongChain ? "bg-amber-200 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200" : "text-[#010FEE] dark:text-blue-400 bg-[#EEF2FF] dark:bg-blue-950/60"}`}>{wrongChain ? `Chain ${chainId}` : "Live"}</span>
           </div>
 
           {/* Connect Button */}
@@ -87,7 +87,7 @@ export function AppSidebar() {
             >
               <div className="flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${wrongChain ? "bg-amber-500" : "bg-[#010FEE]"}`}></span>
-                <span>{wrongChain ? (isSwitching ? "Switching to Base…" : "Switch to Base 8453") : `${address.slice(0, 6)}...${address.slice(-4)}`}</span>
+                <span>{wrongChain ? (isSwitching ? "Switching to Base…" : "Switch to Base Mainnet") : `${address.slice(0, 6)}...${address.slice(-4)}`}</span>
               </div>
               {wrongChain ? <ExternalLink className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />}
             </button>

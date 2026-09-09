@@ -278,7 +278,7 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto mt-10 max-w-full overflow-hidden rounded-full border border-[#E2E8F4] bg-white/80 py-2.5 text-[11px] font-semibold text-[#64748B] shadow-sm backdrop-blur dark:border-[#1E294B] dark:bg-[#0D152F] dark:text-[#94A3B8]">
           <div className="ticker-marquee flex w-max gap-8 whitespace-nowrap">
-            {['AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE', '8453 · BASE MAINNET', '1:1 · RECOMBINE', 'AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE'].map((item, index) => <span key={index} className="inline-flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#010FEE]" />{item}</span>)}
+            {['AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE', 'BASE MAINNET', '1:1 · RECOMBINE', 'AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE'].map((item, index) => <span key={index} className="inline-flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#010FEE]" />{item}</span>)}
           </div>
         </div>
 

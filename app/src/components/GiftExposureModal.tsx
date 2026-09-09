@@ -99,7 +99,7 @@ export function GiftExposureModal({
         throw new Error("Protocol upgrade pending: gifting is disabled until the eligibility-enforced deployment is live.");
       }
       if (chainId !== 8453) {
-        throw new Error("Switch your wallet to Base Mainnet (8453) before gifting.");
+        throw new Error("Switch your wallet to Base Mainnet before gifting.");
       }
       await checkEligibility();
       const eligibility = await refetchEligibility();

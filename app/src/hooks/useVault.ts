@@ -130,7 +130,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
 
     try {
       if (!ELIGIBILITY_ENFORCED_DEPLOYMENT) throw new Error("Protocol upgrade pending: use the eligibility-enforced Base deployment.");
-      if (chainId !== 8453) throw new Error("Switch your wallet to Base Mainnet (8453) before transacting.");
+      if (chainId !== 8453) throw new Error("Switch your wallet to Base Mainnet before transacting.");
       await checkEligibility();
       if (isEligibilityLoading) throw new Error("Checking Base eligibility. Please try again in a moment.");
       const eligibility = await refetchEligibility();
@@ -233,7 +233,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
 
     try {
       if (!ELIGIBILITY_ENFORCED_DEPLOYMENT) throw new Error("Protocol upgrade pending: use the eligibility-enforced Base deployment.");
-      if (chainId !== 8453) throw new Error("Switch your wallet to Base Mainnet (8453) before transacting.");
+      if (chainId !== 8453) throw new Error("Switch your wallet to Base Mainnet before transacting.");
       await checkEligibility();
       if (isEligibilityLoading) throw new Error("Checking Base eligibility. Please try again in a moment.");
       const eligibility = await refetchEligibility();

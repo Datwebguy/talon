@@ -326,7 +326,7 @@ export default function MarketsPage() {
                   rel="noreferrer"
                   className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-[#E2E8F4] bg-[#F8FAFC] px-3 py-2 text-[10px] font-semibold text-[#64748B] transition-colors hover:border-[#010FEE]/30 hover:text-[#010FEE] dark:border-[#2A3B6B] dark:bg-[#162044] dark:text-[#94A3B8] dark:hover:border-blue-500/40 dark:hover:text-blue-300"
                 >
-                  <span>Official Coinbase token · Base 8453</span>
+                  <span>Official Coinbase token · Base Mainnet</span>
                   <span className="shrink-0 font-mono text-[#010FEE] dark:text-blue-400">
                     {stock.address.slice(0, 6)}…{stock.address.slice(-4)} <ExternalLink className="inline h-3 w-3" />
                   </span>

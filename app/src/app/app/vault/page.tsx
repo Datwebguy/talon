@@ -197,10 +197,10 @@ export default function VaultPage() {
 
       {/* Top 4 Metric Cards Matching Image 2 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-        {/* 1. Vault Balance */}
+        {/* 1. Protocol vault balance */}
         <div className="p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#1E294B] flex flex-col justify-between transition-colors">
           <div className="flex items-center justify-between text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">
-            <span>Vault Balance</span>
+            <span>Total AAPLc in vault</span>
             <Lock className="w-4 h-4 text-[#94A3B8] dark:text-[#64748B]" />
           </div>
           <div className="mt-3">
@@ -208,7 +208,7 @@ export default function VaultPage() {
               {vaultValue}
             </div>
             <div className="text-xs text-[#94A3B8] dark:text-[#64748B] font-mono mt-0.5">
-              {vaultBalance === null ? "Onchain balance unavailable" : `${vaultBalance.toFixed(4)} AAPLc locked`}
+              {vaultBalance === null ? "Protocol balance unavailable" : `Protocol total: ${vaultBalance.toFixed(4)} AAPLc`}
             </div>
           </div>
         </div>
@@ -467,7 +467,7 @@ export default function VaultPage() {
                   className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-sm font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isTearing && <RefreshCw className="w-4 h-4 animate-spin" />}
-                  {wrongChain ? "Switch wallet to Base Mainnet (8453)" : isTearing ? (stepText ? "Confirming in Wallet..." : "Splitting AAPLc...") : "Deposit AAPLc"}
+                  {wrongChain ? "Switch wallet to Base Mainnet" : isTearing ? (stepText ? "Confirming in Wallet..." : "Splitting AAPLc...") : "Deposit AAPLc"}
                 </button>
               )}
             </div>
@@ -602,7 +602,7 @@ export default function VaultPage() {
                   className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-sm font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isJoining && <RefreshCw className="w-4 h-4 animate-spin" />}
-                  {wrongChain ? "Switch wallet to Base Mainnet (8453)" : isJoining ? (stepText ? "Confirming in Wallet..." : "Recombining Tokens...") : "Recombine & Withdraw AAPLc"}
+                  {wrongChain ? "Switch wallet to Base Mainnet" : isJoining ? (stepText ? "Confirming in Wallet..." : "Recombining Tokens...") : "Recombine & Withdraw AAPLc"}
                 </button>
               )}
             </div>

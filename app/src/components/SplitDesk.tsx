@@ -353,7 +353,7 @@ export function SplitDesk({ initialStrategy = "both" }: SplitDeskProps) {
               <span>Confirming on Base Mainnet…</span>
             </>
           ) : wrongChain ? (
-            <span>Switch wallet to Base Mainnet (8453)</span>
+            <span>Switch wallet to Base Mainnet</span>
           ) : activeTab === "tear" ? (
             <>
               <span>Execute Split (Tear AAPLc)</span>
