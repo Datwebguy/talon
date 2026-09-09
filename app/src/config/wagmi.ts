@@ -6,11 +6,11 @@ export const config = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({ appName: "Talon Protocol" }),
-    injected({ target: "isMetaMask" }),
-    injected({ target: "isOkxWallet" }),
-    injected({ target: "isPhantom" }),
-    injected({ target: "isRabby" }),
-    injected({ target: "isRainbow" }),
+    injected({ target: "metaMask" }),
+    injected({ target: "okxWallet" }),
+    injected({ target: "phantom" }),
+    injected({ target: "rabby" }),
+    injected({ target: "rainbow" }),
   ],
   // Do not create a generic connector that silently binds to one extension.
   multiInjectedProviderDiscovery: false,
