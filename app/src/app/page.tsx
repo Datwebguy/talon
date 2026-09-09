@@ -225,8 +225,8 @@ export default function HomePage() {
       {/* ===================================================================
           1. HERO SECTION (Wise Style: Massive Bold Headline + Clean Canvas)
          =================================================================== */}
-      <section className="hero-landing relative w-full px-4 pb-14 pt-9 text-center sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
-        <div className="max-w-2xl mx-auto mb-6 text-left"><EligibilityBanner /></div>
+      <section className="hero-landing relative w-full min-w-0 overflow-hidden px-4 pb-14 pt-9 text-center sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
+        <div className="mx-auto mb-6 w-full min-w-0 max-w-2xl text-left"><EligibilityBanner /></div>
         <div className="hero-surface absolute inset-x-0 top-0 z-0 h-[790px] overflow-hidden pointer-events-none sm:h-[710px]">
           <div className="hero-grid absolute inset-0 opacity-70 dark:opacity-35" />
         </div>
@@ -237,13 +237,19 @@ export default function HomePage() {
         </div>
 
         {/* Aggressive 900 Display Headline */}
-        <h1 className="mx-auto max-w-[22rem] px-0 text-[clamp(2rem,9.2vw,2.4rem)] font-black uppercase leading-[0.98] tracking-[-0.045em] text-white dark:text-[#050B24] sm:max-w-5xl sm:px-2 sm:text-[clamp(3rem,8.5vw,5.75rem)] sm:leading-[0.95] sm:tracking-[-0.05em]">
-          SPLIT THE STOCK. <br />
-          <span className="hero-title-accent">CHOOSE YOUR EXPOSURE.</span>
+        <h1 className="mx-auto w-full max-w-[20rem] px-0 text-[clamp(1.9rem,8.5vw,2.15rem)] font-black uppercase leading-[0.98] tracking-[-0.045em] text-white dark:text-[#050B24] sm:max-w-5xl sm:px-2 sm:text-[clamp(3rem,8.5vw,5.75rem)] sm:leading-[0.95] sm:tracking-[-0.05em]">
+          <span className="sm:hidden">
+            Split the stock. <br />
+            <span className="hero-title-accent">Choose your<br />exposure.</span>
+          </span>
+          <span className="hidden sm:inline">
+            SPLIT THE STOCK. <br />
+            <span className="hero-title-accent">CHOOSE YOUR EXPOSURE.</span>
+          </span>
         </h1>
 
         {/* Clear, Human Subtitle */}
-        <p className="mx-auto mt-5 max-w-2xl px-1 text-[15px] font-normal leading-6 text-white/85 dark:text-[#334155] sm:mt-6 sm:px-4 sm:text-xl sm:leading-relaxed">
+        <p className="mx-auto mt-5 w-full max-w-2xl break-words px-1 text-[15px] font-normal leading-6 text-white/85 dark:text-[#334155] sm:mt-6 sm:px-4 sm:text-xl sm:leading-relaxed">
           Split an official Coinbase stock token into two simple, transferable Base-native claims: <strong className="text-white dark:text-[#010FEE]">Clip</strong> for multiplier exposure and <strong className="text-white dark:text-[#050B24]">Talon</strong> for price exposure.
         </p>
 
@@ -280,15 +286,15 @@ export default function HomePage() {
           Non-custodial · Base mainnet · For eligible non-US users
         </div>
 
-        <div className="relative z-10 mx-auto mt-8 max-w-full overflow-hidden rounded-full border border-[#E2E8F4] bg-white/80 py-2.5 text-[11px] font-semibold text-[#64748B] shadow-sm backdrop-blur dark:border-[#1E294B] dark:bg-[#0D152F] dark:text-[#94A3B8] sm:mt-10">
+        <div className="relative z-10 mx-auto mt-8 w-full max-w-full overflow-hidden rounded-full border border-[#E2E8F4] bg-white/80 py-2.5 text-[11px] font-semibold text-[#64748B] shadow-sm backdrop-blur dark:border-[#1E294B] dark:bg-[#0D152F] dark:text-[#94A3B8] sm:mt-10">
           <div className="ticker-marquee flex w-max gap-8 whitespace-nowrap">
             {['AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE', 'BASE MAINNET', '1:1 · RECOMBINE', 'AAPLc · OFFICIAL', 'CLIP · ACCRETION', 'TALON · PRICE'].map((item, index) => <span key={index} className="inline-flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#010FEE]" />{item}</span>)}
           </div>
         </div>
 
-        <nav aria-label="Landing page sections" className="relative z-10 mx-auto mt-4 flex max-w-xl items-center justify-center gap-1 rounded-full border border-[#E2E8F4] bg-white/80 p-1 shadow-sm dark:border-[#1E294B] dark:bg-[#0D152F] sm:mt-5">
+        <nav aria-label="Landing page sections" className="relative z-10 mx-auto mt-4 flex w-full max-w-xl min-w-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-[#E2E8F4] bg-white/80 p-1 shadow-sm dark:border-[#1E294B] dark:bg-[#0D152F] sm:mt-5">
           {[['how-it-works', 'How it works'], ['markets', 'Markets'], ['strategies', 'Strategies']].map(([href, label]) => (
-            <a key={href} href={`#${href}`} className="flex-1 rounded-full px-3 py-2 text-[11px] font-bold text-[#64748B] transition-colors hover:bg-[#EEF2FF] hover:text-[#010FEE] dark:text-[#94A3B8] dark:hover:bg-[#162044] dark:hover:text-blue-400">{label}</a>
+            <a key={href} href={`#${href}`} className="min-w-0 flex-1 whitespace-nowrap rounded-full px-1 py-2 text-[10px] font-bold text-[#64748B] transition-colors hover:bg-[#EEF2FF] hover:text-[#010FEE] dark:text-[#94A3B8] dark:hover:bg-[#162044] dark:hover:text-blue-400 sm:px-3 sm:text-[11px]">{label}</a>
           ))}
         </nav>
 
