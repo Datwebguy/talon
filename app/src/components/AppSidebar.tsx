@@ -29,6 +29,7 @@ export function AppSidebar() {
   const { openSelectModal, openAccountModal } = useWalletModal();
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
   const wrongChain = isConnected && chainId !== 8453;
 
   // Proactively prefetch all app sections so clicking sidebar is instantaneous
@@ -39,6 +40,17 @@ export function AppSidebar() {
     router.prefetch("/app/portfolio");
     router.prefetch("/docs");
   }, [router]);
+
+  // Browser "desktop site" settings can make CSS media queries report a wide
+  // viewport on a real phone. Screen dimensions remain physical and reliable.
+  useEffect(() => {
+    const updateDeviceMode = () => {
+      setIsPhone(Math.min(window.screen.width, window.screen.height) <= 767);
+    };
+    updateDeviceMode();
+    window.addEventListener("orientationchange", updateDeviceMode);
+    return () => window.removeEventListener("orientationchange", updateDeviceMode);
+  }, []);
 
   const navItems = [
     { name: "Dashboard", href: "/app", icon: LayoutDashboard },
@@ -181,7 +193,7 @@ export function AppSidebar() {
   return (
     <>
       {/* Mobile Top Header */}
-      <div className="mobile-app-header md:hidden flex items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] sticky top-0 z-40 transition-colors">
+      <div className={`${isPhone ? "flex" : "hidden"} mobile-app-header items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] sticky top-0 z-40 transition-colors`}>
         <Link href="/" className="flex items-center gap-2">
           <TalonLogo className="w-7 h-7" size={28} rounded="lg" />
           <span className="font-black text-base text-[#050B24] dark:text-white">TALON</span>
@@ -198,8 +210,8 @@ export function AppSidebar() {
       </div>
 
       {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex">
+      {isPhone && mobileOpen && (
+        <div className="fixed inset-0 z-50 flex">
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
@@ -210,7 +222,7 @@ export function AppSidebar() {
         </div>
       )}
 
-      <nav className="mobile-app-bottom-nav md:hidden fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#E2E8F4] bg-white/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_28px_rgba(5,11,36,0.08)] backdrop-blur-lg dark:border-[#1E294B] dark:bg-[#080D26]/95">
+      {isPhone && <nav className="mobile-app-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#E2E8F4] bg-white/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_28px_rgba(5,11,36,0.08)] backdrop-blur-lg dark:border-[#1E294B] dark:bg-[#080D26]/95">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || (item.href === "/app" && pathname === "/app");
@@ -221,12 +233,12 @@ export function AppSidebar() {
             </Link>
           );
         })}
-      </nav>
+      </nav>}
 
       {/* Desktop Fixed Sidebar */}
-      <aside className="desktop-app-sidebar hidden md:block w-60 shrink-0 h-screen sticky top-0 z-30">
+      {!isPhone && <aside className="desktop-app-sidebar w-60 shrink-0 h-screen sticky top-0 z-30">
         {sidebarContent}
-      </aside>
+      </aside>}
     </>
   );
 }
