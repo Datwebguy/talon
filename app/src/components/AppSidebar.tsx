@@ -41,15 +41,20 @@ export function AppSidebar() {
     router.prefetch("/docs");
   }, [router]);
 
-  // Browser "desktop site" settings can make CSS media queries report a wide
-  // viewport on a real phone. Screen dimensions remain physical and reliable.
+  // Browser "desktop site" settings can make CSS media queries and screen
+  // dimensions report a wide canvas. visualViewport is the visible handset area.
   useEffect(() => {
     const updateDeviceMode = () => {
-      setIsPhone(Math.min(window.screen.width, window.screen.height) <= 767);
+      const visibleWidth = window.visualViewport?.width ?? window.innerWidth;
+      setIsPhone(visibleWidth <= 767);
     };
     updateDeviceMode();
+    window.visualViewport?.addEventListener("resize", updateDeviceMode);
     window.addEventListener("orientationchange", updateDeviceMode);
-    return () => window.removeEventListener("orientationchange", updateDeviceMode);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", updateDeviceMode);
+      window.removeEventListener("orientationchange", updateDeviceMode);
+    };
   }, []);
 
   const navItems = [
