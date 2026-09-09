@@ -145,6 +145,19 @@ body > * {
   }
 }
 
+/* Some Android browsers retain a desktop-sized CSS viewport while in mobile
+   Chrome. A coarse pointer is the reliable signal here: always use the app's
+   mobile shell and never reserve space for the desktop sidebar. */
+@media (pointer: coarse) {
+  .desktop-app-sidebar {
+    display: none !important;
+  }
+
+  .mobile-app-header {
+    display: flex !important;
+  }
+}
+
 .dark .hero-landing::before {
   background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
 }

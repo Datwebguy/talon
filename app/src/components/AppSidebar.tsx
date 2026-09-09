@@ -181,7 +181,7 @@ export function AppSidebar() {
   return (
     <>
       {/* Mobile Top Header */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] sticky top-0 z-40 transition-colors">
+      <div className="mobile-app-header md:hidden flex items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] sticky top-0 z-40 transition-colors">
         <Link href="/" className="flex items-center gap-2">
           <TalonLogo className="w-7 h-7" size={28} rounded="lg" />
           <span className="font-black text-base text-[#050B24] dark:text-white">TALON</span>
@@ -211,7 +211,7 @@ export function AppSidebar() {
       )}
 
       {/* Desktop Fixed Sidebar */}
-      <aside className="hidden md:block w-60 shrink-0 h-screen sticky top-0 z-30">
+      <aside className="desktop-app-sidebar hidden md:block w-60 shrink-0 h-screen sticky top-0 z-30">
         {sidebarContent}
       </aside>
     </>
