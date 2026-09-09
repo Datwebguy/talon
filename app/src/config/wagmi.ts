@@ -2,12 +2,31 @@ import { http, createConfig, fallback } from "wagmi";
 import { base } from "wagmi/chains";
 import { injected, coinbaseWallet } from "wagmi/connectors";
 
+const okxWalletTarget = {
+  id: "okxWallet",
+  name: "OKX Wallet",
+  provider: (window?: any) => {
+    const browser = window as {
+      okxwallet?: { ethereum?: unknown };
+      ethereum?: { providers?: Array<{ isOkxWallet?: boolean; isOKExWallet?: boolean }> };
+    };
+
+    return (
+      browser?.okxwallet?.ethereum ??
+      browser?.okxwallet ??
+      browser?.ethereum?.providers?.find(
+        (provider) => provider.isOkxWallet || provider.isOKExWallet
+      )
+    );
+  },
+};
+
 export const config = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({ appName: "Talon Protocol" }),
     injected({ target: "metaMask" }),
-    injected({ target: "okxWallet" }),
+    injected({ target: okxWalletTarget as any }),
     injected({ target: "phantom" }),
     injected({ target: "rabby" }),
     injected({ target: "rainbow" }),
