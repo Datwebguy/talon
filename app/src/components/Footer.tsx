@@ -73,7 +73,7 @@ export function Footer({ isApp = false }: FooterProps) {
                 <XTwitterIcon className="w-3.5 h-3.5" />
               </a>
               <a
-                href="https://github.com/TalonOnBase"
+                href="https://github.com/Datwebguy/talon"
                 target="_blank"
                 rel="noreferrer"
                 className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all flex items-center justify-center shadow-xs cursor-pointer"
@@ -160,7 +160,7 @@ export function Footer({ isApp = false }: FooterProps) {
               </li>
               <li>
                 <a
-                  href="https://github.com/TalonOnBase"
+                  href="https://github.com/Datwebguy/talon"
                   target="_blank"
                   rel="noreferrer"
                   className="text-white/80 hover:text-white transition-colors inline-flex items-center gap-1.5"
