@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-paper: #ffffff;
+  --color-brand-blue: #010FEE;
+  --color-brand-blue-hover: #000ED6;
+  --color-brand-mist: #EEF2FF;
+  --color-ink: #050B24;
+  --color-fog: #F8FAFC;
+  --color-border: #E2E8F4;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-paper: #080D26;
+  --color-brand-blue: #3875F6;
+  --color-brand-blue-hover: #2563EB;
+  --color-brand-mist: #131B3E;
+  --color-ink: #F8FAFC;
+  --color-fog: #0D152F;
+  --color-border: #1E294B;
+}
+
+html {
+  color-scheme: light;
+  background-color: #FFFFFF;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #060919;
+}
+
+body {
+  background-color: #FFFFFF;
+  color: #050B24;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  isolation: isolate;
+}
+
+html.dark body,
+body.dark {
+  background:
+    linear-gradient(135deg, #070b22 0%, #0d1637 48%, #11153c 100%);
+  color: #F8FAFC;
+}
+
+@keyframes talon-aurora {
+  0%, 100% { transform: translate3d(-4%, -2%, 0) rotate(0deg) scale(1); opacity: .48; }
+  33% { transform: translate3d(5%, 3%, 0) rotate(12deg) scale(1.08); opacity: .64; }
+  66% { transform: translate3d(-2%, 6%, 0) rotate(-8deg) scale(.96); opacity: .52; }
+}
+
+@keyframes talon-stars {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-48px, 32px, 0); }
+}
+
+.dark body::before {
+  position: fixed;
+  inset: -22%;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(112deg, transparent 0 28%, rgba(37, 99, 235, .13) 42%, transparent 58%),
+    linear-gradient(248deg, transparent 0 46%, rgba(0, 210, 255, .08) 57%, transparent 70%);
+  filter: blur(28px);
+  animation: talon-aurora 26s ease-in-out infinite;
+}
+
+.dark body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .22;
+  background: linear-gradient(90deg, transparent 0 18%, rgba(129, 140, 248, .22) 18.2% 18.35%, transparent 18.5% 68%, rgba(34, 211, 238, .16) 68.2% 68.35%, transparent 68.5%);
+  background-size: 720px 100%;
+  animation: talon-stars 32s linear infinite;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-landing > *:not(.hero-surface) {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-landing::before {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  height: 710px;
+  pointer-events: none;
+  content: "";
+  border-radius: 0;
+  background: linear-gradient(118deg, #010fbe 0%, #010fee 42%, #2634ff 72%, #00a9df 100%);
+}
+
+.hero-title-accent {
+  color: #ffffff !important;
+}
+
+.dark .hero-landing::before {
+  background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
+}
+
+.dark .hero-title-accent {
+  color: #010fee !important;
+}
+
+@keyframes talon-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-9px) rotate(2deg); }
+}
+
+@keyframes talon-orbit {
+  from { transform: rotate(0deg) translateX(155px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(155px) rotate(-360deg); }
+}
+
+@keyframes talon-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes talon-pulse-line {
+  0%, 100% { opacity: .35; transform: scaleX(.92); }
+  50% { opacity: .9; transform: scaleX(1); }
+}
+
+.hero-grid {
+  background-image: linear-gradient(rgba(1, 15, 238, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(1, 15, 238, .08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+}
+
+.hero-surface {
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(118deg, #010fbe 0%, #010fee 42%, #2634ff 72%, #00a9df 100%);
+}
+
+.hero-surface::before {
+  position: absolute;
+  inset: -18% -8% 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(132deg, transparent 0 30%, rgba(255,255,255,.15) 30.2% 30.6%, transparent 31% 62%, rgba(255,255,255,.10) 62.2% 62.6%, transparent 63%);
+  background-size: 180% 180%;
+  filter: none;
+  animation: talon-stars 18s linear infinite;
+}
+
+.dark .hero-surface {
+  background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
+}
+
+.dark .hero-surface::before {
+  z-index: 0;
+  background: linear-gradient(132deg, transparent 0 24%, rgba(1,15,238,.10) 24.2% 24.8%, transparent 25.2% 58%, rgba(0, 168, 219, .16) 58.2% 58.8%, transparent 59.2%);
+  background-size: 180% 180%;
+  filter: none;
+}
+
+.hero-orbit {
+  animation: talon-orbit 18s linear infinite;
+}
+
+.ticker-marquee {
+  animation: talon-marquee 28s linear infinite;
+}
+
+.pulse-line {
+  animation: talon-pulse-line 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.character-float {
+  animation: talon-float 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-float, .hero-orbit, .ticker-marquee, .pulse-line, .dark body::before, .dark body::after {
+    animation: none;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
