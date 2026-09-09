@@ -620,9 +620,13 @@ export default function HomePage() {
               const Logo = s.Logo;
 
               return (
-                <div
+                <a
                   key={s.symbol}
-                  className="bg-white dark:bg-[#0D152F] p-5 rounded-2xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-sm flex items-center justify-between hover:border-[#010FEE]/40 transition-all"
+                  href={`https://basescan.org/token/${s.address}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Verify official ${s.symbol} on BaseScan`}
+                  className="group bg-white dark:bg-[#0D152F] p-5 rounded-2xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-sm flex items-center justify-between hover:border-[#010FEE]/60 hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] flex items-center justify-center p-2 shrink-0">
@@ -646,11 +650,12 @@ export default function HomePage() {
                   </div>
 
                   <div className="text-right">
-                    <div className="font-mono text-sm font-bold text-[#050B24] dark:text-white">
+                    <div className="flex items-center justify-end gap-1.5 font-mono text-sm font-bold text-[#050B24] dark:text-white">
                       {price}
+                      <ExternalLink className="h-3.5 w-3.5 text-[#94A3B8] transition-colors group-hover:text-[#010FEE] dark:group-hover:text-blue-400" aria-hidden="true" />
                     </div>
                   </div>
-                </div>
+                </a>
               );
             })}
           </div>
