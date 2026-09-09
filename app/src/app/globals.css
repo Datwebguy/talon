@@ -180,6 +180,37 @@ body > * {
   }
 }
 
+/* Final responsive boundary for browsers that present a 980px layout viewport
+   on a narrow handset. The app changes navigation before desktop columns do. */
+@media (max-width: 1023px) {
+  .desktop-app-sidebar {
+    display: none !important;
+  }
+
+  .mobile-app-header {
+    display: flex !important;
+  }
+
+  .mobile-app-bottom-nav {
+    display: grid !important;
+  }
+
+  .app-main-content {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+
+  .app-main-content > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .dark .hero-landing::before {
   background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
 }
