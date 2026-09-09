@@ -2,123 +2,138 @@
 
 # TALON
 
-### Programmable exposure for official Coinbase Tokenized Stocks on Base
+## Split official AAPLc on Base. Choose what you hold.
 
 [![Base Mainnet](https://img.shields.io/badge/Base%20Mainnet-8453-0052FF?style=for-the-badge)](https://basescan.org)
-[![Official underlying](https://img.shields.io/badge/Official%20underlying-AAPLc-0A84FF?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
-[![Status](https://img.shields.io/badge/Status-Live-0BB783?style=for-the-badge)](https://talon-rouge.vercel.app)
+[![Official AAPLc](https://img.shields.io/badge/Official%20AAPLc-Coinbase-2563EB?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
+[![Live protocol](https://img.shields.io/badge/Protocol-Live-16A34A?style=for-the-badge)](https://talon-rouge.vercel.app)
 
-[Open Talon](https://talon-rouge.vercel.app) · [Verify AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) · [Base Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
+[Open the app](https://talon-rouge.vercel.app) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
 
 </div>
 
-## The idea
+> **Talon is experimental Base Mainnet software for eligible non US users.** Coinbase issues AAPLc. Base is the network. Talon is an independent protocol that lets a holder split and recombine the exposure.
 
-Coinbase Tokenized Stocks make official stock exposure available on Base for eligible non US users. Talon explores the next question: once a stock token is onchain, can a holder choose which exposure to keep without leaving the asset in a single opaque position?
+## Why Talon exists
 
-Talon accepts official Coinbase AAPLc and issues two coupled, transferable claims. **Clip** tracks the multiplier leg. **Talon** tracks the price leg. Equal amounts of Clip and Talon can always be recombined to recover the same raw amount of AAPLc held in the vault.
+When official Coinbase Tokenized Stocks became available on Base, the obvious product was another place to buy a ticker. We saw a more interesting opportunity. A stock position onchain does not have to remain one indivisible object.
 
-The product is deliberately narrow. It does not invent dividends, fabricate market data, promise yield, or call a lookalike token a Coinbase asset. The current live loop is one official underlying, one vault, one verifiable action, and one onchain receipt.
+Talon lets an eligible AAPLc holder decide how to hold that position. Deposit official Coinbase AAPLc into the Talon vault and receive two equal, transferable claims: **Clip**, the multiplier claim, and **Talon**, the price claim. Keep them together, transfer one claim to another approved wallet, or combine equal amounts later to recover the raw AAPLc.
 
-## Live product
+This is not a promise of yield. It is not synthetic Apple exposure. It is not a pretend exchange. It is one real, inspectable Base Mainnet loop built around the official Coinbase AAPLc contract.
 
-| Surface | Link |
-| :--- | :--- |
-| App | [talon-rouge.vercel.app](https://talon-rouge.vercel.app) |
-| Network | [Base Mainnet, chain 8453](https://basescan.org) |
-| Official underlying | [AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) |
-| Factory | [`0x7e16...9711`](https://basescan.org/address/0x7e16011cafead7ffdc5cdd96e67b167f9b1f9711) |
-| Eligibility registry | [`0x932a...757C`](https://basescan.org/address/0x932ab262AbbdCBEFa86D3166A5F987E5A79F757C) |
-| AAPLc vault | [`0x12bb...47cB`](https://basescan.org/address/0x12bb3fFaBF1bE93D0BEAf39c069f3B87E7fc47cB) |
-| Clip token | [`0xd781...1141`](https://basescan.org/token/0xd781e0594041c12618847b165acd552CeB1C1141) |
-| Talon token | [`0x8346...532B`](https://basescan.org/token/0x834600FFF5dC6097D7A2a443F1484Ff6228f532B) |
-
-## The live loop
-
-An eligible wallet connects on Base Mainnet. Talon verifies the wallet network, checks the application eligibility posture, and reads the onchain eligibility registry. The wallet approves the exact AAPLc amount to the vault. The vault then tears that AAPLc into equal Clip and Talon balances.
-
-Either claim can be transferred to another eligible wallet. A holder with equal Clip and Talon amounts can join them to withdraw the matching raw AAPLc amount from the vault. The vault never releases AAPLc by burning only one claim.
+## The one action
 
 ```text
-Official Coinbase AAPLc
-          │
-          │ tear
-          ▼
-   Clip             Talon
-multiplier leg    price leg
-          │
-          │ equal amounts join
-          ▼
-Official Coinbase AAPLc
+                       Official Coinbase AAPLc
+                                  │
+                                  │  Tear
+                                  ▼
+                ┌─────────────────┴─────────────────┐
+                │                                   │
+                ▼                                   ▼
+          Clip AAPLc                           Talon AAPLc
+       Multiplier claim                        Price claim
+                │                                   │
+                └──────── equal amounts ────────────┘
+                                  │
+                                  │  Join
+                                  ▼
+                       Official Coinbase AAPLc
 ```
 
-## Mainnet proof
+The vault holds the deposited AAPLc. Tearing mints equal raw amounts of Clip and Talon. Joining burns equal raw amounts of both claims and returns the matching raw AAPLc. There is no path to withdraw the underlying by presenting only one side of the pair.
 
-The following Base Mainnet transactions complete the product loop. These are real receipts, not simulated screenshots.
+## Start here
 
-| Action | BaseScan receipt |
+<table>
+  <tr>
+    <td width="33%"><strong>1. Verify</strong><br/>Confirm that the underlying is official Coinbase AAPLc and that the wallet is on Base Mainnet.</td>
+    <td width="33%"><strong>2. Split</strong><br/>Approve the exact amount, then tear AAPLc into matched Clip and Talon claims.</td>
+    <td width="33%"><strong>3. Recombine</strong><br/>Bring equal amounts back together and join them to withdraw AAPLc from the vault.</td>
+  </tr>
+</table>
+
+Talon also supports a simple gift flow. An approved holder can transfer Clip or Talon directly to another approved wallet. There is no time lock or rewards programme hidden behind that feature. It is a straightforward onchain transfer.
+
+## Live on Base
+
+| What | Verified address |
 | :--- | :--- |
-| AAPLc approval to vault | [`0xafa4...ae7d`](https://basescan.org/tx/0xafa4c3b7784b894a470c69302a3d9a6d86a938721717b300a0a95031df31ae7d) |
-| Tear AAPLc into Clip and Talon | [`0x4e79...0b2f`](https://basescan.org/tx/0x4e791f2324a9a99fac8d9e018fc4c17836ad87e1d6d8a5a71c8021ab1a030b2f) |
-| Gift Clip to an eligible recipient | [`0xaf2c...2be5`](https://basescan.org/tx/0xaf2cb1679f111b9fcf9fe832280d2104afc7d40ea68a9755922b683eb9522be5) |
-| Recombine Clip and Talon into AAPLc | [`0xc513...171f`](https://basescan.org/tx/0xc51317afc6c27ff1e0464885dcb551c5116564695f89787e1385ada9631c171f) |
+| Official Coinbase AAPLc | [`0xb200...d1fb`](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) |
+| Talon Factory | [`0x7e16...9711`](https://basescan.org/address/0x7e16011cafead7ffdc5cdd96e67b167f9b1f9711) |
+| Eligibility Registry | [`0x932a...757C`](https://basescan.org/address/0x932ab262AbbdCBEFa86D3166A5F987E5A79F757C) |
+| AAPLc Vault | [`0x12bb...47cB`](https://basescan.org/address/0x12bb3fFaBF1bE93D0BEAf39c069f3B87E7fc47cB) |
+| Clip AAPLc | [`0xd781...1141`](https://basescan.org/token/0xd781e0594041c12618847b165acd552CeB1C1141) |
+| Talon AAPLc | [`0x8346...532B`](https://basescan.org/token/0x834600FFF5dC6097D7A2a443F1484Ff6228f532B) |
 
-## Official asset policy
+The protocol is deployed on **Base Mainnet, chain 8453**. The app is live at [talon-rouge.vercel.app](https://talon-rouge.vercel.app).
 
-Talon only treats an asset as a Coinbase Tokenized Stock when its address appears in the official Coinbase and Base materials. A ticker is never sufficient.
+## Proof, not promises
 
-The factory allowlist includes Coinbase AAPLc, NVDAc, GOOGLc, and METAc. **Only AAPLc has a deployed Talon vault and a live product flow today.** The remaining assets are not presented as active vaults and are not substitutes for a live AAPLc loop.
+The full loop has been completed on Base Mainnet with official AAPLc. Open each receipt and inspect the transaction yourself.
 
-| Asset | Official Coinbase asset | Current Talon state |
-| :--- | :--- | :--- |
-| AAPLc | Yes | Live vault and verified loop |
-| NVDAc | Yes | Allowlisted, no Talon vault |
-| GOOGLc | Yes | Allowlisted, no Talon vault |
-| METAc | Yes | Allowlisted, no Talon vault |
+| Completed action | Receipt |
+| :--- | :--- |
+| Approved AAPLc for the vault | [View on BaseScan](https://basescan.org/tx/0xafa4c3b7784b894a470c69302a3d9a6d86a938721717b300a0a95031df31ae7d) |
+| Tore AAPLc into Clip and Talon | [View on BaseScan](https://basescan.org/tx/0x4e791f2324a9a99fac8d9e018fc4c17836ad87e1d6d8a5a71c8021ab1a030b2f) |
+| Gifted Clip to an approved recipient | [View on BaseScan](https://basescan.org/tx/0xaf2cb1679f111b9fcf9fe832280d2104afc7d40ea68a9755922b683eb9522be5) |
+| Joined Clip and Talon back into AAPLc | [View on BaseScan](https://basescan.org/tx/0xc51317afc6c27ff1e0464885dcb551c5116564695f89787e1385ada9631c171f) |
 
-The official underlying address for the live vault is [`0xb200000000000000000000C2e324d24d7eEcd1fb`](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb).
+## What is live today
 
-## Eligibility and safety
+| Capability | Availability |
+| :--- | :--- |
+| Official AAPLc vault | Live |
+| AAPLc tear into Clip and Talon | Live |
+| Equal claim join into AAPLc | Live |
+| Claim transfer between approved wallets | Live |
+| Manual registry approval by a dedicated operator | Live |
+| Vaults for more official B20 assets | Planned, not deployed |
+| Secondary liquidity for Clip or Talon | Not launched |
+| Credit, leverage, options, or perps | Not launched |
+| Dividend distribution or yield programme | Not launched and not claimed |
 
-Talon is designed for eligible non US users only. The site remains browsable so people can inspect official addresses, learn how the vault works, and verify onchain activity. Stock actions are not enabled merely because a button is visible.
+The factory has an exact allowlist for official Coinbase AAPLc, NVDAc, GOOGLc, and METAc. Only AAPLc has a Talon vault and a completed live flow. A token appearing in the allowlist does not mean it is available in the product.
 
-The application uses a layered posture. The server determines a country hint. The user must attest before a stock action. The vault and claim tokens enforce the separate onchain registry for deposits, joins, and transfers. An owner configured, dedicated eligibility operator can approve a wallet in that registry. The application client is never the final authority.
+## Eligibility and user protection
 
-Location is an estimate, not identity verification. Onchain transfers on Base are permissionless at the chain level. Talon does not claim to provide global compliance or to control the Base network. It does not offer or facilitate Coinbase Tokenized Stock actions to US persons through the application.
+Talon does not enable stock actions for US persons. The public site remains visible so anyone can inspect the contracts and understand the product, but browsing is not trading.
 
-## What Talon does not claim
+Before a stock action, the application checks the wallet network and requests a non US eligibility attestation. The server supplies a connection based country signal. Most importantly, the contract verifies the onchain Eligibility Registry before it permits a tear, join, or claim transfer. A separate operator wallet, not the browser, approves eligible wallets in that registry.
 
-Talon is not Coinbase and does not issue AAPLc. Coinbase is the issuer. Base is the network.
+This is an application control, not a claim that Talon controls Base or establishes identity worldwide. Location is an estimate from a connection. Users should not treat it as legal advice or identity verification.
 
-Talon does not promise stock ownership rights beyond what the official Coinbase token provides. It does not promise a dividend, APY, return, secondary market liquidity, credit facility, options product, or price execution.
+## A clear line on authenticity
 
-The Markets surface is intentionally honest. It can link to an external venue where one exists, but Talon does not represent an active market, quote, candle, or liquidity pool that has not been verified onchain. There is no embedded router and no hidden swap flow.
+Talon is not Coinbase. Coinbase is the issuer of AAPLc. Talon does not claim to grant shareholder rights beyond the official token, and it does not present a ticker match as proof of authenticity. The asset address is the source of truth.
 
-## Architecture
+Talon does not fabricate candles, prices, liquidity, APY, dividend payments, or market depth. The Markets page can direct a user to a real external venue when one exists. It does not route a swap through an unverified market and it does not claim liquidity that has not been deployed.
 
-The repository contains a Next.js application and Solidity protocol contracts.
+## How the protocol works
+
+`TalonFactory` maintains the official underlying allowlist and creates a vault for an approved asset. `TalonVault` holds the underlying, reads its multiplier, and creates a matched pair of claims. `ClipToken` records the multiplier index at the time a holder receives the claim. `TalonToken` represents the matched price side.
+
+Both claim tokens enforce the Eligibility Registry on transfer. The vault enforces the same registry on tear and join. The factory has a pause control and separates the factory owner from the wallet that operates eligibility approvals.
 
 ```text
 app/
-  Next.js interface
-  Wallet and Base chain checks
-  Server eligibility route
+  Next.js application
+  Base chain protection
+  Eligibility experience
   Official token configuration
 
 contracts/
-  TalonFactory allowlist and deployment
+  TalonFactory and exact asset allowlist
   EligibilityRegistry
   TalonVault tear and join logic
-  ClipToken multiplier claim
-  TalonToken price claim
-  Foundry tests and controlled deployment scripts
+  ClipToken and TalonToken
+  Foundry tests and deployment scripts
 ```
 
-`TalonFactory` owns the official underlying allowlist and deploys one vault per approved asset. Every `TalonVault` holds the official underlying, mints equal Clip and Talon amounts on tear, and requires equal amounts on join. `ClipToken` and `TalonToken` both read the eligibility registry before transfer. The vault reads the official underlying multiplier and retains 1 to 1 raw backing for matched claims.
+## Run the application locally
 
-## Local development
-
-### Application
+### Frontend
 
 ```bash
 cd app
@@ -126,7 +141,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. The only documented public environment setting is optional:
+Open `http://localhost:3000`. For a deployment, set the optional public URL value:
 
 ```text
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -134,60 +149,37 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ### Contracts
 
-Install Foundry, then run:
+Install Foundry, then run the unit suite:
 
 ```bash
 cd contracts
 forge test
 ```
 
-The contract deployment scripts read `contracts/.env`, which is ignored by Git. Start from [`contracts/.env.example`](contracts/.env.example). Use separate wallets for deployment, eligibility operations, and controlled verification. Never place a personal wallet key, production key, or customer key in the frontend, a Vercel environment variable, a screenshot, or Git.
+The current suite covers the exact official allowlist, eligibility controls, one to one tear and join behavior, one sided join rejection, transfer restrictions, multiplier accounting, and the separate eligibility operator role.
 
-## Controlled deployment and verification
+## Deployment discipline
 
-The repository contains scripts for three distinct responsibilities.
+The contract scripts are deliberately separated by responsibility.
 
-| Script | Purpose |
+| Script | Responsibility |
 | :--- | :--- |
-| `contracts/script/deploy_live.mjs` | Deploy factory, configure the separate eligibility operator, create the AAPLc vault, and write public contract addresses to the application configuration |
-| `contracts/script/set_eligible_operator.mjs` | Approve or remove an eligible wallet using the dedicated operator wallet |
-| `contracts/script/verify_live_flow.mjs` | Run the controlled AAPLc tear, claim transfer, and recombination verification flow |
+| `contracts/script/deploy_live.mjs` | Deploy the factory, configure the eligibility operator, create the AAPLc vault, and update public frontend addresses |
+| `contracts/script/set_eligible_operator.mjs` | Approve or remove an eligible wallet from the dedicated operator wallet |
+| `contracts/script/verify_live_flow.mjs` | Verify the controlled tear, gift, and join flow using a tiny amount |
 
-These scripts can submit Mainnet transactions. Review the source, use a dedicated funded wallet, use a tiny test amount, and confirm all addresses before running them. They are not part of the browser application and must never be exposed to a user.
+Start with [`contracts/.env.example`](contracts/.env.example). The real `contracts/.env` file is ignored by Git. Use distinct deployer, operator, test, and recipient wallets. Never put a private key, seed phrase, user data, or production secret in this repository, a browser environment variable, a Vercel setting meant for public code, or a recording.
 
-## Product status
+## Builder Quest
 
-| Capability | Status |
-| :--- | :--- |
-| Official AAPLc vault on Base Mainnet | Live |
-| Tear AAPLc into Clip and Talon | Live |
-| Recombine equal claims into AAPLc | Live |
-| Gift claims between approved wallets | Live |
-| Onchain registry enforcement | Live |
-| Other official B20 vaults | Not deployed |
-| Secondary liquidity | Not launched |
-| Credit, leverage, or options | Not launched |
-| Dividend or yield distribution | Not launched and not claimed |
+Talon was built for the [Base Builder Quest](https://x.com/buildonbase/status/2095105184120664122), which asks builders to help people trade or use Coinbase Tokenized Stocks on Base.
 
-## Base Builder Quest
+The primary Talon thesis is simple: official stock tokens become more useful when their exposure can be expressed as composable onchain claims. The live AAPLc split is the proof. The gift flow is a secondary use of those claims.
 
-Talon was built for the [Base Builder Quest](https://x.com/buildonbase/status/2095105184120664122): help people trade or use Coinbase Tokenized Stocks on Base. Its primary thesis is programmable separation of an official stock token into a multiplier claim and a price claim. Gifting is a secondary, shipped use case.
+The strongest Loom recording shows one continuous story: verify official AAPLc, show Base 8453 and the eligibility posture, tear AAPLc, hold the BaseScan receipt on screen, show the claim transfer, and join the matching claims back into AAPLc.
 
-The recommended demo is a single continuous Base Mainnet story: verify official AAPLc, show Base 8453 and eligibility, tear AAPLc, show the receipt, show the transferred claim, and show recombination. The submission should include the public URL, Loom recording, and an X post tagging [@buildonbase](https://x.com/buildonbase).
+## Security note
 
-## Security notes
+Talon is experimental protocol software and has not completed a formal external security audit. Verify every address independently. Approve only the exact amount needed. Keep wallet credentials private. Do not assume a market exists because a token name appears in a wallet.
 
-This is experimental software. Review the contracts and verify every address independently before interacting with Mainnet.
-
-* Use only the verified official underlying address
-* Confirm the wallet is on Base Mainnet, chain 8453
-* Approve only the exact amount required by the vault
-* Treat token names, memos, and external links as untrusted input
-* Do not assume a market exists because a ticker appears in a wallet
-* Do not share seed phrases, private keys, or environment files
-
-## License and contribution
-
-The repository is currently a Builder Quest submission and experimental protocol reference. Before production use, the project needs a formal external security review, an explicit governance model, and a released license.
-
-For product issues, open a GitHub issue with the route, wallet network, public transaction hash if relevant, and a reproducible description. Do not include keys, seed phrases, personal identification, or private wallet material.
+If you find a reproducible issue, open a GitHub issue with the relevant route and public transaction hash. Never include a seed phrase, private key, personal identification, or private wallet information.
