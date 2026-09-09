@@ -200,7 +200,7 @@ export function AppSidebar() {
   return (
     <>
       {/* Mobile Top Header */}
-      <div className={`${isPhone ? "flex" : "hidden"} mobile-app-header items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] sticky top-0 z-40 transition-colors`}>
+      <div className={`${isPhone ? "flex" : "hidden"} mobile-app-header fixed inset-x-0 top-0 z-40 items-center justify-between p-4 bg-white dark:bg-[#080D26] border-b border-[#E2E8F4] dark:border-[#1E294B] transition-colors`}>
         <Link href="/" className="flex items-center gap-2">
           <TalonLogo className="w-7 h-7" size={28} rounded="lg" />
           <span className="font-black text-base text-[#050B24] dark:text-white">TALON</span>
