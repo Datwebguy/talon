@@ -6,9 +6,9 @@
 
 [![Base Mainnet](https://img.shields.io/badge/Base%20Mainnet-8453-0052FF?style=for-the-badge)](https://basescan.org)
 [![Official AAPLc](https://img.shields.io/badge/Official%20AAPLc-Coinbase-2563EB?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
-[![Live protocol](https://img.shields.io/badge/Protocol-Live-16A34A?style=for-the-badge)](https://talon-rouge.vercel.app)
+[![Live protocol](https://img.shields.io/badge/Protocol-Live-16A34A?style=for-the-badge)](https://talononbase.tech)
 
-[Open the app](https://talon-rouge.vercel.app) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
+[Open the app](https://talononbase.tech) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
 
 </div>
 
@@ -67,7 +67,7 @@ Talon also supports a simple gift flow. An approved holder can transfer Clip or 
 | Clip AAPLc | [`0xd781...1141`](https://basescan.org/token/0xd781e0594041c12618847b165acd552CeB1C1141) |
 | Talon AAPLc | [`0x8346...532B`](https://basescan.org/token/0x834600FFF5dC6097D7A2a443F1484Ff6228f532B) |
 
-The protocol is deployed on **Base Mainnet, chain 8453**. The app is live at [talon-rouge.vercel.app](https://talon-rouge.vercel.app).
+The protocol is deployed on **Base Mainnet, chain 8453**. The app is live at [talononbase.tech](https://talononbase.tech).
 
 ## Proof, not promises
 

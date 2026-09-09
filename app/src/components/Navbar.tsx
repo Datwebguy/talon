@@ -32,11 +32,11 @@ export function Navbar() {
         <div className="flex min-w-0 items-center space-x-3 sm:space-x-8">
           <Link href="/" className="flex items-center space-x-3 group">
             <TalonLogo className="w-8 h-8" size={32} rounded="xl" />
-            <div className="hidden sm:flex flex-col">
+            <div className="flex flex-col">
               <span className="font-black text-base tracking-tight text-[#050B24] dark:text-white group-hover:text-[#010FEE] dark:group-hover:text-blue-400 transition-colors">
                 TALON
               </span>
-              <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8] font-medium tracking-tight flex items-center gap-1.5">
+              <span className="hidden sm:flex text-[10px] text-[#64748B] dark:text-[#94A3B8] font-medium tracking-tight items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#010FEE] inline-block animate-pulse"></span>
                 Base Mainnet
               </span>
