@@ -46,7 +46,9 @@ export function AppSidebar() {
   useEffect(() => {
     const updateDeviceMode = () => {
       const visibleWidth = window.visualViewport?.width ?? window.innerWidth;
-      setIsPhone(visibleWidth <= 767);
+      const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+      const mobileUserAgent = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
+      setIsPhone(touchDevice && (visibleWidth <= 1023 || mobileUserAgent));
     };
     updateDeviceMode();
     window.visualViewport?.addEventListener("resize", updateDeviceMode);
