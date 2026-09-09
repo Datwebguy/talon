@@ -120,6 +120,31 @@ body > * {
   color: #ffffff !important;
 }
 
+/* A landing hero must never establish a horizontal layout wider than a phone.
+   The explicit viewport cap protects intrinsic-width pills, controls, and text. */
+@media (max-width: 639px) {
+  .hero-landing {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .hero-landing > *:not(.hero-surface) {
+    box-sizing: border-box;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .hero-landing h1,
+  .hero-landing p,
+  .hero-landing nav,
+  .hero-landing .ticker-marquee {
+    max-width: calc(100vw - 2rem) !important;
+  }
+
+  .hero-landing a {
+    max-width: 100%;
+  }
+}
+
 .dark .hero-landing::before {
   background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
 }
