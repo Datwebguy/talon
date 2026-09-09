@@ -14,7 +14,7 @@ export default function AppLayout({
       <AppSidebar />
 
       {/* Main Content Pane */}
-      <div className="flex min-w-0 max-w-full flex-1 flex-col min-h-screen overflow-x-clip">
+      <div className="app-main-content flex min-w-0 max-w-full flex-1 flex-col min-h-screen overflow-x-clip">
         {/* Dynamic Page Content */}
         <div className="mx-auto w-full max-w-7xl min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
           <div className="mb-5"><EligibilityBanner /></div>

@@ -158,6 +158,28 @@ body > * {
   }
 }
 
+/* Android Chrome can expose a wide layout viewport when accessibility or
+   desktop-site settings are active. Physical device width remains accurate. */
+@media (max-device-width: 767px) {
+  .desktop-app-sidebar {
+    display: none !important;
+  }
+
+  .mobile-app-header {
+    display: flex !important;
+  }
+}
+
+@media (pointer: coarse), (max-device-width: 767px) {
+  .mobile-app-bottom-nav {
+    display: grid !important;
+  }
+
+  .app-main-content {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+}
+
 .dark .hero-landing::before {
   background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
 }

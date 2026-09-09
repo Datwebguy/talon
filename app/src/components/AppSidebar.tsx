@@ -210,6 +210,19 @@ export function AppSidebar() {
         </div>
       )}
 
+      <nav className="mobile-app-bottom-nav md:hidden fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#E2E8F4] bg-white/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_28px_rgba(5,11,36,0.08)] backdrop-blur-lg dark:border-[#1E294B] dark:bg-[#080D26]/95">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href || (item.href === "/app" && pathname === "/app");
+          return (
+            <Link key={item.name} href={item.href} prefetch={true} className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold transition-colors ${isActive ? "bg-[#EEF2FF] text-[#010FEE] dark:bg-blue-950/70 dark:text-blue-400" : "text-[#64748B] dark:text-[#94A3B8]"}`}>
+              <Icon className="h-4 w-4" />
+              <span className="truncate">{item.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
       {/* Desktop Fixed Sidebar */}
       <aside className="desktop-app-sidebar hidden md:block w-60 shrink-0 h-screen sticky top-0 z-30">
         {sidebarContent}
