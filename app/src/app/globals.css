@@ -212,6 +212,27 @@ body > * {
   }
 }
 
+/* Phone mode is also applied from the runtime touch/viewport check. This
+   covers Android browsers that report a desktop-sized CSS viewport. */
+.talon-phone .app-main-content .grid-cols-2,
+.talon-phone .app-main-content .sm\:grid-cols-2,
+.talon-phone .app-main-content .sm\:grid-cols-3 {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.talon-phone .app-main-content [class*="col-span-"] {
+  grid-column: 1 / -1 !important;
+}
+
+.talon-phone .app-main-content .sm\:flex-row {
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+.talon-phone .app-main-content .sm\:flex-row > * {
+  width: 100%;
+}
+
 .dark .hero-landing::before {
   background: linear-gradient(118deg, #ffffff 0%, #f4f7ff 42%, #dbe7ff 72%, #b9c9ff 100%);
 }

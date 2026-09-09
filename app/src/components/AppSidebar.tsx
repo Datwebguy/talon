@@ -48,7 +48,9 @@ export function AppSidebar() {
       const visibleWidth = window.visualViewport?.width ?? window.innerWidth;
       const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
       const mobileUserAgent = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
-      setIsPhone(touchDevice && (visibleWidth <= 1023 || mobileUserAgent));
+      const phone = touchDevice && (visibleWidth <= 1023 || mobileUserAgent);
+      setIsPhone(phone);
+      document.documentElement.classList.toggle("talon-phone", phone);
     };
     updateDeviceMode();
     window.visualViewport?.addEventListener("resize", updateDeviceMode);
@@ -56,6 +58,7 @@ export function AppSidebar() {
     return () => {
       window.visualViewport?.removeEventListener("resize", updateDeviceMode);
       window.removeEventListener("orientationchange", updateDeviceMode);
+      document.documentElement.classList.remove("talon-phone");
     };
   }, []);
 
