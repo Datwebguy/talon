@@ -49,7 +49,7 @@ export function Footer({ isApp = false }: FooterProps) {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-8 sm:pb-10">
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-8 lg:grid-cols-12 lg:gap-10">
           {/* Column 1: Brand, Tagline, & Quick Action Icons */}
-          <div className="col-span-2 space-y-4 lg:col-span-5">
+          <div className="col-span-1 space-y-4 lg:col-span-5">
             <Link href="/" className="inline-flex items-center gap-2.5 group">
               <TalonLogo className="h-6 w-6 sm:h-7 sm:w-7 shadow-md" size={28} rounded="lg" />
               <span className="font-black text-lg sm:text-xl tracking-tight text-white group-hover:text-blue-100 transition-colors">
@@ -93,8 +93,21 @@ export function Footer({ isApp = false }: FooterProps) {
             </div>
           </div>
 
+          {/* Compact two-sided mobile navigation */}
+          <div className="col-span-1 space-y-3.5 lg:hidden">
+            <h4 className="text-[11px] font-mono font-bold uppercase tracking-[0.16em] text-blue-200">
+              EXPLORE
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/app/markets" className="text-white/80 hover:text-white transition-colors">Markets</Link></li>
+              <li><Link href="/app/vault" className="text-white/80 hover:text-white transition-colors">Vault</Link></li>
+              <li><Link href="/app/portfolio" className="text-white/80 hover:text-white transition-colors">Portfolio</Link></li>
+              <li><Link href="/docs" className="text-white/80 hover:text-white transition-colors">Docs</Link></li>
+            </ul>
+          </div>
+
           {/* Column 2: PROTOCOL */}
-          <div className="col-span-1 space-y-3.5 lg:col-span-2">
+          <div className="hidden space-y-3.5 lg:col-span-2 lg:block">
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-[0.16em] text-blue-200">
               PROTOCOL
             </h4>
@@ -123,7 +136,7 @@ export function Footer({ isApp = false }: FooterProps) {
           </div>
 
           {/* Column 3: RESOURCES */}
-          <div className="col-span-1 space-y-3.5 lg:col-span-3">
+          <div className="hidden space-y-3.5 lg:col-span-3 lg:block">
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-[0.16em] text-blue-200">
               RESOURCES
             </h4>
