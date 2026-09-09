@@ -147,27 +147,9 @@ export function WalletModal() {
   };
 
   const handleConnectWallet = async (connector: any) => {
-    setConnectingId(connector.id);
+    setConnectingId(connector.uid || connector.id);
     setConnectError(null);
     try {
-      if (connector.isVirtual) {
-        // If user clicks OKX and it's already in window
-        if (typeof window !== "undefined" && (window as any).okxwallet) {
-          const injectedConn = connectors.find(
-            (c) => c.id === "injected" || c.name.toLowerCase().includes("injected")
-          );
-          if (injectedConn) {
-            await connectAsync({ connector: injectedConn });
-            closeModal();
-            return;
-          }
-        }
-        // Direct to official extension
-        window.open("https://www.okx.com/web3", "_blank");
-        setConnectError("OKX Wallet extension page opened. After installing, refresh the page to connect.");
-        return;
-      }
-
       await connectAsync({ connector });
       closeModal();
     } catch (err: any) {
@@ -265,21 +247,6 @@ export function WalletModal() {
   // Curated, sorted list of connectors
   const sortedConnectors = (() => {
     const list = [...connectors];
-    const hasOkx = list.some(
-      (c) =>
-        c.id.toLowerCase().includes("okx") ||
-        c.name.toLowerCase().includes("okx")
-    );
-
-    // If OKX is not detected in browser, add virtual entry so user can always see and connect it
-    if (!hasOkx) {
-      list.push({
-        id: "okxWallet",
-        name: "OKX Wallet",
-        type: "injected",
-        isVirtual: true,
-      } as any);
-    }
 
     // Deduplicate by clean name
     const seen = new Set<string>();
@@ -355,12 +322,12 @@ export function WalletModal() {
             {/* List of Curated Wallet Connectors */}
             <div className="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
               {sortedConnectors.map((c) => {
-                const isThisConnecting = connectingId === c.id;
+                const isThisConnecting = connectingId === (c.uid || c.id);
                 const details = getWalletDetails(c);
 
                 return (
                   <button
-                    key={c.id}
+                    key={c.uid || c.id}
                     onClick={() => handleConnectWallet(c)}
                     disabled={isPending && !isThisConnecting}
                     className="w-full p-3.5 sm:p-4 rounded-2xl bg-[#F8FAFC] hover:bg-[#EEF2FF] border border-[#E2E8F4] hover:border-[#010FEE]/40 transition-all flex items-center justify-between group disabled:opacity-50 text-left shadow-sm"
