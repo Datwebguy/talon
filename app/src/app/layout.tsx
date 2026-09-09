@@ -40,55 +40,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="base:app_id" content="6aa1602e14c95246af9c951c" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 if (typeof window === 'undefined') return;
-                try {
-                  var origDef = Object.defineProperty;
-                  Object.defineProperty = function(obj, prop, desc) {
-                    if (obj === window && prop === 'ethereum') {
-                      try {
-                        return origDef.call(this, obj, prop, Object.assign({}, desc, { configurable: true }));
-                      } catch (e) {
-                        try {
-                          if (desc && ('value' in desc)) {
-                            window.ethereum = desc.value;
-                          }
-                        } catch (_) {}
-                        return obj;
-                      }
-                    }
-                    return origDef.call(this, obj, prop, desc);
-                  };
-                } catch (e) {}
-
-                function suppressWalletErrors(e) {
-                  var msg = (e && (e.message || (e.error && e.error.message))) || '';
-                  var file = (e && e.filename) || '';
-                  if (
-                    typeof msg === 'string' &&
-                    (msg.indexOf('redefine property: ethereum') !== -1 ||
-                     (msg.indexOf('Cannot redefine property') !== -1 && file.indexOf('evmAsk.js') !== -1) ||
-                     file.indexOf('evmAsk.js') !== -1)
-                  ) {
-                    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-                    if (e.preventDefault) e.preventDefault();
-                    return true;
-                  }
-                }
-
-                window.addEventListener('error', suppressWalletErrors, true);
-                window.addEventListener('unhandledrejection', function(e) {
-                  var reason = (e && (e.reason && (e.reason.message || e.reason))) || '';
-                  if (typeof reason === 'string' && (reason.indexOf('redefine property: ethereum') !== -1 || reason.indexOf('evmAsk.js') !== -1)) {
-                    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-                    if (e.preventDefault) e.preventDefault();
-                    return true;
-                  }
-                }, true);
-
                 try {
                   var t = localStorage.getItem('talon-theme');
                   if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
