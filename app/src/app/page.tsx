@@ -13,6 +13,7 @@ import {
 } from "../components/CompanyLogos";
 import { TalonLogo } from "../components/TalonLogo";
 import { EligibilityBanner } from "../components/EligibilityBanner";
+import { LaunchRail } from "../components/LaunchRail";
 import {
   ArrowRight,
   ShieldCheck,
@@ -297,6 +298,8 @@ export default function HomePage() {
             <a key={href} href={`#${href}`} className="min-w-0 flex-1 whitespace-nowrap rounded-full px-1 py-2 text-[10px] font-bold text-[#64748B] transition-colors hover:bg-[#EEF2FF] hover:text-[#010FEE] dark:text-[#94A3B8] dark:hover:bg-[#162044] dark:hover:text-blue-400 sm:px-3 sm:text-[11px]">{label}</a>
           ))}
         </nav>
+
+        <LaunchRail />
 
         {/* Signature product visual */}
         <div className="hidden mt-14 max-w-5xl mx-auto rounded-[32px] bg-[#050B24] p-5 sm:p-8 text-left shadow-[0_30px_90px_rgba(5,11,36,0.20)] relative overflow-hidden">
