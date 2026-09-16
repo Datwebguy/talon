@@ -1,72 +1,76 @@
 "use client";
 
-import { ArrowDown, ArrowRight, Gift, RefreshCw, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Gift, Layers3, RefreshCw, ShieldCheck, TrendingUp } from "lucide-react";
 
-const steps = [
-  { label: "AAPLc", detail: "official token", tone: "source" },
-  { label: "Clip", detail: "multiplier leg", tone: "clip" },
-  { label: "Talon", detail: "price leg", tone: "talon" },
-  { label: "Use", detail: "gift or recombine", tone: "use" },
+const nodes = [
+  { id: "stock", label: "AAPLc", title: "Official stock token", detail: "Coinbase issued · Base 8453", icon: ShieldCheck, tone: "stock" },
+  { id: "clip", label: "Clip", title: "Multiplier leg", detail: "Follow the B20 multiplier", icon: TrendingUp, tone: "clip" },
+  { id: "talon", label: "Talon", title: "Price leg", detail: "Keep the price exposure", icon: Layers3, tone: "talon" },
+  { id: "exit", label: "Use it", title: "Gift or recombine", detail: "Transfer a claim or restore AAPLc", icon: Gift, tone: "exit" },
 ] as const;
 
 export function LaunchRail() {
-  return (
-    <section
-      aria-label="Talon transaction flow"
-      className="launch-rail relative mx-auto mt-12 w-full max-w-5xl overflow-hidden rounded-[28px] border border-white/15 bg-[#071340] px-4 py-5 text-left shadow-[0_24px_80px_rgba(5,11,36,.18)] sm:mt-16 sm:px-7 sm:py-6"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(0,190,255,.22),transparent_28%),radial-gradient(circle_at_85%_80%,rgba(89,70,255,.22),transparent_32%)]" />
+  const [activeNode, setActiveNode] = useState("stock");
+  const active = nodes.find((node) => node.id === activeNode) ?? nodes[0];
+  const ActiveIcon = active.icon;
 
-      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  return (
+    <section aria-label="Talon exposure map" className="flow-board relative mx-auto mt-12 w-full max-w-5xl overflow-hidden rounded-[30px] border border-white/20 px-4 py-5 text-left shadow-[0_26px_90px_rgba(5,11,36,.24)] sm:mt-16 sm:px-7 sm:py-7">
+      <div className="flow-board-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="flow-board-glow flow-board-glow-one pointer-events-none absolute -left-24 -top-28 h-72 w-72 rounded-full" aria-hidden="true" />
+      <div className="flow-board-glow flow-board-glow-two pointer-events-none absolute -bottom-36 right-0 h-80 w-80 rounded-full" aria-hidden="true" />
+
+      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            One clear move
+          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-200">
+            <span className="flow-live-dot" aria-hidden="true" />
+            Exposure map
           </div>
-          <h2 className="mt-1 text-lg font-black tracking-tight text-white sm:text-xl">
-            One stock. Two ways to use it.
-          </h2>
+          <h2 className="mt-2 max-w-md text-xl font-black tracking-tight text-white sm:text-2xl">See the move before you make it.</h2>
         </div>
         <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-blue-100">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(103,232,249,.9)]" />
-          Base mainnet · 1:1 backing
+          <span className="font-mono text-cyan-200">8453</span>
+          Base mainnet
         </div>
       </div>
 
-      <div className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] sm:items-center sm:gap-2">
-        {steps.map((step, index) => (
-          <div key={step.label} className="contents">
-            <div className={`launch-step launch-step-${step.tone}`}>
-              <div className="flex items-center gap-3">
-                <span className="launch-step-mark">
-                  {step.tone === "source" ? "01" : step.tone === "clip" ? "02" : step.tone === "talon" ? "03" : "04"}
-                </span>
-                <span>
-                  <span className="block text-sm font-black text-white">{step.label}</span>
-                  <span className="block text-[10px] font-medium text-blue-100/65">{step.detail}</span>
-                </span>
-              </div>
-              {step.tone === "use" && (
-                <div className="ml-auto flex items-center gap-1 text-cyan-200" aria-hidden="true">
-                  <Gift className="h-3.5 w-3.5" />
-                  <RefreshCw className="h-3.5 w-3.5" />
-                </div>
-              )}
-            </div>
-            {index < steps.length - 1 && (
-              <div className="launch-rail-arrow" aria-hidden="true">
-                <span className="launch-rail-packet" />
-                <ArrowRight className="hidden h-4 w-4 sm:block" />
-                <ArrowDown className="h-4 w-4 sm:hidden" />
-              </div>
-            )}
-          </div>
-        ))}
+      <div className="relative mt-6 grid gap-2 sm:grid-cols-[1.1fr_auto_1fr_auto_1fr] sm:items-center sm:gap-3">
+        <button type="button" onClick={() => setActiveNode("stock")} className={`flow-node flow-node-stock ${activeNode === "stock" ? "is-active" : ""}`}>
+          <span className="flow-node-icon"><ShieldCheck className="h-4 w-4" aria-hidden="true" /></span>
+          <span><span className="block text-sm font-black text-white">AAPLc</span><span className="block text-[10px] text-blue-100/65">Official token</span></span>
+          <span className="flow-node-badge">01</span>
+        </button>
+
+        <span className="flow-connector" aria-hidden="true"><span className="flow-connector-pulse" /></span>
+
+        <div className="grid grid-cols-2 gap-2">
+          {nodes.slice(1, 3).map((node) => {
+            const Icon = node.icon;
+            return (
+              <button key={node.id} type="button" onClick={() => setActiveNode(node.id)} className={`flow-node flow-node-${node.tone} ${activeNode === node.id ? "is-active" : ""}`}>
+                <span className="flow-node-icon"><Icon className="h-4 w-4" aria-hidden="true" /></span>
+                <span><span className="block text-sm font-black text-white">{node.label}</span><span className="block text-[10px] text-blue-100/65">{node.title}</span></span>
+                <span className="flow-node-badge">{node.id === "clip" ? "02" : "03"}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <span className="flow-connector" aria-hidden="true"><span className="flow-connector-pulse flow-connector-pulse-delayed" /></span>
+
+        <button type="button" onClick={() => setActiveNode("exit")} className={`flow-node flow-node-exit ${activeNode === "exit" ? "is-active" : ""}`}>
+          <span className="flow-node-icon"><Gift className="h-4 w-4" aria-hidden="true" /></span>
+          <span><span className="block text-sm font-black text-white">Use it</span><span className="block text-[10px] text-blue-100/65">Gift or restore</span></span>
+          <span className="flow-node-badge">04</span>
+        </button>
       </div>
 
-      <p className="relative mt-4 border-t border-white/10 pt-4 text-[11px] leading-5 text-blue-100/65">
-        The visual explains the product in seconds: deposit official AAPLc, receive Clip and Talon, then keep, gift, or recombine the claims.
-      </p>
+      <div className="relative mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-cyan-200"><ActiveIcon className="h-4 w-4" aria-hidden="true" /></div>
+        <div className="min-w-0"><p className="text-xs font-bold text-white">{active.title}</p><p className="truncate text-[11px] text-blue-100/65">{active.detail}</p></div>
+        <div className="ml-auto hidden items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-200 sm:flex"><RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />One backed flow<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></div>
+      </div>
     </section>
   );
 }

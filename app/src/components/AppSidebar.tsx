@@ -11,6 +11,7 @@ import {
   TrendingUp,
   Briefcase,
   BookOpen,
+  Bot,
   Wallet,
   ExternalLink,
   ChevronDown,
@@ -35,6 +36,7 @@ export function AppSidebar() {
   // Proactively prefetch all app sections so clicking sidebar is instantaneous
   useEffect(() => {
     router.prefetch("/app");
+    router.prefetch("/app/sentinel");
     router.prefetch("/app/vault");
     router.prefetch("/app/markets");
     router.prefetch("/app/portfolio");
@@ -64,6 +66,7 @@ export function AppSidebar() {
 
   const navItems = [
     { name: "Dashboard", href: "/app", icon: LayoutDashboard },
+    { name: "Sentinel AI", href: "/app/sentinel", icon: Bot },
     { name: "Vault", href: "/app/vault", icon: Layers },
     { name: "Markets", href: "/app/markets", icon: TrendingUp },
     { name: "Portfolio", href: "/app/portfolio", icon: Briefcase },

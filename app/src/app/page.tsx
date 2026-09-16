@@ -10,6 +10,9 @@ import {
   NvidiaLogo,
   GoogleLogo,
   MetaLogo,
+  AmazonLogo,
+  MicrosoftLogo,
+  TeslaLogo,
 } from "../components/CompanyLogos";
 import { TalonLogo } from "../components/TalonLogo";
 import { EligibilityBanner } from "../components/EligibilityBanner";
@@ -33,6 +36,18 @@ import {
   ArrowUpRight,
   Loader2,
 } from "lucide-react";
+
+function TokenGlyph({ symbol, className = "" }: { symbol: string; className?: string }) {
+  return (
+    <span className={`inline-flex h-full w-full items-center justify-center rounded-xl bg-[#E8EDFF] text-[10px] font-black tracking-tight text-[#010FEE] dark:bg-[#202D60] dark:text-blue-200 ${className}`}>
+      {symbol.replace("c", "").slice(0, 4)}
+    </span>
+  );
+}
+
+const MstrLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="MSTRc" className={className} />;
+const SndkLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="SNDKc" className={className} />;
+const SpcxLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="SPCXc" className={className} />;
 
 export default function HomePage() {
   const router = useRouter();
@@ -96,6 +111,66 @@ export default function HomePage() {
       active: false,
       clip: "clipMETAc",
       talon: "talonMETAc",
+    },
+    {
+      symbol: "AMZNc",
+      key: "AMZN",
+      name: "Amazon.com Inc.",
+      address: OFFICIAL_TOKENS[4].address,
+      Logo: AmazonLogo,
+      active: false,
+      clip: "clipAMZNc",
+      talon: "talonAMZNc",
+    },
+    {
+      symbol: "MSFTc",
+      key: "MSFT",
+      name: "Microsoft Corp.",
+      address: OFFICIAL_TOKENS[5].address,
+      Logo: MicrosoftLogo,
+      active: false,
+      clip: "clipMSFTc",
+      talon: "talonMSFTc",
+    },
+    {
+      symbol: "MSTRc",
+      key: "MSTR",
+      name: "Strategy Inc.",
+      address: OFFICIAL_TOKENS[6].address,
+      Logo: MstrLogo,
+      active: false,
+      clip: "clipMSTRc",
+      talon: "talonMSTRc",
+    },
+    {
+      symbol: "SNDKc",
+      key: "SNDK",
+      name: "SanDisk Corp.",
+      address: OFFICIAL_TOKENS[7].address,
+      Logo: SndkLogo,
+      active: false,
+      clip: "clipSNDKc",
+      talon: "talonSNDKc",
+    },
+    {
+      symbol: "SPCXc",
+      key: "SPCX",
+      name: "SpaceX",
+      address: OFFICIAL_TOKENS[8].address,
+      Logo: SpcxLogo,
+      active: false,
+      clip: "clipSPCXc",
+      talon: "talonSPCXc",
+    },
+    {
+      symbol: "TSLAc",
+      key: "TSLA",
+      name: "Tesla Inc.",
+      address: OFFICIAL_TOKENS[9].address,
+      Logo: TeslaLogo,
+      active: false,
+      clip: "clipTSLAc",
+      talon: "talonTSLAc",
     },
   ];
 
@@ -629,7 +704,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {supportedStocks.map((s) => {
-              const price = s.active ? formattedPrice : "—";
+              const price = s.active ? formattedPrice : "Pair";
               const Logo = s.Logo;
 
               return (
@@ -654,7 +729,7 @@ export default function HomePage() {
                           </span>
                         ) : (
                           <span className="px-2 py-0.5 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#94A3B8] dark:text-[#64748B] text-[10px] font-bold">
-                            Coming Soon
+                            Verified pair
                           </span>
                         )}
                       </div>

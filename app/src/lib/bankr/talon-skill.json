@@ -1,0 +1,85 @@
+{
+  "name": "talon-onchain-equities",
+  "version": "1.0.0",
+  "description": "Autonomous risk management, unbundling, and 1:1 invariant arbitrage for Coinbase tokenized stocks on Base mainnet.",
+  "author": "Talon Protocol",
+  "network": "base",
+  "chainId": 8453,
+  "tools": [
+    {
+      "name": "talon_get_status",
+      "description": "Get current risk metrics, B20 multiplier, and parity status for a tokenized Coinbase equity (e.g., AAPLc, NVDAc, TSLAc) on Base.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock symbol (e.g. AAPLc, NVDAc, TSLAc)",
+            "default": "AAPLc"
+          }
+        },
+        "required": ["symbol"]
+      }
+    },
+    {
+      "name": "talon_activate_earnings_shield",
+      "description": "Autonomously splits tokenized stock into clip (multiplier) and talon (price) before an earnings volatility shock, hedging the price leg into USDC to protect capital.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Tokenized equity symbol to protect",
+            "default": "AAPLc"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount of stock to unbundle and shield (e.g. '1.0')",
+            "default": "1.0"
+          },
+          "maxDrawdownPercent": {
+            "type": "number",
+            "description": "Maximum tolerated price drawdown before hedging price leg",
+            "default": 5.0
+          }
+        },
+        "required": ["symbol", "amount"]
+      }
+    },
+    {
+      "name": "talon_recombine_stock",
+      "description": "Recombines equal amounts of clip and talon tokens back into the underlying Coinbase tokenized stock 1:1 via TalonVault.join().",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock symbol to reconstitute",
+            "default": "AAPLc"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Raw token amount of pairs to burn and redeem",
+            "default": "1.0"
+          }
+        },
+        "required": ["symbol", "amount"]
+      }
+    },
+    {
+      "name": "talon_check_parity",
+      "description": "Audits the mathematical 1:1 invariant on Base mainnet (1 Underlying Stock = 1 clipToken + 1 talonToken) and detects arbitrage opportunities.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock symbol to check parity for",
+            "default": "AAPLc"
+          }
+        },
+        "required": ["symbol"]
+      }
+    }
+  ]
+}

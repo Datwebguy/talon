@@ -13,8 +13,10 @@ import {
   Sparkles,
   Droplets,
   ExternalLink,
+  X,
 } from "lucide-react";
 import { OFFICIAL_TOKENS } from "../../../config/contracts";
+import { OFFICIAL_MARKET_PAIRS, USDC_BASE } from "../../../config/contracts";
 import { useVault } from "../../../hooks/useVault";
 import { useB20Data } from "../../../hooks/useB20Data";
 import { useLiveMarket } from "../../../hooks/useLiveMarket";
@@ -23,21 +25,36 @@ import {
   NvidiaLogo,
   GoogleLogo,
   MetaLogo,
+  AmazonLogo,
+  MicrosoftLogo,
+  TeslaLogo,
 } from "../../../components/CompanyLogos";
 import { TalonLogo } from "../../../components/TalonLogo";
+
+function TickerMark({ symbol, className = "" }: { symbol: string; className?: string }) {
+  return (
+    <span
+      className={`inline-flex h-full w-full items-center justify-center rounded-xl bg-[#E8EDFF] text-[11px] font-black tracking-tight text-[#010FEE] dark:bg-[#202D60] dark:text-blue-200 ${className}`}
+      aria-hidden="true"
+    >
+      {symbol.replace("c", "").slice(0, 4)}
+    </span>
+  );
+}
 
 export default function MarketsPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "stock" | "etf">("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [addedToken, setAddedToken] = useState<string | null>(null);
+  const [comingSoonToken, setComingSoonToken] = useState<string | null>(null);
   const [activePoint, setActivePoint] = useState<{ symbol: string; index: number } | null>(null);
 
   const aapl = OFFICIAL_TOKENS[0];
-  const aaplAerodromeUrl = `https://aerodrome.finance/swap?from=eth&to=${aapl.address}`;
+  const aaplAerodromeUrl = `https://aerodrome.finance/swap?from=${USDC_BASE}&to=${aapl.address}`;
   const { formattedPrice } = useB20Data(aapl.address);
   const { clipAddress, talonAddress } = useVault(aapl.address, aapl.decimals);
-  const { marketData, isLoading: isMarketLoading } = useLiveMarket();
+  const { marketData, isLoading: isMarketLoading, lastUpdatedAt } = useLiveMarket();
 
   const handleAddToWallet = async (address: string, symbol: string, decimals: number) => {
     if (typeof window !== "undefined" && (window as any).ethereum) {
@@ -70,6 +87,7 @@ export default function MarketsPage() {
       clipAddress: clipAddress,
       talonAddress: talonAddress,
       isLive: true,
+      marketPair: OFFICIAL_MARKET_PAIRS.AAPLc,
     },
     {
       symbol: "NVDAc",
@@ -83,6 +101,7 @@ export default function MarketsPage() {
       clipAddress: "",
       talonAddress: "",
       isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.NVDAc,
     },
     {
       symbol: "GOOGLc",
@@ -96,6 +115,7 @@ export default function MarketsPage() {
       clipAddress: "",
       talonAddress: "",
       isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.GOOGLc,
     },
     {
       symbol: "METAc",
@@ -109,6 +129,91 @@ export default function MarketsPage() {
       clipAddress: "",
       talonAddress: "",
       isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.METAc,
+    },
+    {
+      symbol: "AMZNc",
+      key: "AMZN",
+      name: "Amazon.com Inc.",
+      type: "stock",
+      Logo: AmazonLogo,
+      clipSymbol: "clipAMZNc",
+      talonSymbol: "talonAMZNc",
+      address: "0xb200000000000000000000d9192b6B456483C2E8",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.AMZNc,
+    },
+    {
+      symbol: "MSFTc",
+      key: "MSFT",
+      name: "Microsoft Corp.",
+      type: "stock",
+      Logo: MicrosoftLogo,
+      clipSymbol: "clipMSFTc",
+      talonSymbol: "talonMSFTc",
+      address: "0xB200000000000000000000Ab99cFa739E253872B",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.MSFTc,
+    },
+    {
+      symbol: "MSTRc",
+      key: "MSTR",
+      name: "Strategy Inc.",
+      type: "stock",
+      Logo: ({ className }: { className?: string }) => <TickerMark symbol="MSTRc" className={className} />,
+      clipSymbol: "clipMSTRc",
+      talonSymbol: "talonMSTRc",
+      address: "0xb2000000000000000000004884b426556b92883d",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.MSTRc,
+    },
+    {
+      symbol: "SNDKc",
+      key: "SNDK",
+      name: "SanDisk Corp.",
+      type: "stock",
+      Logo: ({ className }: { className?: string }) => <TickerMark symbol="SNDKc" className={className} />,
+      clipSymbol: "clipSNDKc",
+      talonSymbol: "talonSNDKc",
+      address: "0xb200000000000000000000397293Cb8cda9a10c5",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.SNDKc,
+    },
+    {
+      symbol: "SPCXc",
+      key: "SPCX",
+      name: "SpaceX",
+      type: "stock",
+      Logo: ({ className }: { className?: string }) => <TickerMark symbol="SPCXc" className={className} />,
+      clipSymbol: "clipSPCXc",
+      talonSymbol: "talonSPCXc",
+      address: "0xb2000000000000000000007b9fcbd005511aCBd5",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.SPCXc,
+    },
+    {
+      symbol: "TSLAc",
+      key: "TSLA",
+      name: "Tesla Inc.",
+      type: "stock",
+      Logo: TeslaLogo,
+      clipSymbol: "clipTSLAc",
+      talonSymbol: "talonTSLAc",
+      address: "0xb2000000000000000000001e800a7f5189430cD0",
+      clipAddress: "",
+      talonAddress: "",
+      isLive: false,
+      marketPair: OFFICIAL_MARKET_PAIRS.TSLAc,
     },
   ];
 
@@ -119,6 +224,8 @@ export default function MarketsPage() {
     const matchesFilter = filter === "all" || stock.type === filter;
     return matchesSearch && matchesFilter;
   });
+
+  const comingSoonStock = stocks.find((stock) => stock.symbol === comingSoonToken);
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -148,7 +255,12 @@ export default function MarketsPage() {
 
         <div className="flex items-center gap-2 text-xs font-bold text-[#010FEE] dark:text-blue-300 bg-[#EEF2FF] dark:bg-blue-950/60 border border-[#C7D2FE] dark:border-blue-800 px-3 py-1.5 rounded-full w-fit">
           <span className="w-2 h-2 rounded-full bg-[#010FEE] dark:bg-blue-400"></span>
-          <span>Base market data</span>
+          <span>{isMarketLoading ? "Syncing Base prices" : "Live Base prices · refreshes every 30s"}</span>
+          {lastUpdatedAt && (
+            <span className="font-mono font-medium text-[#64748B] dark:text-blue-200/70">
+              {new Date(lastUpdatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            </span>
+          )}
         </div>
       </div>
 
@@ -309,9 +421,13 @@ export default function MarketsPage() {
                     </div>
                   </div>
 
-                  {stock.isLive || live ? (
+                  {stock.isLive ? (
                     <span className="px-2.5 py-1 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 text-[11px] font-bold border border-[#010FEE]/20 dark:border-blue-800">
-                      {stock.isLive ? "Active Vault" : "Live Market"}
+                      Active Vault
+                    </span>
+                  ) : stock.marketPair ? (
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold border border-emerald-200 dark:border-emerald-800">
+                      Verified market
                     </span>
                   ) : (
                     <span className="px-2.5 py-1 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] text-[11px] font-bold">
@@ -416,18 +532,42 @@ export default function MarketsPage() {
                     </span>
                     <span className="text-[#64748B] dark:text-[#94A3B8]">Principal exposure</span>
                   </div>
+                  {stock.marketPair && (
+                    <div className="flex items-center justify-between gap-3 pt-2 text-[10px] font-semibold text-[#64748B] dark:text-[#94A3B8]">
+                      <span>{stock.marketPair.venue} · {stock.marketPair.quote}</span>
+                      <a
+                        href={stock.marketPair.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[#010FEE] hover:underline dark:text-blue-400"
+                      >
+                        Pair proof <ExternalLink className="inline h-3 w-3" />
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="pt-2 flex items-center gap-2">
-                <Link
-                  href="/app/vault"
-                  className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <span>Open Vault</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
+                {stock.isLive ? (
+                  <Link
+                    href="/app/vault"
+                    className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Open Vault</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setComingSoonToken(stock.symbol)}
+                    className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Coming soon</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
                 {stock.isLive && (
                   <button
                     onClick={() => {
@@ -450,6 +590,59 @@ export default function MarketsPage() {
           );
         })}
       </div>
+
+      {comingSoonStock && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-[#050B24]/55 px-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="coming-soon-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setComingSoonToken(null);
+          }}
+        >
+          <div className="relative w-full max-w-md rounded-3xl border border-[#E2E8F4] bg-white p-6 text-left shadow-2xl dark:border-[#2A3B6B] dark:bg-[#0D152F]">
+            <button
+              type="button"
+              aria-label="Close coming soon dialog"
+              onClick={() => setComingSoonToken(null)}
+              className="absolute right-4 top-4 rounded-full p-2 text-[#64748B] transition-colors hover:bg-[#F1F5F9] hover:text-[#050B24] dark:text-[#94A3B8] dark:hover:bg-[#162044] dark:hover:text-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="pr-8">
+              <span className="inline-flex rounded-full bg-[#EEF2FF] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#010FEE] dark:bg-blue-950/60 dark:text-blue-300">
+                Talon vault
+              </span>
+              <h2 id="coming-soon-title" className="mt-4 text-2xl font-black tracking-tight text-[#050B24] dark:text-white">
+                {comingSoonStock.symbol} is coming soon
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[#64748B] dark:text-[#94A3B8]">
+                The official Coinbase token and its Base market are visible, but Talon has not deployed a split vault for this stock yet.
+              </p>
+            </div>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+              {comingSoonStock.marketPair && (
+                <a
+                  href={comingSoonStock.marketPair.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-[#C7D2FE] px-4 py-2.5 text-xs font-bold text-[#010FEE] transition-colors hover:bg-[#EEF2FF] dark:border-[#2A3B6B] dark:text-blue-300 dark:hover:bg-[#162044]"
+                >
+                  View verified market <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={() => setComingSoonToken(null)}
+                className="inline-flex flex-1 items-center justify-center rounded-full bg-[#010FEE] px-4 py-2.5 text-xs font-bold text-white transition-colors hover:bg-[#000ED6]"
+              >
+                Back to markets
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

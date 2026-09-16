@@ -18,6 +18,7 @@ export function useLiveMarket() {
   const [marketData, setMarketData] = useState<Record<string, StockQuote> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<number | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -43,6 +44,7 @@ export function useLiveMarket() {
           ) {
             setMarketData(json.data);
             setError(null);
+            setLastUpdatedAt(Date.now());
             window.clearTimeout(retryTimer);
           } else {
             retryTimer = window.setTimeout(fetchMarket, 2000);
@@ -69,5 +71,5 @@ export function useLiveMarket() {
     };
   }, []);
 
-  return { marketData, isLoading, error };
+  return { marketData, isLoading, error, lastUpdatedAt };
 }

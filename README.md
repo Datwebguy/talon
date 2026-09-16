@@ -170,6 +170,25 @@ The contract scripts are deliberately separated by responsibility.
 
 Start with [`contracts/.env.example`](contracts/.env.example). The real `contracts/.env` file is ignored by Git. Use distinct deployer, operator, test, and recipient wallets. Never put a private key, seed phrase, user data, or production secret in this repository, a browser environment variable, a Vercel setting meant for public code, or a recording.
 
+## Talon Sentinel (AI Agent on Base Mainnet)
+
+**Talon Sentinel** transforms Talon from a passive unbundling vault into an autonomous portfolio guardian and risk manager on Base.
+
+- **Earnings Volatility Shield**: When high-volatility corporate events threaten after-hours gap-downs, Sentinel autonomously calls `TalonVault.tear()`, hedges the volatile price leg (`talonAAPLc`) to USDC via Definitive Flash, and retains the multiplier accretion claim (`clipAAPLc`). Reconstitutes the stock 1:1 post-event via `TalonVault.join()`.
+- **Dynamic Delegated Session Keys**: Users retain 100% custody of their funds. Through Dynamic's Delegated Wallet SDK and Fireblocks policy guardrails, the agent is granted scoped session keys restricted to TalonVault and approved routers.
+- **Definitive Flash Execution**: Routes hedges through Flash advanced order endpoints (Stop-Loss, Bracket, TWAP).
+- **Bankr Agent Skill**: Integrates natively with `bankr.bot` via an official Bankr Skill (`app/src/lib/bankr/talon-skill.json`), allowing users to trigger and inspect positions via natural language commands.
+- **Live Invariant Parity Arbitrage**: Continuously verifies `1 Underlying Stock == 1 clipToken + 1 talonToken` against Base AMMs, executing instant recombines whenever split claims trade at a discount.
+
+### Run the Sentinel Agent Runner
+
+```bash
+cd app
+npx tsx scripts/run-sentinel.ts
+```
+
+Visit the live Sentinel UI at `/app/sentinel`.
+
 ## Builder Quest
 
 Talon was built for the [Base Builder Quest](https://x.com/buildonbase/status/2095105184120664122), which asks builders to help people trade or use Coinbase Tokenized Stocks on Base.

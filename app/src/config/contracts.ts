@@ -31,7 +31,118 @@ export const OFFICIAL_TOKENS = [
     decimals: 8,
     active: false,
   },
+  {
+    symbol: "AMZNc",
+    name: "Amazon Tokenized Stock (Coinbase)",
+    address: "0xb200000000000000000000d9192b6B456483C2E8" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
+  {
+    symbol: "MSFTc",
+    name: "Microsoft Tokenized Stock (Coinbase)",
+    address: "0xB200000000000000000000Ab99cFa739E253872B" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
+  {
+    symbol: "MSTRc",
+    name: "Strategy Tokenized Stock (Coinbase)",
+    address: "0xb2000000000000000000004884b426556b92883d" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
+  {
+    symbol: "SNDKc",
+    name: "SanDisk Tokenized Stock (Coinbase)",
+    address: "0xb200000000000000000000397293Cb8cda9a10c5" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
+  {
+    symbol: "SPCXc",
+    name: "SPACEX Tokenized Stock (Coinbase)",
+    address: "0xb2000000000000000000007b9fcbd005511aCBd5" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
+  {
+    symbol: "TSLAc",
+    name: "Tesla Tokenized Stock (Coinbase)",
+    address: "0xb2000000000000000000001e800a7f5189430cD0" as `0x${string}`,
+    feed: undefined,
+    decimals: 8,
+    active: false,
+  },
 ];
+
+export const OFFICIAL_MARKET_PAIRS = {
+  AAPLc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0xA3b1E3f9747065e2073722Ff4c9027d3eA4994F0" as `0x${string}`,
+    url: "https://dexscreener.com/base/0xa3b1e3f9747065e2073722ff4c9027d3ea4994f0",
+  },
+  NVDAc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x853F5f1B92b16714Fe6CDA67CAad0856B83C7ab9" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x853f5f1b92b16714fe6cda67caad0856b83c7ab9",
+  },
+  GOOGLc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0xB1987CAD1682841b4b641d50E520777eC5Ab5542" as `0x${string}`,
+    url: "https://dexscreener.com/base/0xb1987cad1682841b4b641d50e520777ec5ab5542",
+  },
+  METAc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0xEAF57753BC382E0324a1D43F72E7027705a2273E" as `0x${string}`,
+    url: "https://dexscreener.com/base/0xeaf57753bc382e0324a1d43f72e7027705a2273e",
+  },
+  AMZNc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0xd03Bc8C7F2FAedCe2aac81bF0444AEA08Ea06E9b" as `0x${string}`,
+    url: "https://dexscreener.com/base/0xd03bc8c7f2faedce2aac81bf0444aea08ea06e9b",
+  },
+  MSFTc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x7103eB3c9590d1281f7dc03b2A9EE27C39dF5D54" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x7103eb3c9590d1281f7dc03b2a9ee27c39df5d54",
+  },
+  MSTRc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x8b27f626ab668197000BC722A1012022CAeD10E2" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x8b27f626ab668197000bc722a1012022caed10e2",
+  },
+  SNDKc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x5A8236f575471e7BfCA2C8462a200c28f737246E" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x5a8236f575471e7bfca2c8462a200c28f737246e",
+  },
+  SPCXc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x0bf58fe0FAc935Ac69595c19B12Ba0d75E3F8c0E" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x0bf58fe0fac935ac69595c19b12ba0d75e3f8c0e",
+  },
+  TSLAc: {
+    venue: "Aerodrome",
+    quote: "USDC",
+    pairAddress: "0x469337fDcc5E8f38e2E4B670B04F57865D13a7BB" as `0x${string}`,
+    url: "https://dexscreener.com/base/0x469337fdcc5e8f38e2e4b670b04f57865d13a7bb",
+  },
+} as const;
 
 export const REGISTRY_ADDRESS = "0x3f3E8cf41cdd3b1D118c16471aB0113DfDDd5CaD" as `0x${string}`;
 // Set by the deployment script for the eligibility-enforced factory deployment.

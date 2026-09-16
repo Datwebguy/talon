@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { OFFICIAL_TOKENS } from "../../../config/contracts";
+import { OFFICIAL_MARKET_PAIRS, OFFICIAL_TOKENS } from "../../../config/contracts";
 
 export const dynamic = "force-dynamic";
 
@@ -105,8 +105,13 @@ async function loadMarketData(): Promise<Record<string, StockQuote>> {
         if (!poolsResponse || !poolsResponse.ok) return;
 
         const pools = (await poolsResponse.json().catch(() => ({}))) as GeckoPoolsResponse;
+        const verifiedPair = OFFICIAL_MARKET_PAIRS[token.symbol as keyof typeof OFFICIAL_MARKET_PAIRS];
         const pool = (pools.data || [])
-          .filter((candidate) => candidate.attributes?.base_token_price_usd)
+          .filter(
+            (candidate) =>
+              candidate.attributes?.base_token_price_usd &&
+              candidate.attributes.address?.toLowerCase() === verifiedPair?.pairAddress.toLowerCase(),
+          )
           .sort(
             (left, right) =>
               Number(right.attributes?.volume_usd?.h24 || 0) -
@@ -126,15 +131,30 @@ async function loadMarketData(): Promise<Record<string, StockQuote>> {
         if (!ohlcvResponse || !ohlcvResponse.ok) return;
 
         const ohlcv = (await ohlcvResponse.json().catch(() => ({}))) as GeckoOhlcvResponse;
-        const candles = (ohlcv.data?.attributes?.ohlcv_list || [])
+        const rawCandles = (ohlcv.data?.attributes?.ohlcv_list || [])
           .filter((candle) => candle.length >= 5 && Number.isFinite(candle[4]))
           .reverse();
-        const history = candles.map((candle) => Number(candle[4].toFixed(4)));
-        const timestamps = candles.map((candle) => candle[0]);
         const latestPrice = Number(
-          pool.attributes?.base_token_price_usd || history[history.length - 1]
+          pool.attributes?.base_token_price_usd || rawCandles[rawCandles.length - 1]?.[4]
         );
         if (!Number.isFinite(latestPrice) || latestPrice <= 0) return;
+
+        // GeckoTerminal occasionally returns a first candle with a bad scale.
+        // Remove extreme history points so the chart does not flatten the real
+        // movement while preserving the live pool price above.
+        const sortedCloses = rawCandles
+          .map((candle) => Number(candle[4]))
+          .sort((left, right) => left - right);
+        const midpoint = Math.floor(sortedCloses.length / 2);
+        const median = sortedCloses.length % 2 === 0
+          ? (sortedCloses[midpoint - 1] + sortedCloses[midpoint]) / 2
+          : sortedCloses[midpoint];
+        const candles = rawCandles.filter((candle) => {
+          const close = Number(candle[4]);
+          return close >= median * 0.5 && close <= median * 1.8;
+        });
+        const history = candles.map((candle) => Number(candle[4].toFixed(4)));
+        const timestamps = candles.map((candle) => candle[0]);
 
         const previousPrice = history[history.length - 2];
         const changePercent =

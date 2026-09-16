@@ -44,3 +44,9 @@ dist/
 # Generated local application artifacts
 /app/test-out.css
 /app/tsconfig.tsbuildinfo
+/video-assets/
+/video-chrome-profile/
+/video-tools/
+/reference-frames/
+
+.vercel
