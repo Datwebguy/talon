@@ -6,6 +6,8 @@ export const OFFICIAL_TOKENS = [
     feed: "0x787f13dEa48Db0897CbCDD985de77809D837F988" as `0x${string}`,
     decimals: 8,
     active: true,
+    isFactoryAllowlisted: true,
+    hasDeployedVault: true,
   },
   {
     symbol: "NVDAc",
@@ -13,7 +15,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb20000000000000000000078ee7ce2fE4908108C" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: true,
+    hasDeployedVault: false,
   },
   {
     symbol: "GOOGLc",
@@ -21,7 +25,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb2000000000000000000002D0BA3164cc74f58B7" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: true,
+    hasDeployedVault: false,
   },
   {
     symbol: "METAc",
@@ -29,7 +35,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb2000000000000000000008bC8786B856E61707C" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: true,
+    hasDeployedVault: false,
   },
   {
     symbol: "AMZNc",
@@ -37,7 +45,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb200000000000000000000d9192b6B456483C2E8" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
   {
     symbol: "MSFTc",
@@ -45,7 +55,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xB200000000000000000000Ab99cFa739E253872B" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
   {
     symbol: "MSTRc",
@@ -53,7 +65,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb2000000000000000000004884b426556b92883d" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
   {
     symbol: "SNDKc",
@@ -61,7 +75,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb200000000000000000000397293Cb8cda9a10c5" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
   {
     symbol: "SPCXc",
@@ -69,7 +85,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb2000000000000000000007b9fcbd005511aCBd5" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
   {
     symbol: "TSLAc",
@@ -77,7 +95,9 @@ export const OFFICIAL_TOKENS = [
     address: "0xb2000000000000000000001e800a7f5189430cD0" as `0x${string}`,
     feed: undefined,
     decimals: 8,
-    active: false,
+    active: true,
+    isFactoryAllowlisted: false,
+    hasDeployedVault: false,
   },
 ];
 

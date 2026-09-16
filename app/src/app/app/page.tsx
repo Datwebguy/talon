@@ -29,6 +29,9 @@ import {
   NvidiaLogo,
   GoogleLogo,
   MetaLogo,
+  AmazonLogo,
+  MicrosoftLogo,
+  TeslaLogo,
 } from "../../components/CompanyLogos";
 
 export default function DashboardPage() {
@@ -127,7 +130,7 @@ export default function DashboardPage() {
       price: aaplQuote?.formattedPrice || (currentPrice ? `$${currentPrice.toFixed(2)}` : "—"),
       change: aaplQuote?.formattedChange || "—",
       isPositive: true,
-      status: "Live Vault",
+      status: "Active Vault",
       isLive: true,
     },
     {
@@ -137,8 +140,8 @@ export default function DashboardPage() {
       price: marketData?.NVDA?.formattedPrice || "—",
       change: marketData?.NVDA?.formattedChange || "—",
       isPositive: true,
-      status: "Coming Soon",
-      isLive: false,
+      status: "Factory Ready",
+      isLive: true,
     },
     {
       symbol: "GOOGLc",
@@ -147,8 +150,8 @@ export default function DashboardPage() {
       price: marketData?.GOOGL?.formattedPrice || "—",
       change: marketData?.GOOGL?.formattedChange || "—",
       isPositive: true,
-      status: "Coming Soon",
-      isLive: false,
+      status: "Factory Ready",
+      isLive: true,
     },
     {
       symbol: "METAc",
@@ -157,8 +160,38 @@ export default function DashboardPage() {
       price: marketData?.META?.formattedPrice || "—",
       change: marketData?.META?.formattedChange || "—",
       isPositive: true,
-      status: "Coming Soon",
-      isLive: false,
+      status: "Factory Ready",
+      isLive: true,
+    },
+    {
+      symbol: "TSLAc",
+      name: "Tesla Inc.",
+      Logo: TeslaLogo,
+      price: marketData?.TSLA?.formattedPrice || "—",
+      change: marketData?.TSLA?.formattedChange || "—",
+      isPositive: true,
+      status: "Verified DEX",
+      isLive: true,
+    },
+    {
+      symbol: "AMZNc",
+      name: "Amazon.com Inc.",
+      Logo: AmazonLogo,
+      price: marketData?.AMZN?.formattedPrice || "—",
+      change: marketData?.AMZN?.formattedChange || "—",
+      isPositive: true,
+      status: "Verified DEX",
+      isLive: true,
+    },
+    {
+      symbol: "MSFTc",
+      name: "Microsoft Corp.",
+      Logo: MicrosoftLogo,
+      price: marketData?.MSFT?.formattedPrice || "—",
+      change: marketData?.MSFT?.formattedChange || "—",
+      isPositive: true,
+      status: "Verified DEX",
+      isLive: true,
     },
   ];
 
@@ -295,22 +328,13 @@ export default function DashboardPage() {
                       </div>
                     </div>
 
-                    {asset.isLive ? (
-                      <Link
-                        href="/app/vault"
-                        className="px-3.5 py-1.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 shrink-0"
-                      >
-                        <span>Deposit</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                      </Link>
-                    ) : (
-                      <button
-                        disabled
-                        className="px-3.5 py-1.5 rounded-full bg-[#F1F5F9] dark:bg-[#172144] text-[#94A3B8] dark:text-[#64748B] text-xs font-bold cursor-not-allowed shrink-0"
-                      >
-                        Soon
-                      </button>
-                    )}
+                    <Link
+                      href={`/app/vault?asset=${asset.symbol}`}
+                      className="px-3.5 py-1.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 shrink-0 cursor-pointer"
+                    >
+                      <span>{asset.status === "Active Vault" ? "Deposit" : "Open Desk"}</span>
+                      <ArrowUpRight className="w-3 h-3" />
+                    </Link>
                   </div>
                 </div>
               );

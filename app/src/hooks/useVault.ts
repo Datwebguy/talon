@@ -33,13 +33,16 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
   });
 
   const [isTransacting, setIsTransacting] = useState(false);
+  const [isDeployingVault, setIsDeployingVault] = useState(false);
+  const [deployVaultSuccess, setDeployVaultSuccess] = useState(false);
+  const [deployVaultHash, setDeployVaultHash] = useState<string | null>(null);
   const [simulationError, setSimulationError] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
 
   const isAapl = underlyingAddress.toLowerCase() === OFFICIAL_TOKENS[0].address.toLowerCase();
 
   // Read vault address from factory
-  const { data: vaultAddressData } = useReadContract({
+  const { data: vaultAddressData, refetch: refetchVaultAddress } = useReadContract({
     address: FACTORY_ADDRESS,
     abi: FACTORY_ABI,
     functionName: "getVault",
@@ -288,6 +291,44 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
     }
   };
 
+  // Deploy Vault via Factory for allowlisted tokens
+  const executeDeployVault = async () => {
+    if (!walletClient || !publicClient || !userAddress) {
+      throw new Error("Wallet not connected");
+    }
+    if (chainId !== 8453) {
+      throw new Error("Switch your wallet to Base Mainnet before deploying vault.");
+    }
+    setIsDeployingVault(true);
+    setSimulationError(null);
+    setStepText("Submitting createVault transaction to Base mainnet...");
+
+    try {
+      const hash = await walletClient.writeContract({
+        address: FACTORY_ADDRESS,
+        abi: FACTORY_ABI,
+        functionName: "createVault",
+        args: [underlyingAddress],
+      });
+      setDeployVaultHash(hash);
+      setStepText("Waiting for vault contract creation confirmation...");
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      if (receipt.status === "reverted") {
+        throw new Error("createVault reverted onchain.");
+      }
+      setDeployVaultSuccess(true);
+      setStepText("Vault successfully created on Base!");
+      await refetchVaultAddress();
+      return hash;
+    } catch (err: any) {
+      const msg = err?.shortMessage || err?.message || "Failed to create vault";
+      setSimulationError(msg);
+      throw new Error(msg);
+    } finally {
+      setIsDeployingVault(false);
+    }
+  };
+
   return {
     vaultAddress,
     isVaultDeployed,
@@ -302,6 +343,10 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
     simulationError,
     tear: executeTear,
     join: executeJoin,
+    deployVault: executeDeployVault,
+    isDeployingVault,
+    deployVaultSuccess,
+    deployVaultHash,
     isTearing: isTransacting,
     isJoining: isTransacting,
     tearSuccess: !!txHash,

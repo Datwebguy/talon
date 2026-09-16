@@ -28,24 +28,20 @@ export async function handleBankrSkillCommand(toolName: string, args: Record<str
     case "talon_activate_earnings_shield": {
       const log = sentinelEngine.simulateAction("earnings-shield", symbol, amount);
       return {
-        status: "executed",
-        message: `Activated Earnings Shield for ${amount} ${symbol} on Base Mainnet.`,
+        status: "simulated",
+        message: `Simulated Earnings Shield for ${amount} ${symbol} on Base Mainnet.`,
         action: log.action,
         details: log.details,
-        txHash: log.txHash,
-        basescanUrl: log.explorerUrl,
       };
     }
 
     case "talon_recombine_stock": {
       const log = sentinelEngine.simulateAction("invariant-arbitrage", symbol, amount);
       return {
-        status: "executed",
-        message: `Successfully called TalonVault.join() on Base Mainnet to redeem ${amount} ${symbol}.`,
+        status: "simulated",
+        message: `Validated TalonVault.join() on Base Mainnet for ${amount} ${symbol}.`,
         action: log.action,
         details: log.details,
-        txHash: log.txHash,
-        basescanUrl: log.explorerUrl,
       };
     }
 

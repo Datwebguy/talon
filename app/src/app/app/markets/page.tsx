@@ -87,6 +87,7 @@ export default function MarketsPage() {
       clipAddress: clipAddress,
       talonAddress: talonAddress,
       isLive: true,
+      status: "Active Vault",
       marketPair: OFFICIAL_MARKET_PAIRS.AAPLc,
     },
     {
@@ -100,7 +101,8 @@ export default function MarketsPage() {
       address: "0xb20000000000000000000078ee7ce2fE4908108C",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Factory Ready",
       marketPair: OFFICIAL_MARKET_PAIRS.NVDAc,
     },
     {
@@ -114,7 +116,8 @@ export default function MarketsPage() {
       address: "0xb2000000000000000000002D0BA3164cc74f58B7",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Factory Ready",
       marketPair: OFFICIAL_MARKET_PAIRS.GOOGLc,
     },
     {
@@ -128,7 +131,8 @@ export default function MarketsPage() {
       address: "0xb2000000000000000000008bC8786B856E61707C",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Factory Ready",
       marketPair: OFFICIAL_MARKET_PAIRS.METAc,
     },
     {
@@ -142,7 +146,8 @@ export default function MarketsPage() {
       address: "0xb200000000000000000000d9192b6B456483C2E8",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.AMZNc,
     },
     {
@@ -156,7 +161,8 @@ export default function MarketsPage() {
       address: "0xB200000000000000000000Ab99cFa739E253872B",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.MSFTc,
     },
     {
@@ -170,7 +176,8 @@ export default function MarketsPage() {
       address: "0xb2000000000000000000004884b426556b92883d",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.MSTRc,
     },
     {
@@ -184,7 +191,8 @@ export default function MarketsPage() {
       address: "0xb200000000000000000000397293Cb8cda9a10c5",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.SNDKc,
     },
     {
@@ -198,7 +206,8 @@ export default function MarketsPage() {
       address: "0xb2000000000000000000007b9fcbd005511aCBd5",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.SPCXc,
     },
     {
@@ -212,7 +221,8 @@ export default function MarketsPage() {
       address: "0xb2000000000000000000001e800a7f5189430cD0",
       clipAddress: "",
       talonAddress: "",
-      isLive: false,
+      isLive: true,
+      status: "Verified DEX",
       marketPair: OFFICIAL_MARKET_PAIRS.TSLAc,
     },
   ];
@@ -421,17 +431,17 @@ export default function MarketsPage() {
                     </div>
                   </div>
 
-                  {stock.isLive ? (
+                  {stock.status === "Active Vault" ? (
                     <span className="px-2.5 py-1 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 text-[11px] font-bold border border-[#010FEE]/20 dark:border-blue-800">
                       Active Vault
                     </span>
-                  ) : stock.marketPair ? (
-                    <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold border border-emerald-200 dark:border-emerald-800">
-                      Verified market
+                  ) : stock.status === "Factory Ready" ? (
+                    <span className="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-bold border border-purple-200 dark:border-purple-800">
+                      Factory Ready
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] text-[11px] font-bold">
-                      Coming Soon
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold border border-emerald-200 dark:border-emerald-800">
+                      Verified DEX
                     </span>
                   )}
                 </div>
@@ -550,33 +560,35 @@ export default function MarketsPage() {
 
               {/* Action Buttons */}
               <div className="pt-2 flex items-center gap-2">
-                {stock.isLive ? (
-                  <Link
-                    href="/app/vault"
-                    className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                <Link
+                  href={`/app/vault?asset=${stock.symbol}`}
+                  className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>{stock.status === "Active Vault" ? "Open Vault" : stock.status === "Factory Ready" ? "Deploy / Open Desk" : "Open Split Desk"}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+
+                {stock.marketPair && (
+                  <a
+                    href={stock.marketPair.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2.5 rounded-full bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] hover:bg-[#EEF2FF] dark:hover:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 transition-colors cursor-pointer"
+                    title="Trade on Aerodrome DEX"
                   >
-                    <span>Open Vault</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setComingSoonToken(stock.symbol)}
-                    className="flex-1 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold text-center transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <span>Coming soon</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
                 )}
-                {stock.isLive && (
+
+                {stock.clipAddress && stock.clipSymbol && (
                   <button
                     onClick={() => {
-                      if (stock.clipAddress) {
+                      if (stock.clipAddress && stock.clipSymbol) {
                         handleAddToWallet(stock.clipAddress, stock.clipSymbol, 8);
                       }
                     }}
                     className="p-2.5 rounded-full bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] hover:bg-[#EEF2FF] dark:hover:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 transition-colors cursor-pointer"
-                    title="Add to Wallet"
+                    title="Add clip token to wallet"
                   >
                     {addedToken === stock.clipSymbol ? (
                       <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />

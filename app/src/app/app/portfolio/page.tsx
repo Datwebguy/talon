@@ -25,7 +25,10 @@ export default function PortfolioPage() {
   const { address, isConnected } = useAccount();
   const { openSelectModal } = useWalletModal();
 
-  const aapl = OFFICIAL_TOKENS[0];
+  const [selectedSymbol, setSelectedSymbol] = useState("AAPLc");
+  const selectedToken =
+    OFFICIAL_TOKENS.find((t) => t.symbol === selectedSymbol) || OFFICIAL_TOKENS[0];
+
   const {
     balanceVal,
     formattedBalance,
@@ -34,7 +37,7 @@ export default function PortfolioPage() {
     formattedUsd,
     formattedPrice,
     priceVal,
-  } = useB20Data(aapl.address);
+  } = useB20Data(selectedToken.address);
 
   const {
     clipBalance,
@@ -42,7 +45,7 @@ export default function PortfolioPage() {
     clipAddress,
     talonAddress,
     vaultAddress,
-  } = useVault(aapl.address, aapl.decimals);
+  } = useVault(selectedToken.address, selectedToken.decimals);
 
   const [claiming, setClaiming] = useState(false);
 
@@ -56,6 +59,9 @@ export default function PortfolioPage() {
   const hasUsdValue = grandTotalUsd !== null && grandTotalUsd > 0;
   const safeGrandTotalUsd = grandTotalUsd ?? 0;
 
+  const clipSymbol = `clip${selectedToken.symbol}`;
+  const talonSymbol = `talon${selectedToken.symbol}`;
+
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
@@ -67,8 +73,28 @@ export default function PortfolioPage() {
           </h1>
         </div>
         <p className="text-sm sm:text-base text-[#475569] dark:text-[#94A3B8] mt-1.5 font-medium">
-          Your onchain AAPLc, Clip, and Talon balances.
+          Your onchain equity, Clip (multiplier), and Talon (principal) balances.
         </p>
+      </div>
+
+      {/* Asset Selector */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <span className="text-xs font-bold uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] shrink-0 mr-1">
+          Stock:
+        </span>
+        {OFFICIAL_TOKENS.map((token) => (
+          <button
+            key={token.symbol}
+            onClick={() => setSelectedSymbol(token.symbol)}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 border ${
+              selectedSymbol === token.symbol
+                ? "bg-[#010FEE] text-white border-[#010FEE] shadow-sm"
+                : "bg-white dark:bg-[#0D152F] border-[#E2E8F4] dark:border-[#1E294B] text-[#475569] dark:text-[#94A3B8] hover:border-[#010FEE]/40"
+            }`}
+          >
+            {token.symbol}
+          </button>
+        ))}
       </div>
 
       {/* Top Full-Width Card: Token Balances */}
@@ -79,7 +105,7 @@ export default function PortfolioPage() {
               <Wallet className="w-4 h-4" />
             </div>
             <h2 className="text-base sm:text-lg font-bold text-[#050B24] dark:text-white">
-              Token Balances
+              {selectedToken.symbol} Position Value
             </h2>
           </div>
           <div className="text-2xl sm:text-3xl font-black text-[#050B24] dark:text-white font-mono">
@@ -101,42 +127,42 @@ export default function PortfolioPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {/* Raw AAPLc */}
+            {/* Raw Stock */}
             <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] space-y-1">
               <div className="flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
-                <span className="font-bold">Raw Stock (AAPLc)</span>
+                <span className="font-bold">Raw Stock ({selectedToken.symbol})</span>
                 <span className="font-mono">Base Mainnet</span>
               </div>
               <div className="text-xl font-black font-mono text-[#050B24] dark:text-white">
-                {balanceVal.toFixed(4)} AAPLc
+                {balanceVal.toFixed(4)} {selectedToken.symbol}
               </div>
               <div className="text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
                 ≈ {totalRawStockUsd === null ? "$0.00" : `$${totalRawStockUsd.toFixed(2)}`} USD
               </div>
             </div>
 
-            {/* clipAAPLc */}
+            {/* clipToken */}
             <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] space-y-1">
               <div className="flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
               <span className="font-bold text-[#010FEE] dark:text-blue-400">Clip</span>
                 <span className="font-mono">Multiplier</span>
               </div>
               <div className="text-xl font-black font-mono text-[#010FEE] dark:text-blue-400">
-                {clipVal.toFixed(4)} clipAAPLc
+                {clipVal.toFixed(4)} {clipSymbol}
               </div>
               <div className="text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
-                Exposure value
+                Accretion rights
               </div>
             </div>
 
-            {/* talonAAPLc */}
+            {/* talonToken */}
             <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] space-y-1">
               <div className="flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
-                <span className="font-bold">Price Leg (talonAAPLc)</span>
+                <span className="font-bold">Price Leg ({talonSymbol})</span>
                 <span className="font-mono">Principal</span>
               </div>
               <div className="text-xl font-black font-mono text-[#050B24] dark:text-white">
-                {talonVal.toFixed(4)} talonAAPLc
+                {talonVal.toFixed(4)} {talonSymbol}
               </div>
               <div className="text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
                 ≈ {totalTalonUsd === null ? "$0.00" : `$${totalTalonUsd.toFixed(2)}`} USD
