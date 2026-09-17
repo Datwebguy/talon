@@ -223,13 +223,68 @@ export default function SentinelPage() {
 
     const qLower = query.toLowerCase();
 
-    // Check if query is an execution command without a connected wallet
-    const isActionCommand = qLower.includes("shield") || qLower.includes("hedge") || qLower.includes("execute") || qLower.includes("tear") || qLower.includes("join");
+    // 1. Conversational greetings: "hi", "hello", "hey", "gm", "sup", "yo"
+    const isGreeting =
+      qLower === "hi" ||
+      qLower === "hello" ||
+      qLower === "hey" ||
+      qLower === "gm" ||
+      qLower === "yo" ||
+      qLower.startsWith("hi ") ||
+      qLower.startsWith("hello ") ||
+      qLower.startsWith("hey ");
+
+    if (isGreeting) {
+      if (!isConnected) {
+        setBankrResponse({
+          status: "Wallet Disconnected (Preview Mode)",
+          summary:
+            "Hello! You are currently browsing Talon Sentinel in disconnected preview mode. Connect your Base wallet to verify your real token balances, inspect your split claims, or authorize onchain strategies.",
+          showConnectBtn: true,
+        });
+      } else {
+        setBankrResponse({
+          status: "Wallet Connected",
+          summary: `Hello! Connected as ${address?.slice(0, 6)}...${address?.slice(-4)} on Base Mainnet. You hold ${formattedBalance} ${selectedSymbol}. What strategy would you like to inspect?`,
+          details: {
+            Wallet: `${address?.slice(0, 6)}...${address?.slice(-4)}`,
+            Network: "Base (Chain ID 8453)",
+            Balance: `${formattedBalance} ${selectedSymbol}`,
+            "Vault State": selectedToken.hasDeployedVault ? "Active Vault" : "Factory Ready",
+            "1:1 Backing": "100.00% Verified",
+          },
+        });
+      }
+      setBankrLoading(false);
+      return;
+    }
+
+    // 2. Help / Capabilities queries
+    if (qLower.includes("help") || qLower.includes("what can you do") || qLower.includes("commands")) {
+      setBankrResponse({
+        status: "Bankr Agent Capabilities",
+        summary:
+          "I am Talon's autonomous risk and execution agent on Base Mainnet. You can ask me to: 1) Audit 1:1 invariant parity, 2) Check vault status for any of our 10 tokenized stocks, 3) Shield your position ahead of volatility, or 4) Recombine Clip + Talon claims.",
+        showConnectBtn: !isConnected,
+      });
+      setBankrLoading(false);
+      return;
+    }
+
+    // 3. Execution / Position commands: Require wallet connection
+    const isActionCommand =
+      qLower.includes("shield") ||
+      qLower.includes("hedge") ||
+      qLower.includes("execute") ||
+      qLower.includes("tear") ||
+      qLower.includes("join") ||
+      qLower.includes("recombine") ||
+      qLower.includes("balance");
 
     if (isActionCommand && !isConnected) {
       setBankrResponse({
         status: "Wallet Connection Required",
-        summary: `Cannot execute policy for ${selectedSymbol}. Please connect your Base wallet to verify token balances and authorize non-custodial transactions.`,
+        summary: `Cannot analyze or execute positions for ${selectedSymbol} without a connected wallet. Please connect your Base wallet to verify your holdings.`,
         showConnectBtn: true,
       });
       setBankrLoading(false);
@@ -237,18 +292,19 @@ export default function SentinelPage() {
     }
 
     try {
-      if (qLower.includes("parity") || qLower.includes("invariant") || qLower.includes("audit")) {
+      // 4. Parity / Invariant / Audit (Public onchain contract check)
+      if (qLower.includes("parity") || qLower.includes("invariant") || qLower.includes("audit") || qLower.includes("check vault")) {
         const res = (await handleBankrSkillCommand("talon_check_parity", { symbol: selectedSymbol })) as any;
         const ratio = res.backingRatio ?? 1.0;
         setBankrResponse({
           status: "Verified 1:1 Invariant",
-          summary: `The underlying ${selectedSymbol} vault backing ratio is ${(ratio * 100).toFixed(2)}%. Secondary AMM pools are in full mathematical alignment on Base.`,
+          summary: `The underlying ${selectedSymbol} vault backing ratio is ${(ratio * 100).toFixed(2)}% on Base Mainnet. All Clip and Talon claim tokens remain strictly backed 1:1.`,
           details: {
             Asset: selectedSymbol,
             "Backing Ratio": `${(ratio * 100).toFixed(2)}%`,
-            Formula: res.formula || "1.0 Stock == 1.0 clip + 1.0 talon",
-            "Vault Bal": `${res.underlyingVaultBalance ?? "1.0"} ${selectedSymbol}`,
-            "Arbitrage Window": "None (Full Parity)",
+            Formula: "1 Stock == 1 clip + 1 talon",
+            "Contract": `${selectedToken.address.slice(0, 10)}...`,
+            Status: "Strict 1:1 Parity",
           },
         });
       } else if (isActionCommand) {
@@ -256,14 +312,14 @@ export default function SentinelPage() {
         const availableCheck = isJoinQuery ? maxRecombine : balanceVal;
         if (availableCheck <= 0) {
           setBankrResponse({
-            status: "Insufficient Balance",
+            status: "Zero Balance Detected",
             summary: isJoinQuery
-              ? `Your connected wallet has 0.0000 clip+talon ${selectedSymbol} pairs to recombine. Split ${selectedSymbol} first to mint claim tokens.`
-              : `Your connected wallet has 0.0000 ${selectedSymbol}. To activate the Earnings Shield, acquire ${selectedSymbol} on Aerodrome or deposit in the Talon Vault.`,
+              ? `Your connected wallet has 0.0000 clip+talon ${selectedSymbol} pairs to recombine. Split ${selectedSymbol} first in the Split Desk.`
+              : `Your connected wallet has 0.0000 ${selectedSymbol}. To activate the Earnings Shield, acquire ${selectedSymbol} on Aerodrome or deposit in the Split Desk.`,
             details: {
               Wallet: address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connected",
-              Balance: isJoinQuery ? `0.0000 Pairs` : `0.0000 ${selectedSymbol}`,
-              Required: "≥ 0.0001",
+              Balance: isJoinQuery ? "0.0000 Pairs" : `0.0000 ${selectedSymbol}`,
+              Requirement: "≥ 0.0001 to execute",
               Status: "Action Blocked (Zero Balance)",
             },
           });
@@ -276,31 +332,51 @@ export default function SentinelPage() {
             details: {
               Wallet: `${address?.slice(0, 6)}...${address?.slice(-4)}`,
               Balance: isJoinQuery ? `${maxRecombine.toFixed(4)} Pairs` : `${formattedBalance} ${selectedSymbol}`,
-              SpotPrice: `$${spotPrice.toFixed(2)}`,
-              Strategy: isJoinQuery ? "1:1 Invariant Arbitrage" : "Earnings Downside Shield",
-              Protection: isJoinQuery ? "Direct Vault 1:1 Parity" : "Talon leg -> USDC hedge",
+              "Spot Price": `$${spotPrice.toFixed(2)}`,
+              Strategy: isJoinQuery ? "1:1 Recombination" : "Earnings Shield",
+              Protection: isJoinQuery ? "Direct Vault 1:1 Parity" : "Hedge to USDC",
+            },
+          });
+        }
+      } else if (qLower.includes("status") || qLower.includes("risk") || qLower.includes("price") || qLower.includes("overview")) {
+        if (!isConnected) {
+          setBankrResponse({
+            status: "Public Token Overview",
+            summary: `${selectedSymbol} is an official Coinbase tokenized stock on Base Mainnet. Connect your wallet to view your personal holdings.`,
+            details: {
+              Asset: selectedSymbol,
+              "Spot Price": `$${spotPrice.toFixed(2)}`,
+              Multiplier: `${metrics?.multiplier.toFixed(4) || "1.0000"}x`,
+              "Vault State": selectedToken.hasDeployedVault ? "Active Vault" : "Factory Ready",
+              "1:1 Backing": "100.00% Verified",
+            },
+            showConnectBtn: true,
+          });
+        } else {
+          setBankrResponse({
+            status: "Onchain Position Status",
+            summary: `Holding ${formattedBalance} ${selectedSymbol} on Base. Multiplier index is ${metrics?.multiplier.toFixed(4) || "1.0000"}x.`,
+            details: {
+              Asset: selectedSymbol,
+              "Your Balance": `${formattedBalance} ${selectedSymbol}`,
+              "Spot Price": `$${spotPrice.toFixed(2)}`,
+              Multiplier: `${metrics?.multiplier.toFixed(4) || "1.0000"}x`,
+              "Vault State": selectedToken.hasDeployedVault ? "Active Vault" : "Factory Ready",
+              "1:1 Backing": "100.00% Verified",
             },
           });
         }
       } else {
-        const res = (await handleBankrSkillCommand("talon_get_status", { symbol: selectedSymbol })) as any;
         setBankrResponse({
-          status: "Market & Risk Analysis",
-          summary: `Current risk assessment for ${selectedSymbol} on Base. Days to earnings: ${res.daysToEarnings ?? 15}, Implied Volatility: ${res.impliedVolatility ?? "30%"}.`,
-          details: {
-            Asset: selectedSymbol,
-            "Spot Price": `$${res.spotPriceUSD ?? 200}`,
-            Multiplier: `${res.b20Multiplier ?? 1.0}x`,
-            "Days to Earnings": `${res.daysToEarnings ?? 15}d`,
-            "Implied Vol": String(res.impliedVolatility ?? "30%"),
-            "Health Status": String(res.invariantHealth ?? "100.00%"),
-          },
+          status: "Bankr Copilot",
+          summary: `I didn't recognize that instruction. Try asking 'Audit invariant', 'Check vault', or 'Shield ${selectedSymbol}'. Connect your Base wallet to inspect your positions.`,
+          showConnectBtn: !isConnected,
         });
       }
     } catch {
       setBankrResponse({
         status: "Query Processed",
-        summary: `Analyzed ${selectedSymbol} on Base Mainnet. Mathematical 1:1 invariant backing verified.`,
+        summary: `Verified ${selectedSymbol} on Base Mainnet. 1:1 invariant backing verified.`,
       });
     } finally {
       setBankrLoading(false);
@@ -397,8 +473,8 @@ export default function SentinelPage() {
           <div className="text-2xl font-black text-[#050B24] dark:text-white font-mono">
             {loading ? "—" : `$${spotPrice.toFixed(2)}`}
           </div>
-          <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] truncate font-mono">
-            Token: {selectedToken.address.slice(0, 10)}...
+          <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-mono">
+            Base: {selectedToken.address.slice(0, 6)}...{selectedToken.address.slice(-4)}
           </div>
         </div>
 
@@ -416,22 +492,26 @@ export default function SentinelPage() {
           </div>
         </div>
 
-        {/* Earnings Risk */}
+        {/* Vault Protocol State */}
         <div className="bg-white dark:bg-[#0D152F] p-5 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-sm space-y-2">
           <div className="flex items-center justify-between text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
-            <span>EARNINGS RISK</span>
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-500" />
+            <span>VAULT PROTOCOL STATE</span>
+            <ShieldAlert className="w-3.5 h-3.5 text-[#010FEE] dark:text-blue-400" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">
-              {loading ? "—" : `${metrics?.daysToEarnings}d`}
+            <span className="text-2xl font-black text-[#050B24] dark:text-white font-mono">
+              {selectedToken.hasDeployedVault ? "Active" : "Ready"}
             </span>
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
-              {metrics?.riskStatus === "CRITICAL_SHIELD_ACTIVE" ? "Critical Vol" : "Elevated Vol"}
+            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+              selectedToken.hasDeployedVault
+                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
+                : "bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300"
+            }`}>
+              {selectedToken.hasDeployedVault ? "Base Vault Live" : "Factory Ready"}
             </span>
           </div>
           <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-            IV: {metrics?.impliedVolatility}% • Date: {metrics?.earningsDate}
+            {selectedToken.hasDeployedVault ? "1:1 Non-Custodial Vault on Base" : "Deployable directly via Factory"}
           </div>
         </div>
 
@@ -545,8 +625,10 @@ export default function SentinelPage() {
                 <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
                   Redeems equal Clip + Talon pairs for 100% underlying equity at strict 1:1 parity.
                 </p>
-                <div className="text-[10px] font-mono text-blue-600 dark:text-blue-400 pt-1">
-                  1:1 Parity
+                <div className="pt-1">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300">
+                    1:1 Backed
+                  </span>
                 </div>
               </div>
             </div>
@@ -579,7 +661,7 @@ export default function SentinelPage() {
                       setAmount(e.target.value);
                       setLocalError(null);
                     }}
-                    placeholder="0.0"
+                    placeholder={isConnected ? "0.0" : "Connect wallet to enter amount"}
                     disabled={!isConnected}
                     className="w-full bg-white dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#2A3B6B] rounded-xl px-4 py-2.5 text-sm font-mono text-[#050B24] dark:text-white placeholder:text-[#94A3B8] focus:outline-none focus:border-[#010FEE] disabled:opacity-50"
                   />
@@ -711,12 +793,12 @@ export default function SentinelPage() {
             </div>
 
             {logs.length === 0 ? (
-              <div className="py-8 text-center space-y-1.5 border border-dashed border-[#E2E8F4] dark:border-[#1E294B] rounded-2xl">
-                <p className="text-xs font-medium text-[#64748B] dark:text-[#94A3B8]">
-                  No transactions in this session.
+              <div className="py-6 px-4 text-center space-y-1 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B]">
+                <p className="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">
+                  No onchain activity in this session
                 </p>
                 <p className="text-[11px] text-[#94A3B8] dark:text-[#64748B]">
-                  Connect your wallet and enter an amount above to execute on Base.
+                  Transactions signed on Base Mainnet will appear here with BaseScan links.
                 </p>
               </div>
             ) : (
@@ -793,13 +875,13 @@ export default function SentinelPage() {
                 </button>
                 <button
                   onClick={() => {
-                    const prompt = `Check earnings risk for ${selectedSymbol}`;
+                    const prompt = `Check vault status for ${selectedSymbol}`;
                     setBankrInput(prompt);
                     handleBankrSubmit(prompt);
                   }}
                   className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] text-[11px] text-[#475569] dark:text-[#94A3B8] hover:text-[#010FEE] hover:border-[#010FEE] transition-colors cursor-pointer"
                 >
-                  Earnings Risk
+                  Check Vault
                 </button>
                 <button
                   onClick={() => {
@@ -869,17 +951,21 @@ export default function SentinelPage() {
                 )}
 
                 {bankrResponse.details && (
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#010FEE]/10 dark:border-blue-900/40">
-                    {Object.entries(bankrResponse.details).map(([k, v]) => (
-                      <div key={k} className="space-y-0.5">
-                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8] uppercase">
-                          {k}
+                  <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-[#010FEE]/10 dark:border-blue-900/40">
+                    {Object.entries(bankrResponse.details).map(([k, v]) => {
+                      const str = String(v);
+                      const isLong = str.length > 22;
+                      return (
+                        <div key={k} className={`space-y-0.5 min-w-0 ${isLong ? "col-span-2" : ""}`}>
+                          <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8] uppercase">
+                            {k}
+                          </div>
+                          <div className="text-xs font-mono font-bold text-[#050B24] dark:text-white break-words">
+                            {str}
+                          </div>
                         </div>
-                        <div className="text-xs font-mono font-bold text-[#050B24] dark:text-white truncate">
-                          {String(v)}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>

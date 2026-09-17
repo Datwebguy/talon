@@ -20,7 +20,7 @@ export async function handleBankrSkillCommand(toolName: string, args: Record<str
         daysToEarnings: metrics.daysToEarnings,
         impliedVolatility: `${metrics.impliedVolatility}%`,
         riskStatus: metrics.riskStatus,
-        invariantHealth: parity.isBalanced ? "100.00% (Strict 1:1 Invariant Active)" : "Imbalanced",
+        invariantHealth: parity.isBalanced ? "100% (1:1 Parity)" : "Imbalanced",
         vaultAddress: metrics.vaultAddress,
       };
     }
