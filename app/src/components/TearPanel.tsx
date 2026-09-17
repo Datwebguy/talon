@@ -191,7 +191,7 @@ export function TearPanel({ tokenAddress, decimals }: TearPanelProps) {
       ) : (
         <button
           onClick={handleTear}
-          disabled={isTransacting || numAmount <= 0}
+          disabled={isTransacting || numAmount <= 0 || numAmount > balanceVal}
           className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] active:bg-[#000B99] disabled:bg-[#F1F5F9] disabled:text-[#94A3B8] text-white text-base font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] flex items-center justify-center gap-2"
         >
           {isTransacting ? (
@@ -199,6 +199,8 @@ export function TearPanel({ tokenAddress, decimals }: TearPanelProps) {
               <Loader2 className="w-4 h-4 animate-spin" />
               <span>Simulating & Executing on Base...</span>
             </>
+          ) : numAmount > balanceVal ? (
+            <span>Insufficient {tokenMeta.symbol} Balance</span>
           ) : (
             <span>Deposit & Split {tokenMeta.symbol}</span>
           )}

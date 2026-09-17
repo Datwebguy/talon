@@ -284,18 +284,18 @@ export function WalletModal() {
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative w-full max-w-md rounded-[28px] bg-white border border-[#E2E8F4] shadow-[0_25px_70px_rgba(0,0,0,0.18)] p-6 sm:p-8 z-10 space-y-6 text-[#050B24] animate-scaleUp">
+      <div className="relative w-full max-w-md rounded-[28px] bg-white dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#1E294B] shadow-[0_25px_70px_rgba(0,0,0,0.18)] p-6 sm:p-8 z-10 space-y-6 text-[#050B24] dark:text-white animate-scaleUp">
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-2 border-b border-[#F1F5F9]">
+        <div className="flex items-center justify-between pb-2 border-b border-[#F1F5F9] dark:border-[#1E294B]">
           <div className="flex items-center gap-2.5">
             <TalonLogo className="w-7 h-7" size={28} rounded="lg" />
-            <h2 className="text-xl font-black tracking-tight text-[#050B24]">
+            <h2 className="text-xl font-black tracking-tight text-[#050B24] dark:text-white">
               {view === "select" ? "Connect Wallet" : "Connected Wallet"}
             </h2>
           </div>
           <button
             onClick={closeModal}
-            className="w-8 h-8 rounded-full bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#64748B] hover:text-[#010FEE] flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full bg-[#F8FAFC] dark:bg-[#162044] hover:bg-[#EEF2FF] dark:hover:bg-[#1E2B62] text-[#64748B] dark:text-[#94A3B8] hover:text-[#010FEE] dark:hover:text-blue-400 flex items-center justify-center transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -304,16 +304,16 @@ export function WalletModal() {
         {/* View 1: Select Wallet */}
         {view === "select" ? (
           <div className="space-y-4">
-            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] dark:text-[#94A3B8] leading-relaxed">
               Select your preferred wallet extension or provider to connect to Base Mainnet.
             </p>
 
             {/* Error Message */}
             {connectError && (
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-3 text-xs text-amber-800">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-start gap-3 text-xs text-amber-800 dark:text-amber-300">
+                <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <div className="font-bold text-amber-900">Wallet Notice</div>
+                  <div className="font-bold text-amber-900 dark:text-amber-200">Wallet Notice</div>
                   <div className="mt-0.5 leading-relaxed">{connectError}</div>
                 </div>
               </div>
@@ -330,22 +330,22 @@ export function WalletModal() {
                     key={c.uid || c.id}
                     onClick={() => handleConnectWallet(c)}
                     disabled={isPending && !isThisConnecting}
-                    className="w-full p-3.5 sm:p-4 rounded-2xl bg-[#F8FAFC] hover:bg-[#EEF2FF] border border-[#E2E8F4] hover:border-[#010FEE]/40 transition-all flex items-center justify-between group disabled:opacity-50 text-left shadow-sm"
+                    className="w-full p-3.5 sm:p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] hover:bg-[#EEF2FF] dark:hover:bg-[#1E2B62] border border-[#E2E8F4] dark:border-[#1E294B] hover:border-[#010FEE]/40 dark:hover:border-blue-400/40 transition-all flex items-center justify-between group disabled:opacity-50 text-left shadow-sm"
                   >
                     <div className="flex items-center gap-3.5">
                       {details.icon}
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-[#050B24] group-hover:text-[#010FEE] transition-colors">
+                          <span className="text-sm font-bold text-[#050B24] dark:text-white group-hover:text-[#010FEE] dark:group-hover:text-blue-400 transition-colors">
                             {details.displayName}
                           </span>
                           {details.badge && (
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EEF2FF] text-[#010FEE] border border-[#010FEE]/20">
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 border border-[#010FEE]/20 dark:border-blue-800/40">
                               {details.badge}
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] text-[#64748B] font-medium mt-0.5">
+                        <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] font-medium mt-0.5">
                           {details.sub}
                         </div>
                       </div>
@@ -353,12 +353,12 @@ export function WalletModal() {
 
                     <div className="flex items-center gap-2">
                       {isThisConnecting ? (
-                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#010FEE] text-xs font-bold shadow-sm">
+                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0D152F] text-[#010FEE] dark:text-blue-400 text-xs font-bold shadow-sm">
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
                           <span>Approve...</span>
                         </div>
                       ) : (
-                        <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#010FEE] group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#010FEE] dark:group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" />
                       )}
                     </div>
                   </button>
@@ -367,16 +367,16 @@ export function WalletModal() {
             </div>
 
             {/* Security note footer */}
-            <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-xs text-[#64748B]">
+            <div className="pt-2 border-t border-[#F1F5F9] dark:border-[#1E294B] flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
               <span className="flex items-center gap-1.5 font-medium">
-                <ShieldCheck className="w-4 h-4 text-[#010FEE]" />
+                <ShieldCheck className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
                 Base Mainnet
               </span>
               <a
                 href="https://base.org"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[#010FEE] hover:underline font-bold text-[11px]"
+                className="text-[#010FEE] dark:text-blue-400 hover:underline font-bold text-[11px]"
               >
                 base.org
               </a>
@@ -386,37 +386,37 @@ export function WalletModal() {
           /* View 2: Account Overview & Wallet Switcher */
           <div className="space-y-5">
             {/* Address Banner */}
-            <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F4] space-y-3">
+            <div className="p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#1E294B] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#64748B] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#64748B] dark:text-[#94A3B8] uppercase tracking-wider">
                   Active Account
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEF2FF] text-[#010FEE] text-[10px] font-bold border border-[#010FEE]/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#010FEE] animate-pulse"></span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 text-[10px] font-bold border border-[#010FEE]/20 dark:border-blue-800/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#010FEE] dark:bg-blue-400 animate-pulse"></span>
                   Connected
                 </span>
               </div>
 
               <div className="flex items-center justify-between gap-2">
-                <div className="font-mono text-sm sm:text-base font-bold text-[#050B24] truncate">
+                <div className="font-mono text-sm sm:text-base font-bold text-[#050B24] dark:text-white truncate">
                   {address}
                 </div>
                 <button
                   onClick={handleCopy}
-                  className="p-2 rounded-xl bg-white hover:bg-[#EEF2FF] text-[#64748B] hover:text-[#010FEE] border border-[#E2E8F4] transition-colors shrink-0 shadow-sm"
+                  className="p-2 rounded-xl bg-white dark:bg-[#0D152F] hover:bg-[#EEF2FF] dark:hover:bg-[#1E2B62] text-[#64748B] dark:text-[#94A3B8] hover:text-[#010FEE] dark:hover:text-blue-400 border border-[#E2E8F4] dark:border-[#1E294B] transition-colors shrink-0 shadow-sm"
                   title="Copy Full Address"
                 >
                   {copied ? (
-                    <Check className="w-4 h-4 text-[#010FEE]" />
+                    <Check className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
                   ) : (
                     <Copy className="w-4 h-4" />
                   )}
                 </button>
               </div>
 
-              <div className="pt-2 border-t border-[#E2E8F4] flex items-center justify-between text-xs">
-                <span className="text-[#64748B] font-medium">Network</span>
-                <span className="font-bold text-[#050B24]">Base Mainnet</span>
+              <div className="pt-2 border-t border-[#E2E8F4] dark:border-[#1E294B] flex items-center justify-between text-xs">
+                <span className="text-[#64748B] dark:text-[#94A3B8] font-medium">Network</span>
+                <span className="font-bold text-[#050B24] dark:text-white">Base Mainnet</span>
               </div>
             </div>
 
@@ -427,7 +427,7 @@ export function WalletModal() {
                 href={`https://basescan.org/address/${address}`}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full py-3 px-4 rounded-full bg-white hover:bg-[#F8FAFC] border border-[#E2E8F4] hover:border-[#010FEE] text-xs font-bold text-[#050B24] hover:text-[#010FEE] transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full py-3 px-4 rounded-full bg-white dark:bg-[#0D152F] hover:bg-[#F8FAFC] dark:hover:bg-[#162044] border border-[#E2E8F4] dark:border-[#1E294B] hover:border-[#010FEE] text-xs font-bold text-[#050B24] dark:text-white hover:text-[#010FEE] dark:hover:text-blue-400 transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 <span>View on Basescan</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -436,7 +436,7 @@ export function WalletModal() {
               {/* Switch Wallet Button */}
               <button
                 onClick={handleSwitchWallet}
-                className="w-full py-3 px-4 rounded-full bg-[#EEF2FF] hover:bg-[#E0E7FF] border border-[#010FEE]/20 text-xs font-bold text-[#010FEE] transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full py-3 px-4 rounded-full bg-[#EEF2FF] dark:bg-[#1E2B62] hover:bg-[#E0E7FF] dark:hover:bg-[#2A3B80] border border-[#010FEE]/20 dark:border-blue-500/30 text-xs font-bold text-[#010FEE] dark:text-blue-300 transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Switch to Another Wallet (MetaMask, Coinbase, etc.)</span>
@@ -445,7 +445,7 @@ export function WalletModal() {
               {/* Disconnect Button */}
               <button
                 onClick={handleDisconnect}
-                className="w-full py-3 px-4 rounded-full bg-red-50 hover:bg-red-100 border border-red-200 text-xs font-bold text-red-600 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 rounded-full bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-900/50 text-xs font-bold text-red-600 dark:text-red-400 transition-all flex items-center justify-center gap-2"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Disconnect</span>

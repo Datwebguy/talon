@@ -33,12 +33,18 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
   });
 
   const [isTransacting, setIsTransacting] = useState(false);
+  const [tearSuccess, setTearSuccess] = useState(false);
+  const [joinSuccess, setJoinSuccess] = useState(false);
   const [isDeployingVault, setIsDeployingVault] = useState(false);
   const [deployVaultSuccess, setDeployVaultSuccess] = useState(false);
   const [deployVaultHash, setDeployVaultHash] = useState<string | null>(null);
   const [simulationError, setSimulationError] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
 
+  const tokenMeta = OFFICIAL_TOKENS.find(
+    (t) => t.address.toLowerCase() === underlyingAddress.toLowerCase()
+  ) || OFFICIAL_TOKENS[0];
+  const tokenSymbol = tokenMeta.symbol;
   const isAapl = underlyingAddress.toLowerCase() === OFFICIAL_TOKENS[0].address.toLowerCase();
 
   // Read vault address from factory
@@ -128,6 +134,8 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
 
     setSimulationError(null);
     setTxHash(null);
+    setTearSuccess(false);
+    setJoinSuccess(false);
     setIsTransacting(true);
     setStepText(null);
 
@@ -143,7 +151,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
       // 1. Check & handle allowance
       const currentAllowance = underlyingAllowance || BigInt(0);
       if (currentAllowance < rawAmount) {
-        setStepText("Step 1/2: Please approve AAPLc in your wallet...");
+        setStepText(`Step 1/2: Please approve ${tokenSymbol} in your wallet...`);
         const approveAmount = rawAmount;
         let approveHash: `0x${string}`;
         try {
@@ -163,7 +171,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
             args: [vaultAddress, approveAmount],
           });
         }
-        setStepText("Step 1/2: Confirming AAPLc approval on Base...");
+        setStepText(`Step 1/2: Confirming ${tokenSymbol} approval on Base...`);
         await publicClient.waitForTransactionReceipt({ hash: approveHash });
         await refetchAllowance();
       }
@@ -192,6 +200,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
       setStepText("Confirming deposit on Base...");
       setTxHash(hash);
       await publicClient.waitForTransactionReceipt({ hash });
+      setTearSuccess(true);
 
       refetchClip();
       refetchTalon();
@@ -211,7 +220,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
       ) {
         humanMsg = "Insufficient Base ETH for network gas fee. Please add a small amount of ETH on Base.";
       } else if (err?.message?.includes("TransferFailed")) {
-        humanMsg = "Transfer failed onchain. Please check your AAPLc balance.";
+        humanMsg = `Transfer failed onchain. Please check your ${tokenSymbol} balance.`;
       } else {
         humanMsg = err?.shortMessage || err?.message || "Transaction failed";
       }
@@ -231,6 +240,8 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
 
     setSimulationError(null);
     setTxHash(null);
+    setTearSuccess(false);
+    setJoinSuccess(false);
     setIsTransacting(true);
     setStepText("Please confirm recombine in your wallet...");
 
@@ -265,6 +276,7 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
       setStepText("Confirming recombine on Base...");
       setTxHash(hash);
       await publicClient.waitForTransactionReceipt({ hash });
+      setJoinSuccess(true);
 
       refetchClip();
       refetchTalon();
@@ -349,8 +361,8 @@ export function useVault(underlyingAddress: `0x${string}`, decimals: number = 8)
     deployVaultHash,
     isTearing: isTransacting,
     isJoining: isTransacting,
-    tearSuccess: !!txHash,
-    joinSuccess: !!txHash,
+    tearSuccess,
+    joinSuccess,
     txHash,
     stepText,
     error: simulationError,

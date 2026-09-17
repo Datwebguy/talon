@@ -68,6 +68,7 @@ export function SplitDesk({ initialStrategy = "both" }: SplitDeskProps) {
   // Max calculations
   const maxTear = balanceVal;
   const maxJoin = Math.min(clipBalance, talonBalance);
+  const isInsufficient = (activeTab === "tear" && parsedAmount > maxTear) || (activeTab === "join" && parsedAmount > maxJoin);
 
   const executeAction = async () => {
     if (!isConnected) {
@@ -344,7 +345,7 @@ export function SplitDesk({ initialStrategy = "both" }: SplitDeskProps) {
       ) : (
         <button
           onClick={handleAction}
-          disabled={isTransacting || parsedAmount <= 0 || wrongChain}
+          disabled={isTransacting || parsedAmount <= 0 || wrongChain || isInsufficient}
           className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] disabled:bg-[#F1F5F9] dark:disabled:bg-[#162044] disabled:text-[#94A3B8] dark:disabled:text-[#64748B] text-white text-sm font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
         >
           {isTransacting ? (
@@ -354,6 +355,8 @@ export function SplitDesk({ initialStrategy = "both" }: SplitDeskProps) {
             </>
           ) : wrongChain ? (
             <span>Switch wallet to Base Mainnet</span>
+          ) : isInsufficient ? (
+            <span>{activeTab === "tear" ? "Insufficient AAPLc Balance" : "Insufficient Balanced Pairs"}</span>
           ) : activeTab === "tear" ? (
             <>
               <span>Execute Split (Tear AAPLc)</span>

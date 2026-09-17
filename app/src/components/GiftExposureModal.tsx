@@ -32,6 +32,9 @@ interface GiftExposureModalProps {
   onClose: () => void;
   clipBalance: number;
   talonBalance: number;
+  underlyingSymbol?: string;
+  clipAddress?: `0x${string}`;
+  talonAddress?: `0x${string}`;
   onSuccess?: () => void;
 }
 
@@ -40,6 +43,9 @@ export function GiftExposureModal({
   onClose,
   clipBalance,
   talonBalance,
+  underlyingSymbol = "AAPLc",
+  clipAddress = AAPLC_CLIP_ADDRESS,
+  talonAddress = AAPLC_TALON_ADDRESS,
   onSuccess,
 }: GiftExposureModalProps) {
   const { address: userAddress, isConnected, chainId } = useAccount();
@@ -64,8 +70,8 @@ export function GiftExposureModal({
   if (!isOpen) return null;
 
   const maxBalance = selectedLeg === "clip" ? clipBalance : talonBalance;
-  const tokenAddress = selectedLeg === "clip" ? AAPLC_CLIP_ADDRESS : AAPLC_TALON_ADDRESS;
-  const tokenSymbol = selectedLeg === "clip" ? "clipAAPLc" : "talonAAPLc";
+  const tokenAddress = selectedLeg === "clip" ? clipAddress : talonAddress;
+  const tokenSymbol = selectedLeg === "clip" ? `clip${underlyingSymbol}` : `talon${underlyingSymbol}`;
 
   const handleSendGift = async () => {
     if (!walletClient || !publicClient || !userAddress) {

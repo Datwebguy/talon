@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useB20Data } from "../hooks/useB20Data";
+import { useLiveMarket } from "../hooks/useLiveMarket";
 import { OFFICIAL_TOKENS } from "../config/contracts";
 import {
   AppleLogo,
@@ -66,6 +67,7 @@ export default function HomePage() {
 
   const aapl = OFFICIAL_TOKENS[0];
   const { formattedPrice, priceVal } = useB20Data(aapl.address);
+  const { marketData } = useLiveMarket();
 
   const numAmount = parseFloat(calcAmount) || 0;
   const currentStockPrice = priceVal;
@@ -78,7 +80,7 @@ export default function HomePage() {
       name: "Apple Inc.",
       address: OFFICIAL_TOKENS[0].address,
       Logo: AppleLogo,
-      active: true,
+      status: "Active Vault",
       clip: "clipAAPLc",
       talon: "talonAAPLc",
     },
@@ -88,7 +90,7 @@ export default function HomePage() {
       name: "NVIDIA Corp.",
       address: OFFICIAL_TOKENS[1].address,
       Logo: NvidiaLogo,
-      active: true,
+      status: "Factory Ready",
       clip: "clipNVDAc",
       talon: "talonNVDAc",
     },
@@ -98,7 +100,7 @@ export default function HomePage() {
       name: "Alphabet Inc.",
       address: OFFICIAL_TOKENS[2].address,
       Logo: GoogleLogo,
-      active: true,
+      status: "Factory Ready",
       clip: "clipGOOGLc",
       talon: "talonGOOGLc",
     },
@@ -108,7 +110,7 @@ export default function HomePage() {
       name: "Meta Platforms",
       address: OFFICIAL_TOKENS[3].address,
       Logo: MetaLogo,
-      active: true,
+      status: "Factory Ready",
       clip: "clipMETAc",
       talon: "talonMETAc",
     },
@@ -118,7 +120,7 @@ export default function HomePage() {
       name: "Amazon.com Inc.",
       address: OFFICIAL_TOKENS[4].address,
       Logo: AmazonLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipAMZNc",
       talon: "talonAMZNc",
     },
@@ -128,7 +130,7 @@ export default function HomePage() {
       name: "Microsoft Corp.",
       address: OFFICIAL_TOKENS[5].address,
       Logo: MicrosoftLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipMSFTc",
       talon: "talonMSFTc",
     },
@@ -138,7 +140,7 @@ export default function HomePage() {
       name: "Strategy Inc.",
       address: OFFICIAL_TOKENS[6].address,
       Logo: MstrLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipMSTRc",
       talon: "talonMSTRc",
     },
@@ -148,7 +150,7 @@ export default function HomePage() {
       name: "SanDisk Corp.",
       address: OFFICIAL_TOKENS[7].address,
       Logo: SndkLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipSNDKc",
       talon: "talonSNDKc",
     },
@@ -158,7 +160,7 @@ export default function HomePage() {
       name: "SpaceX",
       address: OFFICIAL_TOKENS[8].address,
       Logo: SpcxLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipSPCXc",
       talon: "talonSPCXc",
     },
@@ -168,7 +170,7 @@ export default function HomePage() {
       name: "Tesla Inc.",
       address: OFFICIAL_TOKENS[9].address,
       Logo: TeslaLogo,
-      active: true,
+      status: "Verified DEX",
       clip: "clipTSLAc",
       talon: "talonTSLAc",
     },
@@ -704,7 +706,8 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {supportedStocks.map((s) => {
-              const price = s.active ? formattedPrice : "Pair";
+              const livePrice = marketData?.[s.key]?.formattedPrice;
+              const price = livePrice || (s.symbol === "AAPLc" ? formattedPrice : "—");
               const Logo = s.Logo;
 
               return (
@@ -723,13 +726,17 @@ export default function HomePage() {
                     <div>
                       <div className="font-bold text-sm text-[#050B24] dark:text-white flex items-center gap-2">
                         <span>{s.symbol}</span>
-                        {s.active ? (
+                        {s.status === "Active Vault" ? (
                           <span className="px-2 py-0.5 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 text-[10px] font-bold">
                             Active Vault
                           </span>
+                        ) : s.status === "Factory Ready" ? (
+                          <span className="px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 text-[10px] font-bold">
+                            Factory Ready
+                          </span>
                         ) : (
-                          <span className="px-2 py-0.5 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#94A3B8] dark:text-[#64748B] text-[10px] font-bold">
-                            Verified pair
+                          <span className="px-2 py-0.5 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] text-[10px] font-bold">
+                            Verified DEX
                           </span>
                         )}
                       </div>

@@ -67,6 +67,8 @@ export default function SentinelPage() {
   const {
     tear,
     join,
+    clipBalance,
+    talonBalance,
     isTearing,
     isJoining,
     tearSuccess,
@@ -83,6 +85,12 @@ export default function SentinelPage() {
   const [amount, setAmount] = useState<string>("");
   const [logs, setLogs] = useState<SentinelExecutionLog[]>([]);
   const [localError, setLocalError] = useState<string | null>(null);
+
+  const isJoinAction = activeStrategy === "invariant-arbitrage";
+  const clipVal = Number(clipBalance) || 0;
+  const talonVal = Number(talonBalance) || 0;
+  const maxRecombine = Math.min(clipVal, talonVal);
+  const activeAvailable = isJoinAction ? maxRecombine : balanceVal;
 
   // Bankr Copilot State
   const [bankrInput, setBankrInput] = useState("");
@@ -155,7 +163,7 @@ export default function SentinelPage() {
   }, [joinSuccess, txHash, selectedSymbol, amount]);
 
   const parsedAmount = parseFloat(amount) || 0;
-  const isInsufficient = isConnected && parsedAmount > balanceVal;
+  const isInsufficient = isConnected && parsedAmount > activeAvailable;
   const spotPrice = metrics?.spotPriceUSD ?? priceVal ?? 224;
 
   // Handle REAL Strategy Execution on Base
@@ -170,8 +178,17 @@ export default function SentinelPage() {
       return;
     }
 
-    if (parsedAmount > balanceVal) {
-      setLocalError(`Insufficient ${selectedSymbol} balance.`);
+    if (!isVaultDeployed) {
+      setLocalError(`Vault for ${selectedSymbol} is not yet deployed on Base. Please visit the Vault tab to initialize.`);
+      return;
+    }
+
+    if (parsedAmount > activeAvailable) {
+      setLocalError(
+        isJoinAction
+          ? `Insufficient balanced claims. You have ${maxRecombine.toFixed(4)} clip+talon pairs.`
+          : `Insufficient ${selectedSymbol} balance.`
+      );
       return;
     }
 
@@ -180,10 +197,6 @@ export default function SentinelPage() {
 
     try {
       if (activeStrategy === "earnings-shield" || activeStrategy === "accretion-maximizer") {
-        if (!isVaultDeployed) {
-          setLocalError(`Vault for ${selectedSymbol} is not yet deployed on Base. Please visit the Vault tab to initialize.`);
-          return;
-        }
         await tear(amount);
       } else {
         await join(amount);
@@ -232,13 +245,17 @@ export default function SentinelPage() {
           },
         });
       } else if (isActionCommand) {
-        if (balanceVal <= 0) {
+        const isJoinQuery = qLower.includes("join") || qLower.includes("recombine") || qLower.includes("arbitrage");
+        const availableCheck = isJoinQuery ? maxRecombine : balanceVal;
+        if (availableCheck <= 0) {
           setBankrResponse({
             status: "Insufficient Balance",
-            summary: `Your connected wallet has 0.0000 ${selectedSymbol}. To activate the Earnings Shield, acquire ${selectedSymbol} on Aerodrome or deposit in the Talon Vault.`,
+            summary: isJoinQuery
+              ? `Your connected wallet has 0.0000 clip+talon ${selectedSymbol} pairs to recombine. Split ${selectedSymbol} first to mint claim tokens.`
+              : `Your connected wallet has 0.0000 ${selectedSymbol}. To activate the Earnings Shield, acquire ${selectedSymbol} on Aerodrome or deposit in the Talon Vault.`,
             details: {
               Wallet: address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connected",
-              Balance: `0.0000 ${selectedSymbol}`,
+              Balance: isJoinQuery ? `0.0000 Pairs` : `0.0000 ${selectedSymbol}`,
               Required: "≥ 0.0001",
               Status: "Action Blocked (Zero Balance)",
             },
@@ -246,13 +263,15 @@ export default function SentinelPage() {
         } else {
           setBankrResponse({
             status: "Strategy Prepared",
-            summary: `Ready to execute Earnings Shield for ${selectedSymbol} on Base. Current balance: ${formattedBalance} ${selectedSymbol}. Please enter the desired amount in the Strategy Controller to sign the transaction.`,
+            summary: isJoinQuery
+              ? `Ready to execute 1:1 Invariant Recombine for ${selectedSymbol} on Base. Available pairs: ${maxRecombine.toFixed(4)}. Please enter the amount in the Strategy Controller.`
+              : `Ready to execute Earnings Shield for ${selectedSymbol} on Base. Current balance: ${formattedBalance} ${selectedSymbol}. Please enter the desired amount in the Strategy Controller to sign the transaction.`,
             details: {
               Wallet: `${address?.slice(0, 6)}...${address?.slice(-4)}`,
-              Balance: `${formattedBalance} ${selectedSymbol}`,
+              Balance: isJoinQuery ? `${maxRecombine.toFixed(4)} Pairs` : `${formattedBalance} ${selectedSymbol}`,
               SpotPrice: `$${spotPrice.toFixed(2)}`,
-              Strategy: "Earnings Downside Shield",
-              Protection: "Talon leg -> USDC hedge",
+              Strategy: isJoinQuery ? "1:1 Invariant Arbitrage" : "Earnings Downside Shield",
+              Protection: isJoinQuery ? "Direct Vault 1:1 Parity" : "Talon leg -> USDC hedge",
             },
           });
         }
@@ -546,11 +565,17 @@ export default function SentinelPage() {
             {/* Strategy Allocation Input (Replacing Hardcoded Target) */}
             <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#1E294B] space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#050B24] dark:text-white">Allocate {selectedSymbol} Amount</span>
+                <span className="font-bold text-[#050B24] dark:text-white">
+                  {isJoinAction ? "Allocate Clip + Talon Pairs" : `Allocate ${selectedSymbol} Amount`}
+                </span>
                 <span className="font-mono text-[#64748B] dark:text-[#94A3B8]">
-                  Balance:{" "}
+                  {isJoinAction ? "Available: " : "Balance: "}
                   <span className="font-bold text-[#050B24] dark:text-white">
-                    {isConnected ? `${formattedBalance} ${selectedSymbol}` : "— (Connect Wallet)"}
+                    {isConnected
+                      ? isJoinAction
+                        ? `${maxRecombine.toFixed(4)} Pairs`
+                        : `${formattedBalance} ${selectedSymbol}`
+                      : "— (Connect Wallet)"}
                   </span>
                 </span>
               </div>
@@ -569,9 +594,9 @@ export default function SentinelPage() {
                     disabled={!isConnected}
                     className="w-full bg-white dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#2A3B6B] rounded-xl px-4 py-2.5 text-sm font-mono text-[#050B24] dark:text-white placeholder:text-[#94A3B8] focus:outline-none focus:border-[#010FEE] disabled:opacity-50"
                   />
-                  {isConnected && balanceVal > 0 && (
+                  {isConnected && activeAvailable > 0 && (
                     <button
-                      onClick={() => setAmount(balanceVal.toString())}
+                      onClick={() => setAmount(activeAvailable.toString())}
                       className="absolute right-2.5 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#EEF2FF] text-[#010FEE] dark:bg-blue-950 dark:text-blue-300 hover:bg-blue-100 transition-colors cursor-pointer"
                     >
                       MAX
@@ -583,24 +608,49 @@ export default function SentinelPage() {
               {/* Real-time Projected Outcome Calculator */}
               {parsedAmount > 0 && (
                 <div className="pt-2 border-t border-[#E2E8F4] dark:border-[#1E294B] grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                  <div>
-                    <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">HEDGED LEG (USDC)</div>
-                    <div className="font-mono font-bold text-[#050B24] dark:text-white">
-                      ≈ ${(parsedAmount * spotPrice).toFixed(2)}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">ACCRETION CLAIM</div>
-                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                      {parsedAmount} clip{selectedSymbol}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">DOWN-SIDE RISK</div>
-                    <div className="font-mono font-bold text-blue-600 dark:text-blue-400">
-                      0% (Protected)
-                    </div>
-                  </div>
+                  {isJoinAction ? (
+                    <>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">REDEEMED STOCK</div>
+                        <div className="font-mono font-bold text-[#050B24] dark:text-white">
+                          +{parsedAmount.toFixed(4)} {selectedSymbol}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">INVARIANT RATIO</div>
+                        <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                          1:1 Parity
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">FEE DRAG</div>
+                        <div className="font-mono font-bold text-blue-600 dark:text-blue-400">
+                          0% (Vault Redeem)
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">HEDGED LEG (USDC)</div>
+                        <div className="font-mono font-bold text-[#050B24] dark:text-white">
+                          ≈ ${(parsedAmount * spotPrice).toFixed(2)}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">ACCRETION CLAIM</div>
+                        <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                          {parsedAmount} clip{selectedSymbol}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]">DOWN-SIDE RISK</div>
+                        <div className="font-mono font-bold text-blue-600 dark:text-blue-400">
+                          0% (Protected)
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -645,12 +695,12 @@ export default function SentinelPage() {
                       <span>Signing on Base...</span>
                     </>
                   ) : isInsufficient ? (
-                    <span>Insufficient {selectedSymbol} Balance</span>
+                    <span>{isJoinAction ? "Insufficient Balanced Claims" : `Insufficient ${selectedSymbol} Balance`}</span>
                   ) : parsedAmount <= 0 ? (
                     <span>Enter Amount to Execute</span>
                   ) : (
                     <>
-                      <span>Execute Policy on Base</span>
+                      <span>{isJoinAction ? "Recombine Parity on Base" : "Execute Policy on Base"}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </>
                   )}

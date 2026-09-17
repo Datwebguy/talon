@@ -537,11 +537,11 @@ export default function VaultPage() {
                   ) : (
                     <button
                       onClick={handleDeposit}
-                      disabled={isTearing || parsedDeposit <= 0}
+                      disabled={isTearing || parsedDeposit <= 0 || parsedDeposit > balanceVal}
                       className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-sm font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                     >
                       {isTearing && <RefreshCw className="w-4 h-4 animate-spin" />}
-                      {wrongChain ? "Switch wallet to Base Mainnet" : isTearing ? (stepText ? "Confirming in Wallet..." : `Splitting ${selectedToken.symbol}...`) : `Deposit & Split ${selectedToken.symbol}`}
+                      {wrongChain ? "Switch wallet to Base Mainnet" : isTearing ? (stepText ? "Confirming in Wallet..." : `Splitting ${selectedToken.symbol}...`) : parsedDeposit > balanceVal ? `Insufficient ${selectedToken.symbol} Balance` : `Deposit & Split ${selectedToken.symbol}`}
                     </button>
                   )}
                 </div>
@@ -618,11 +618,11 @@ export default function VaultPage() {
                   ) : (
                     <button
                       onClick={handleWithdraw}
-                      disabled={isJoining || parsedWithdraw <= 0}
+                      disabled={isJoining || parsedWithdraw <= 0 || parsedWithdraw > maxRecombine}
                       className="w-full py-4 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-sm font-bold transition-all shadow-[0_4px_20px_rgba(1,15,238,0.25)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                     >
                       {isJoining && <RefreshCw className="w-4 h-4 animate-spin" />}
-                      {wrongChain ? "Switch wallet to Base Mainnet" : isJoining ? (stepText ? "Confirming in Wallet..." : "Recombining Tokens...") : `Recombine & Redeem ${selectedToken.symbol}`}
+                      {wrongChain ? "Switch wallet to Base Mainnet" : isJoining ? (stepText ? "Confirming in Wallet..." : "Recombining Tokens...") : parsedWithdraw > maxRecombine ? "Insufficient Balanced Pairs" : `Recombine & Redeem ${selectedToken.symbol}`}
                     </button>
                   )}
                 </div>
@@ -907,6 +907,9 @@ export default function VaultPage() {
         onClose={() => setIsGiftModalOpen(false)}
         clipBalance={clipVal}
         talonBalance={talonVal}
+        underlyingSymbol={selectedToken.symbol}
+        clipAddress={clipAddress}
+        talonAddress={talonAddress}
       />
     </div>
   );

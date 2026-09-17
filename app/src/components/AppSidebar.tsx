@@ -235,7 +235,7 @@ export function AppSidebar() {
         </div>
       )}
 
-      {isPhone && <nav className="mobile-app-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#E2E8F4] bg-white/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_28px_rgba(5,11,36,0.08)] backdrop-blur-lg dark:border-[#1E294B] dark:bg-[#080D26]/95">
+      {isPhone && <nav className="mobile-app-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-[#E2E8F4] bg-white/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_28px_rgba(5,11,36,0.08)] backdrop-blur-lg dark:border-[#1E294B] dark:bg-[#080D26]/95">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || (item.href === "/app" && pathname === "/app");

@@ -297,40 +297,40 @@ export default function PortfolioPage() {
               ) : (
                 <>
               {talonVal > 0 && <tr className="hover:bg-[#F8FAFC] dark:hover:bg-[#162044] transition-colors">
-                <td className="py-3.5 font-bold text-[#050B24] dark:text-white">talonAAPLc</td>
+                <td className="py-3.5 font-bold text-[#050B24] dark:text-white">{talonSymbol}</td>
                 <td className="py-3.5">
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-bold border border-emerald-200 dark:border-emerald-800">
                     ↗ Long
                   </span>
                 </td>
-                <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{talonVal.toFixed(4)} AAPLc</td>
+                <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{talonVal.toFixed(4)} {selectedToken.symbol}</td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">1x (Spot)</td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">Spot</td>
                 <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{formattedPrice}</td>
                 <td className="py-3.5 text-right font-mono text-emerald-600 dark:text-emerald-400 font-bold">Live</td>
               </tr>}
               {clipVal > 0 && <tr className="hover:bg-[#F8FAFC] dark:hover:bg-[#162044] transition-colors">
-                <td className="py-3.5 font-bold text-[#010FEE] dark:text-blue-400">clipAAPLc</td>
+                <td className="py-3.5 font-bold text-[#010FEE] dark:text-blue-400">{clipSymbol}</td>
                 <td className="py-3.5">
                   <span className="px-2.5 py-0.5 rounded-full bg-[#EEF2FF] dark:bg-blue-950/60 text-[#010FEE] dark:text-blue-400 text-xs font-bold border border-[#010FEE]/20 dark:border-blue-800">
                     ⚡ Yield
                   </span>
                 </td>
-                <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{clipVal.toFixed(4)} clipAAPLc</td>
+                <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{clipVal.toFixed(4)} {clipSymbol}</td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">1x</td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">1.0000x</td>
                 <td className="py-3.5 font-mono text-[#050B24] dark:text-white">{formattedMultiplier}</td>
                 <td className="py-3.5 text-right font-mono text-[#010FEE] dark:text-blue-400 font-bold">Accreting</td>
               </tr>}
               {balanceVal > 0 && <tr className="hover:bg-[#F8FAFC] dark:hover:bg-[#162044] transition-colors">
-                <td className="py-3.5 font-bold text-[#050B24] dark:text-white">AAPLc (Vault)</td>
+                <td className="py-3.5 font-bold text-[#050B24] dark:text-white">{selectedToken.symbol} (Vault)</td>
                 <td className="py-3.5">
                   <span className="px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-800">
                     🔒 Collateral
                   </span>
                 </td>
                 <td className="py-3.5 font-mono text-[#050B24] dark:text-white">
-                  {balanceVal.toFixed(4)} AAPLc
+                  {balanceVal.toFixed(4)} {selectedToken.symbol}
                 </td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">None</td>
                 <td className="py-3.5 font-mono text-[#64748B] dark:text-[#94A3B8]">Spot</td>
