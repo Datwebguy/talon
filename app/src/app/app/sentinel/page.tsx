@@ -388,7 +388,7 @@ export default function SentinelPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F4] dark:border-[#1E294B] pb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[#010FEE] dark:text-blue-400 mb-1.5">
+          <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[#010FEE] dark:text-blue-400 mb-1.5">
             <Bot className="w-4 h-4" />
             <span>Autonomous Risk Engine • Base Mainnet (8453)</span>
           </div>
@@ -468,7 +468,7 @@ export default function SentinelPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* 1. Spot Price (Prominent Primary Card) */}
         <div className="bg-white dark:bg-[#0D152F] p-5 sm:p-6 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] border-t-4 border-t-[#010FEE] shadow-sm space-y-3 flex flex-col justify-between transition-all">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] tracking-wider uppercase">
+          <div className="flex items-center justify-between text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">
             <span>Spot Price</span>
             <Activity className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
           </div>
@@ -484,7 +484,7 @@ export default function SentinelPage() {
 
         {/* 2. Accretion Multiplier (Muted / Secondary Card) */}
         <div className="bg-white dark:bg-[#0D152F] p-5 sm:p-6 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-xs space-y-3 flex flex-col justify-between transition-all">
-          <div className="flex items-center justify-between text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8] tracking-wider uppercase">
+          <div className="flex items-center justify-between text-xs font-medium text-[#64748B] dark:text-[#94A3B8]">
             <span>Accretion Multiplier</span>
             <TrendingUp className="w-4 h-4 text-emerald-500" />
           </div>
@@ -500,7 +500,7 @@ export default function SentinelPage() {
 
         {/* 3. Vault Protocol State (Muted / Secondary Card) */}
         <div className="bg-white dark:bg-[#0D152F] p-5 sm:p-6 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-xs space-y-3 flex flex-col justify-between transition-all">
-          <div className="flex items-center justify-between text-[11px] font-medium text-[#64748B] dark:text-[#94A3B8] tracking-wider uppercase">
+          <div className="flex items-center justify-between text-xs font-medium text-[#64748B] dark:text-[#94A3B8]">
             <span>Vault Protocol State</span>
             <ShieldAlert className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
           </div>
@@ -525,7 +525,7 @@ export default function SentinelPage() {
 
         {/* 4. Invariant Parity (Prominent Primary Card) */}
         <div className="bg-white dark:bg-[#0D152F] p-5 sm:p-6 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] border-t-4 border-t-emerald-500 shadow-sm space-y-3 flex flex-col justify-between transition-all">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] tracking-wider uppercase">
+          <div className="flex items-center justify-between text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">
             <span>Invariant Parity</span>
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
           </div>
@@ -907,7 +907,7 @@ export default function SentinelPage() {
 
             {/* Quick Prompt Chips */}
             <div className="space-y-2">
-              <span className="text-[11px] font-semibold text-[#64748B] dark:text-[#94A3B8] uppercase tracking-wider">
+              <span className="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">
                 Quick Queries
               </span>
               <div className="flex flex-wrap gap-2">
