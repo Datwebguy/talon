@@ -93,6 +93,7 @@ export default function VaultPage() {
   const {
     balanceVal,
     formattedBalance,
+    formattedMultiplier,
     formattedPrice,
     priceVal,
     formattedUsd,
@@ -361,7 +362,7 @@ export default function VaultPage() {
           </div>
           <div className="mt-3">
             <div className="text-2xl sm:text-3xl font-black text-[#010FEE] dark:text-blue-400 tracking-tight font-mono">
-              1.0000x
+              {formattedMultiplier || "1.0000x"}
             </div>
             <div className="text-xs font-bold text-[#94A3B8] dark:text-[#64748B] mt-0.5">Accretion tracked by {clipSymbol}</div>
           </div>

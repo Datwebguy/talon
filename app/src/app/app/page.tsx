@@ -283,7 +283,7 @@ export default function DashboardPage() {
                   <span className={`text-xs font-bold ${stat.accent}`}>
                     {stat.change}
                   </span>
-                  <span className="text-[11px] text-[#94A3B8] dark:text-[#64748B] truncate">
+                  <span className="text-[11px] text-[#94A3B8] dark:text-[#64748B] break-words">
                     · {stat.sub}
                   </span>
                 </div>

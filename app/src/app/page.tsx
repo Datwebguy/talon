@@ -838,7 +838,7 @@ export default function HomePage() {
                         <span className="text-[#64748B] dark:text-[#94A3B8] font-medium shrink-0">
                           {spec.label}
                         </span>
-                        <span className="font-semibold text-[#050B24] dark:text-white text-right truncate">
+                        <span className="font-semibold text-[#050B24] dark:text-white text-right break-words">
                           {spec.value}
                         </span>
                       </div>

@@ -177,54 +177,106 @@ export default function PortfolioPage() {
         {/* Left: Portfolio Performance 60D (width: 8 cols) */}
         <div className="lg:col-span-8 bg-white dark:bg-[#0D152F] rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] p-6 sm:p-7 shadow-xs space-y-5 flex flex-col justify-between transition-colors">
           <div className="flex items-center justify-between">
-              <h2 className="text-base sm:text-lg font-bold text-[#050B24] dark:text-white">
+            <h2 className="text-base sm:text-lg font-bold text-[#050B24] dark:text-white">
               Performance
             </h2>
             <span className={`px-2.5 py-0.5 rounded-full font-bold text-xs border ${
-              isConnected && hasUsdValue
-                ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800"
-                : "bg-[#F8FAFC] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F4] dark:border-[#2A3B6B]"
+              !isConnected
+                ? "bg-[#F8FAFC] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F4] dark:border-[#2A3B6B]"
+                : hasUsdValue
+                  ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800"
+                  : "bg-[#F8FAFC] dark:bg-[#162044] text-[#64748B] dark:text-[#94A3B8] border-[#E2E8F4] dark:border-[#2A3B6B]"
             }`}>
-              {isConnected && hasUsdValue ? "Live balance" : "Active"}
+              {!isConnected ? "Wallet Disconnected" : hasUsdValue ? "Live Balance" : "No Position"}
             </span>
           </div>
 
-          {/* Performance Area SVG Spline Chart */}
-          <div className="h-44 sm:h-52 w-full pt-4">
-            <svg
-              className="w-full h-full overflow-visible"
-              viewBox="0 0 500 160"
-              preserveAspectRatio="none"
-            >
-              {/* Grid Lines */}
-              <line x1="0" y1="20" x2="500" y2="20" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
-              <line x1="0" y1="60" x2="500" y2="60" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
-              <line x1="0" y1="100" x2="500" y2="100" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
-              <line x1="0" y1="140" x2="500" y2="140" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
+          {/* Performance Area SVG Spline Chart or Wallet-Aware State */}
+          {!isConnected ? (
+            <div className="h-44 sm:h-52 w-full flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] space-y-3">
+              <Wallet className="w-8 h-8 text-[#94A3B8] dark:text-[#64748B]" />
+              <div className="space-y-1 max-w-sm">
+                <div className="text-sm font-bold text-[#050B24] dark:text-white">
+                  Connect Wallet to View Performance
+                </div>
+                <p className="text-xs text-[#64748B] dark:text-[#94A3B8]">
+                  Connect your Base wallet to view live valuation curves, split yield accretion, and position history.
+                </p>
+              </div>
+              <button
+                onClick={() => openSelectModal()}
+                className="px-5 py-2 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-sm cursor-pointer"
+              >
+                Connect Base Wallet
+              </button>
+            </div>
+          ) : !hasUsdValue ? (
+            <div className="h-44 sm:h-52 w-full flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] space-y-2">
+              <div className="text-sm font-bold text-[#050B24] dark:text-white">
+                No {selectedToken.symbol} Positions Detected
+              </div>
+              <p className="text-xs text-[#64748B] dark:text-[#94A3B8] max-w-md">
+                Your connected wallet has 0.00 {selectedToken.symbol}, {clipSymbol}, and {talonSymbol}. Split stock or acquire tokens to begin tracking performance.
+              </p>
+              <Link
+                href={`/app/vault?asset=${selectedToken.symbol}`}
+                className="px-4 py-2 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-sm inline-flex items-center gap-1.5 cursor-pointer mt-1"
+              >
+                <span>Open Split Desk</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          ) : (
+            <div className="h-44 sm:h-52 w-full pt-4">
+              <svg
+                className="w-full h-full overflow-visible"
+                viewBox="0 0 500 160"
+                preserveAspectRatio="none"
+              >
+                <defs>
+                  <linearGradient id="perfGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#010FEE" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#010FEE" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+                {/* Grid Lines */}
+                <line x1="0" y1="20" x2="500" y2="20" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
+                <line x1="0" y1="60" x2="500" y2="60" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
+                <line x1="0" y1="100" x2="500" y2="100" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
+                <line x1="0" y1="140" x2="500" y2="140" stroke="#E2E8F4" strokeOpacity="0.4" strokeDasharray="3 3" />
 
-              {/* Dynamic Y Axis Labels */}
-              <text x="5" y="24" fill="#94A3B8" fontSize="10" fontFamily="monospace">
-                {isConnected && hasUsdValue ? `$${safeGrandTotalUsd.toFixed(2)}` : "$0.00"}
-              </text>
-              <text x="5" y="64" fill="#94A3B8" fontSize="10" fontFamily="monospace">
-                {isConnected && hasUsdValue ? `$${(safeGrandTotalUsd * 0.66).toFixed(2)}` : "$0.00"}
-              </text>
-              <text x="5" y="104" fill="#94A3B8" fontSize="10" fontFamily="monospace">
-                {isConnected && hasUsdValue ? `$${(safeGrandTotalUsd * 0.33).toFixed(2)}` : "$0.00"}
-              </text>
-              <text x="5" y="144" fill="#94A3B8" fontSize="10" fontFamily="monospace">$0.00</text>
+                {/* Dynamic Y Axis Labels */}
+                <text x="5" y="24" fill="#94A3B8" fontSize="10" fontFamily="monospace">
+                  ${safeGrandTotalUsd.toFixed(2)}
+                </text>
+                <text x="5" y="64" fill="#94A3B8" fontSize="10" fontFamily="monospace">
+                  ${(safeGrandTotalUsd * 0.66).toFixed(2)}
+                </text>
+                <text x="5" y="104" fill="#94A3B8" fontSize="10" fontFamily="monospace">
+                  ${(safeGrandTotalUsd * 0.33).toFixed(2)}
+                </text>
+                <text x="5" y="144" fill="#94A3B8" fontSize="10" fontFamily="monospace">$0.00</text>
 
-              {/* Baseline */}
-              <path
-                d="M 40 140 L 500 140"
-                fill="none"
-                stroke="#E2E8F4"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-                opacity="0.5"
-              />
-            </svg>
-          </div>
+                {/* Performance Area Fill */}
+                <path
+                  d="M 50 125 C 120 115, 180 95, 250 85 C 320 75, 400 50, 480 35 L 480 140 L 50 140 Z"
+                  fill="url(#perfGradient)"
+                />
+
+                {/* Performance Spline Stroke */}
+                <path
+                  d="M 50 125 C 120 115, 180 95, 250 85 C 320 75, 400 50, 480 35"
+                  fill="none"
+                  stroke="#010FEE"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+
+                {/* Current Point */}
+                <circle cx="480" cy="35" r="4" fill="#010FEE" stroke="white" strokeWidth="2" />
+              </svg>
+            </div>
+          )}
 
           {/* X Axis Labels */}
           <div className="flex items-center justify-between text-[11px] font-mono text-[#94A3B8] px-4 pt-1">

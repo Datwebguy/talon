@@ -118,17 +118,25 @@ export function AmazonLogo({ className = "w-6 h-6", size }: LogoProps) {
 
 export function MicroStrategyLogo({ className = "w-6 h-6", size }: LogoProps) {
   return (
-    <svg viewBox="0 0 24 24" className={className} width={size} height={size} fill="#D9232E">
-      <path d="M2.4 4.8h4.2v14.4H2.4V4.8zm7.5 4.8h4.2v9.6H9.9V9.6zm7.5-4.8h4.2v14.4h-4.2V4.8z" />
+    <svg viewBox="0 0 24 24" className={className} width={size} height={size} fill="none">
+      <rect x="2.5" y="4" width="4.5" height="16" rx="1.2" fill="#D9232E" />
+      <rect x="9.75" y="9" width="4.5" height="11" rx="1.2" fill="#D9232E" />
+      <rect x="17" y="4" width="4.5" height="16" rx="1.2" fill="#D9232E" />
     </svg>
   );
 }
 
 export function SanDiskLogo({ className = "w-6 h-6", size }: LogoProps) {
   return (
-    <svg viewBox="0 0 24 24" className={className} width={size} height={size}>
-      <rect width="24" height="24" rx="6" fill="#ED1C24" />
-      <text x="12" y="16.5" fill="white" fontSize="11" fontWeight="900" textAnchor="middle" fontFamily="system-ui, sans-serif">SD</text>
+    <svg viewBox="0 0 24 24" className={className} width={size} height={size} fill="none">
+      <rect width="24" height="24" rx="5" fill="#ED1C24" />
+      {/* Authentic SanDisk stylized brand mark */}
+      <path
+        fill="#FFFFFF"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4.2 13.5c0-1.6 1.2-2.5 2.8-2.8 1.1-.2 1.6-.4 1.6-.7 0-.4-.4-.5-.9-.5-.7 0-1.3.3-1.8.7l-.7-1c.7-.6 1.6-.9 2.6-.9 1.6 0 2.6.8 2.6 1.9 0 1.5-1.1 2.4-2.7 2.7-.8.2-1.6.3-1.6.8 0 .3.4.5 1 .5.8 0 1.5-.3 2-.8l.6 1c-.7.7-1.7 1.1-2.8 1.1-1.6 0-2.7-.9-2.7-2zm7.2-1.7h1.6v3.1h-1.6v-3.1zm0-3.9h1.6v1.5h-1.6V7.9zm3.4 2h1.5v.6c.4-.4 1-.7 1.8-.7 1.4 0 2.2.9 2.2 2.3v2.8h-1.6v-2.6c0-.8-.4-1.2-1-1.2-.6 0-1.1.4-1.2 1v2.8h-1.6V9.9z"
+      />
     </svg>
   );
 }
@@ -136,7 +144,9 @@ export function SanDiskLogo({ className = "w-6 h-6", size }: LogoProps) {
 export function SpaceXLogo({ className = "w-6 h-6", size }: LogoProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} width={size} height={size} fill="currentColor">
-      <path d="M3 4h3.5l4.2 6.3L6.4 20H3l4.9-7.2L3 4zm10.5 0h3.5l4 6-4.5 10H13l3.8-8.2L13.5 4zm3.2 0c2.8 1.8 5.2 4.5 7.3 7.8-.5-.2-1.1-.3-1.6-.3-1.8 0-3.5.7-4.8 1.9l-.9-1.4c2.2-3.3 4.2-5.7 6.8-7.5l-6.8-.5z" />
+      {/* SpaceX signature stylized X with orbital trajectory swoosh */}
+      <path d="M3.5 4.5h3.2l4.8 6.5 5-6.5h3.2l-6.5 8.4 6.9 9.1h-3.2l-5.3-7-5.4 7H3.1l7-9L3.5 4.5z" />
+      <path d="M12.5 4.5c2.8 1.5 5.5 4 7.6 7.4.3.4.1.9-.3 1.1-.4.2-.9.1-1.1-.3-1.9-3.1-4.4-5.4-6.9-6.7-.4-.2-.6-.7-.4-1.1.2-.4.7-.6 1.1-.4z" />
     </svg>
   );
 }
