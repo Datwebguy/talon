@@ -237,32 +237,33 @@ export default function PortfolioPage() {
           </div>
         </div>
 
-        {/* Right: Claim Dividends */}
+        {/* Right: Accretion Multiplier Status */}
         <div className="lg:col-span-4 bg-white dark:bg-[#0D152F] rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] p-6 sm:p-7 shadow-xs space-y-5 flex flex-col justify-between transition-colors">
           <div className="flex items-center gap-2">
-            <Gift className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
+            <TrendingUp className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
             <h2 className="text-base sm:text-lg font-bold text-[#050B24] dark:text-white">
-              Rewards status
+              B20 Accretion
             </h2>
           </div>
 
           <div className="p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] text-center space-y-1">
-            <div className="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">Not live</div>
+            <div className="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">Live Multiplier</div>
             <div className="text-3xl font-black text-[#010FEE] dark:text-blue-400 font-mono">
-              —
+              {formattedMultiplier}
             </div>
-            <div className="text-[11px] font-mono text-[#94A3B8] dark:text-[#64748B]">Not available</div>
+            <div className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">Auto-Accreting on Base</div>
           </div>
 
           <div className="space-y-2">
-            <button
-              disabled
-              className="w-full py-3.5 rounded-full bg-[#F1F5F9] dark:bg-[#162044] text-[#94A3B8] dark:text-[#64748B] text-xs font-bold transition-all cursor-not-allowed flex items-center justify-center gap-1.5"
+            <Link
+              href="/app/vault"
+              className="w-full py-3.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5"
             >
-              <span>Nothing available</span>
-            </button>
-            <p className="text-[11px] text-[#94A3B8] dark:text-[#64748B] text-center leading-relaxed">
-              No rewards are enabled in this build.
+              <span>Manage Claims on Split Desk</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+            <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] text-center leading-relaxed">
+              Corporate stock actions automatically adjust your clip claim multiplier.
             </p>
           </div>
         </div>

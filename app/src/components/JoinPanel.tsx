@@ -197,7 +197,7 @@ export function JoinPanel({ tokenAddress, decimals }: JoinPanelProps) {
           {isTransacting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Simulating & Executing on Base...</span>
+              <span>Executing on Base...</span>
             </>
           ) : numAmount > maxJoinable ? (
             <span>Insufficient Balanced Claims</span>

@@ -39,6 +39,9 @@ import {
   AmazonLogo,
   MicrosoftLogo,
   TeslaLogo,
+  MicroStrategyLogo,
+  SanDiskLogo,
+  SpaceXLogo,
 } from "../../../components/CompanyLogos";
 import { TalonLogo } from "../../../components/TalonLogo";
 import { EligibilityAttestationModal } from "../../../components/EligibilityAttestationModal";
@@ -53,6 +56,9 @@ function StockLogo({ symbol, className = "w-5 h-5" }: { symbol: string; classNam
   if (symbol === "AMZNc") return <AmazonLogo className={className} />;
   if (symbol === "MSFTc") return <MicrosoftLogo className={className} />;
   if (symbol === "TSLAc") return <TeslaLogo className={className} />;
+  if (symbol === "MSTRc") return <MicroStrategyLogo className={className} />;
+  if (symbol === "SNDKc") return <SanDiskLogo className={className} />;
+  if (symbol === "SPCXc") return <SpaceXLogo className={className} />;
   return (
     <span className="font-mono font-black text-[11px] px-1 py-0.5 rounded bg-[#EEF2FF] text-[#010FEE] dark:bg-[#162044] dark:text-blue-300">
       {symbol.replace("c", "").slice(0, 4)}

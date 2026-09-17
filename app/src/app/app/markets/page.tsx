@@ -28,6 +28,9 @@ import {
   AmazonLogo,
   MicrosoftLogo,
   TeslaLogo,
+  MicroStrategyLogo,
+  SanDiskLogo,
+  SpaceXLogo,
 } from "../../../components/CompanyLogos";
 import { TalonLogo } from "../../../components/TalonLogo";
 
@@ -170,7 +173,7 @@ export default function MarketsPage() {
       key: "MSTR",
       name: "Strategy Inc.",
       type: "stock",
-      Logo: ({ className }: { className?: string }) => <TickerMark symbol="MSTRc" className={className} />,
+      Logo: MicroStrategyLogo,
       clipSymbol: "clipMSTRc",
       talonSymbol: "talonMSTRc",
       address: "0xb2000000000000000000004884b426556b92883d",
@@ -185,7 +188,7 @@ export default function MarketsPage() {
       key: "SNDK",
       name: "SanDisk Corp.",
       type: "stock",
-      Logo: ({ className }: { className?: string }) => <TickerMark symbol="SNDKc" className={className} />,
+      Logo: SanDiskLogo,
       clipSymbol: "clipSNDKc",
       talonSymbol: "talonSNDKc",
       address: "0xb200000000000000000000397293Cb8cda9a10c5",
@@ -200,7 +203,7 @@ export default function MarketsPage() {
       key: "SPCX",
       name: "SpaceX",
       type: "stock",
-      Logo: ({ className }: { className?: string }) => <TickerMark symbol="SPCXc" className={className} />,
+      Logo: SpaceXLogo,
       clipSymbol: "clipSPCXc",
       talonSymbol: "talonSPCXc",
       address: "0xb2000000000000000000007b9fcbd005511aCBd5",

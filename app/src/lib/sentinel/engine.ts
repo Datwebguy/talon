@@ -11,7 +11,6 @@ import {
 } from "../../config/contracts";
 import {
   SentinelStrategy,
-  DynamicSessionPolicy,
   SentinelExecutionLog,
   StockRiskMetrics,
 } from "./types";
@@ -21,22 +20,6 @@ export const basePublicClient = createPublicClient({
   chain: base,
   transport: http("https://mainnet.base.org"),
 });
-
-// Default Mock Dynamic Session Policy for demo & verification
-export const DEFAULT_DYNAMIC_POLICY: DynamicSessionPolicy = {
-  sessionKey: "0x75A0C2d1Df51C07982De3Ff031E5232518676B19",
-  userAddress: "0x97f35d1e92795327614be000cd18cba1be2c1931",
-  maxSpendUSD: 5000,
-  maxSlippageBps: 50, // 0.50%
-  allowedContracts: [
-    AAPLC_VAULT_ADDRESS,
-    "0xb200000000000000000000C2e324d24d7eEcd1fb", // AAPLc
-    AAPLC_CLIP_ADDRESS,
-    AAPLC_TALON_ADDRESS,
-  ],
-  expiresAt: Date.now() + 86400000 * 7, // 7 days
-  active: true,
-};
 
 export class TalonSentinelEngine {
   private client = basePublicClient;

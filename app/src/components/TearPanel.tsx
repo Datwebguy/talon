@@ -197,7 +197,7 @@ export function TearPanel({ tokenAddress, decimals }: TearPanelProps) {
           {isTransacting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Simulating & Executing on Base...</span>
+              <span>Executing on Base...</span>
             </>
           ) : numAmount > balanceVal ? (
             <span>Insufficient {tokenMeta.symbol} Balance</span>

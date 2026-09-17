@@ -29,6 +29,7 @@ import { StockRiskMetrics, SentinelStrategy, SentinelExecutionLog } from "../../
 import { handleBankrSkillCommand } from "../../../lib/bankr/skill";
 import { useB20Data } from "../../../hooks/useB20Data";
 import { useVault } from "../../../hooks/useVault";
+import { useLiveMarket } from "../../../hooks/useLiveMarket";
 import {
   AppleLogo,
   NvidiaLogo,
@@ -37,6 +38,9 @@ import {
   AmazonLogo,
   MicrosoftLogo,
   TeslaLogo,
+  MicroStrategyLogo,
+  SanDiskLogo,
+  SpaceXLogo,
 } from "../../../components/CompanyLogos";
 
 function TickerLogo({ symbol }: { symbol: string }) {
@@ -45,9 +49,12 @@ function TickerLogo({ symbol }: { symbol: string }) {
   if (s.includes("nvda")) return <NvidiaLogo className="w-5 h-5" />;
   if (s.includes("googl")) return <GoogleLogo className="w-5 h-5" />;
   if (s.includes("meta")) return <MetaLogo className="w-5 h-5" />;
-  if (s.includes("amzn")) return <AmazonLogo className="w-5 h-5 text-[#FF9900]" />;
+  if (s.includes("amzn")) return <AmazonLogo className="w-5 h-5" />;
   if (s.includes("msft")) return <MicrosoftLogo className="w-5 h-5" />;
   if (s.includes("tsla")) return <TeslaLogo className="w-5 h-5 text-[#E82127]" />;
+  if (s.includes("mstr")) return <MicroStrategyLogo className="w-5 h-5" />;
+  if (s.includes("sndk")) return <SanDiskLogo className="w-5 h-5" />;
+  if (s.includes("spcx")) return <SpaceXLogo className="w-5 h-5 text-black dark:text-white" />;
   return (
     <span className="w-5 h-5 rounded bg-blue-100 dark:bg-blue-900/50 text-[#010FEE] dark:text-blue-300 font-bold text-[10px] flex items-center justify-center font-mono">
       {symbol.slice(0, 3)}
@@ -313,44 +320,26 @@ export default function SentinelPage() {
             Talon Sentinel
           </h1>
           <p className="text-sm text-[#64748B] dark:text-[#94A3B8] mt-1 max-w-2xl">
-            Autonomous volatility protection, earnings hedging, and 1:1 invariant monitoring for tokenized stocks.
+            Automated volatility protection, earnings hedging, and 1:1 invariant monitoring for tokenized stocks.
           </p>
         </div>
 
-        {/* User Session Policy Card */}
-        <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#1E294B] shadow-sm shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-[#EEF2FF] dark:bg-blue-950/60 flex items-center justify-center text-[#010FEE] dark:text-blue-400">
-            {isConnected ? <Lock className="w-4 h-4" /> : <Wallet className="w-4 h-4" />}
+        {/* Wallet Status & Action */}
+        {!isConnected ? (
+          <button
+            onClick={openSelectModal}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all shadow-sm shrink-0 cursor-pointer"
+          >
+            <Wallet className="w-4 h-4" />
+            <span>Connect Wallet</span>
+          </button>
+        ) : (
+          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white dark:bg-[#0D152F] border border-[#E2E8F4] dark:border-[#1E294B] shadow-sm shrink-0 text-xs font-mono font-bold text-[#050B24] dark:text-white">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>{address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connected"}</span>
+            <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8] font-normal">Base</span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[#050B24] dark:text-white">
-                {isConnected && address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Wallet Not Connected"}
-              </span>
-              <span
-                className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${
-                  isConnected
-                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-                    : "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
-                }`}
-              >
-                {isConnected ? "Connected" : "Action Restricted"}
-              </span>
-            </div>
-            <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-              {isConnected ? (
-                <span>Non-custodial onchain session</span>
-              ) : (
-                <button
-                  onClick={openSelectModal}
-                  className="text-[#010FEE] dark:text-blue-400 hover:underline font-medium cursor-pointer"
-                >
-                  Connect wallet to execute
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Horizontal Stock Selector Carousel */}
@@ -470,10 +459,10 @@ export default function SentinelPage() {
               <div>
                 <h2 className="text-lg font-bold text-[#050B24] dark:text-white flex items-center gap-2">
                   <Zap className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
-                  <span>Autonomous Policy Selection</span>
+                  <span>Select Strategy</span>
                 </h2>
                 <p className="text-xs text-[#64748B] dark:text-[#94A3B8] mt-0.5">
-                  Choose an automated onchain policy for {selectedSymbol} on Base.
+                  Automated hedging and arbitrage for {selectedSymbol} on Base.
                 </p>
               </div>
               <span className="text-xs font-mono font-medium text-[#64748B] dark:text-[#94A3B8]">
@@ -502,7 +491,7 @@ export default function SentinelPage() {
                 </div>
                 <h3 className="font-bold text-xs text-[#050B24] dark:text-white">Earnings Shield</h3>
                 <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
-                  Splits {selectedSymbol}, swaps talon leg to USDC, and holds clip multiplier.
+                  Hedges price volatility into stable collateral before earnings while preserving multiplier upside.
                 </p>
                 <div className="text-[10px] font-mono text-[#010FEE] dark:text-blue-400 pt-1">
                   Trigger: IV &gt; 40%
@@ -528,7 +517,7 @@ export default function SentinelPage() {
                 </div>
                 <h3 className="font-bold text-xs text-[#050B24] dark:text-white">Accretion Yield</h3>
                 <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
-                  Strips underlying price risk into stable collateral to capture pure growth.
+                  Captures onchain B20 corporate multiplier growth with stripped price exposure.
                 </p>
                 <div className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 pt-1">
                   Delta-Neutral clip
@@ -554,10 +543,10 @@ export default function SentinelPage() {
                 </div>
                 <h3 className="font-bold text-xs text-[#050B24] dark:text-white">1:1 Arbitrage</h3>
                 <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
-                  Scans secondary AMMs against TalonVault.join() to resolve discounts.
+                  Redeems equal Clip + Talon pairs for 100% underlying equity at strict 1:1 parity.
                 </p>
                 <div className="text-[10px] font-mono text-blue-600 dark:text-blue-400 pt-1">
-                  1:1 Redemption
+                  1:1 Parity
                 </div>
               </div>
             </div>
@@ -671,7 +660,7 @@ export default function SentinelPage() {
                     Status: <span className="font-bold text-emerald-600 dark:text-emerald-400">Wallet Connected</span>
                   </span>
                 ) : (
-                  <span>Authentication required to sign transactions</span>
+                  <span>Connect wallet to sign on Base</span>
                 )}
               </div>
 
@@ -700,7 +689,7 @@ export default function SentinelPage() {
                     <span>Enter Amount to Execute</span>
                   ) : (
                     <>
-                      <span>{isJoinAction ? "Recombine Parity on Base" : "Execute Policy on Base"}</span>
+                      <span>{isJoinAction ? "Recombine on Base" : "Execute Strategy on Base"}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </>
                   )}
@@ -714,7 +703,7 @@ export default function SentinelPage() {
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-sm text-[#050B24] dark:text-white flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
-                <span>Session Activity Log</span>
+                <span>Activity Log</span>
               </h3>
               <span className="text-[11px] font-mono text-[#64748B] dark:text-[#94A3B8]">
                 {logs.length} onchain event{logs.length === 1 ? "" : "s"}
@@ -724,10 +713,10 @@ export default function SentinelPage() {
             {logs.length === 0 ? (
               <div className="py-8 text-center space-y-1.5 border border-dashed border-[#E2E8F4] dark:border-[#1E294B] rounded-2xl">
                 <p className="text-xs font-medium text-[#64748B] dark:text-[#94A3B8]">
-                  No automated executions in this session.
+                  No transactions in this session.
                 </p>
                 <p className="text-[11px] text-[#94A3B8] dark:text-[#64748B]">
-                  Connect your wallet and allocate an amount above to execute non-custodial policies on Base.
+                  Connect your wallet and enter an amount above to execute on Base.
                 </p>
               </div>
             ) : (
@@ -820,7 +809,7 @@ export default function SentinelPage() {
                   }}
                   className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] dark:bg-[#162044] border border-[#E2E8F4] dark:border-[#2A3B6B] text-[11px] text-[#475569] dark:text-[#94A3B8] hover:text-[#010FEE] hover:border-[#010FEE] transition-colors cursor-pointer"
                 >
-                  Shield Policy
+                  Earnings Shield
                 </button>
               </div>
             </div>

@@ -14,6 +14,9 @@ import {
   AmazonLogo,
   MicrosoftLogo,
   TeslaLogo,
+  MicroStrategyLogo,
+  SanDiskLogo,
+  SpaceXLogo,
 } from "../components/CompanyLogos";
 import { TalonLogo } from "../components/TalonLogo";
 import { EligibilityBanner } from "../components/EligibilityBanner";
@@ -38,17 +41,9 @@ import {
   Loader2,
 } from "lucide-react";
 
-function TokenGlyph({ symbol, className = "" }: { symbol: string; className?: string }) {
-  return (
-    <span className={`inline-flex h-full w-full items-center justify-center rounded-xl bg-[#E8EDFF] text-[10px] font-black tracking-tight text-[#010FEE] dark:bg-[#202D60] dark:text-blue-200 ${className}`}>
-      {symbol.replace("c", "").slice(0, 4)}
-    </span>
-  );
-}
-
-const MstrLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="MSTRc" className={className} />;
-const SndkLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="SNDKc" className={className} />;
-const SpcxLogo = ({ className }: { className?: string }) => <TokenGlyph symbol="SPCXc" className={className} />;
+const MstrLogo = ({ className }: { className?: string }) => <MicroStrategyLogo className={className} />;
+const SndkLogo = ({ className }: { className?: string }) => <SanDiskLogo className={className} />;
+const SpcxLogo = ({ className }: { className?: string }) => <SpaceXLogo className={className} />;
 
 export default function HomePage() {
   const router = useRouter();
