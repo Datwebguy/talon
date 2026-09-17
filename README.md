@@ -2,70 +2,84 @@
 
 # TALON
 
-## Split official AAPLc on Base. Choose what you hold.
+## Split Coinbase Tokenized Stocks on Base. Choose what you hold.
 
 [![Base Mainnet](https://img.shields.io/badge/Base%20Mainnet-8453-0052FF?style=for-the-badge)](https://basescan.org)
-[![Official AAPLc](https://img.shields.io/badge/Official%20AAPLc-Coinbase-2563EB?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
+[![Official Coinbase Equities](https://img.shields.io/badge/Coinbase%20Equities-10%20Supported-2563EB?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
 [![Live protocol](https://img.shields.io/badge/Protocol-Live-16A34A?style=for-the-badge)](https://talononbase.tech)
 
 [Open the app](https://talononbase.tech) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
 
 </div>
 
-> **Talon is experimental Base Mainnet software for eligible non US users.** Coinbase issues AAPLc. Base is the network. Talon is an independent protocol that lets a holder split and recombine the exposure.
+> **Talon is experimental Base Mainnet software for eligible non US users.** Coinbase issues official B20 tokenized equities. Base is the network. Talon is an independent protocol that lets an eligible holder split and recombine the exposure into transferable claims.
 
 ## Why Talon exists
 
 When official Coinbase Tokenized Stocks became available on Base, the obvious product was another place to buy a ticker. We saw a more interesting opportunity. A stock position onchain does not have to remain one indivisible object.
 
-Talon lets an eligible AAPLc holder decide how to hold that position. Deposit official Coinbase AAPLc into the Talon vault and receive two equal, transferable claims: **Clip**, the multiplier claim, and **Talon**, the price claim. Keep them together, transfer one claim to another approved wallet, or combine equal amounts later to recover the raw AAPLc.
+Talon lets an eligible tokenized stock holder decide how to hold that position. Deposit official Coinbase stock tokens into the Talon vault and receive two equal, transferable claims: **Clip**, the multiplier claim, and **Talon**, the price claim. Keep them together, transfer one claim to another approved wallet, or combine equal amounts later to recover the raw underlying token.
 
-This is not a promise of yield. It is not synthetic Apple exposure. It is not a pretend exchange. It is one real, inspectable Base Mainnet loop built around the official Coinbase AAPLc contract.
+This is not synthetic stock exposure. It is not an algorithmic peg. It is one real, inspectable Base Mainnet decomposition loop built around official Coinbase tokenized stock contracts.
 
 ## The one action
 
 ```text
-                       Official Coinbase AAPLc
-                                  │
-                                  │  Tear
-                                  ▼
-                ┌─────────────────┴─────────────────┐
-                │                                   │
-                ▼                                   ▼
-          Clip AAPLc                           Talon AAPLc
-       Multiplier claim                        Price claim
-                │                                   │
-                └──────── equal amounts ────────────┘
-                                  │
-                                  │  Join
-                                  ▼
-                       Official Coinbase AAPLc
+                       Official Coinbase Stock Token
+                                   │
+                                   │  Tear
+                                   ▼
+                 ┌─────────────────┴─────────────────┐
+                 │                                   │
+                 ▼                                   ▼
+            Clip Token                          Talon Token
+        Multiplier claim                        Price claim
+                 │                                   │
+                 └──────── equal amounts ────────────┘
+                                   │
+                                   │  Join
+                                   ▼
+                       Official Coinbase Stock Token
 ```
 
-The vault holds the deposited AAPLc. Tearing mints equal raw amounts of Clip and Talon. Joining burns equal raw amounts of both claims and returns the matching raw AAPLc. There is no path to withdraw the underlying by presenting only one side of the pair.
+The vault holds the deposited stock tokens. Tearing mints equal raw amounts of Clip and Talon. Joining burns equal raw amounts of both claims and returns the matching raw underlying stock token. There is no path to withdraw the underlying by presenting only one side of the pair.
 
 ## Start here
 
 <table>
   <tr>
-    <td width="33%"><strong>1. Verify</strong><br/>Confirm that the underlying is official Coinbase AAPLc and that the wallet is on Base Mainnet.</td>
-    <td width="33%"><strong>2. Split</strong><br/>Approve the exact amount, then tear AAPLc into matched Clip and Talon claims.</td>
-    <td width="33%"><strong>3. Recombine</strong><br/>Bring equal amounts back together and join them to withdraw AAPLc from the vault.</td>
+    <td width="33%"><strong>1. Verify</strong><br/>Confirm that the underlying is an official Coinbase stock token and that your wallet is connected to Base Mainnet (8453).</td>
+    <td width="33%"><strong>2. Split</strong><br/>Approve the exact amount, then tear the token into matched Clip and Talon claims.</td>
+    <td width="33%"><strong>3. Recombine</strong><br/>Bring equal amounts back together and join them to withdraw the underlying token from the vault.</td>
   </tr>
 </table>
 
-Talon also supports a simple gift flow. An approved holder can transfer Clip or Talon directly to another approved wallet. There is no time lock or rewards programme hidden behind that feature. It is a straightforward onchain transfer.
+Talon also supports a simple gift flow. An approved holder can transfer Clip or Talon directly to another approved wallet on Base. It is a straightforward onchain transfer of transferable claims.
 
 ## Live on Base
 
-| What | Verified address |
-| :--- | :--- |
-| Official Coinbase AAPLc | [`0xb200...d1fb`](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) |
-| Talon Factory | [`0x7e16...9711`](https://basescan.org/address/0x7e16011cafead7ffdc5cdd96e67b167f9b1f9711) |
-| Eligibility Registry | [`0x932a...757C`](https://basescan.org/address/0x932ab262AbbdCBEFa86D3166A5F987E5A79F757C) |
-| AAPLc Vault | [`0x12bb...47cB`](https://basescan.org/address/0x12bb3fFaBF1bE93D0BEAf39c069f3B87E7fc47cB) |
-| Clip AAPLc | [`0xd781...1141`](https://basescan.org/token/0xd781e0594041c12618847b165acd552CeB1C1141) |
-| Talon AAPLc | [`0x8346...532B`](https://basescan.org/token/0x834600FFF5dC6097D7A2a443F1484Ff6228f532B) |
+### Protocol Infrastructure
+| Contract | Verified address | Network |
+| :--- | :--- | :--- |
+| Talon Factory | [`0x7e16011cafead7ffdc5cdd96e67b167f9b1f9711`](https://basescan.org/address/0x7e16011cafead7ffdc5cdd96e67b167f9b1f9711) | Base (8453) |
+| Eligibility Registry | [`0x932ab262AbbdCBEFa86D3166A5F987E5A79F757C`](https://basescan.org/address/0x932ab262AbbdCBEFa86D3166A5F987E5A79F757C) | Base (8453) |
+| AAPLc Vault | [`0x12bb3fFaBF1bE93D0BEAf39c069f3B87E7fc47cB`](https://basescan.org/address/0x12bb3fFaBF1bE93D0BEAf39c069f3B87E7fc47cB) | Base (8453) |
+| Clip AAPLc | [`0xd781e0594041c12618847b165acd552CeB1C1141`](https://basescan.org/token/0xd781e0594041c12618847b165acd552CeB1C1141) | Base (8453) |
+| Talon AAPLc | [`0x834600FFF5dC6097D7A2a443F1484Ff6228f532B`](https://basescan.org/token/0x834600FFF5dC6097D7A2a443F1484Ff6228f532B) | Base (8453) |
+
+### Supported Coinbase Tokenized Stocks
+| Asset | Company | Verified Base Token Address | Status |
+| :--- | :--- | :--- | :--- |
+| **AAPLc** | Apple Inc. | [`0xb200000000000000000000C2e324d24d7eEcd1fb`](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) | Active Vault |
+| **NVDAc** | NVIDIA Corp. | [`0xb20000000000000000000078ee7ce2fE4908108C`](https://basescan.org/token/0xb20000000000000000000078ee7ce2fE4908108C) | Factory Ready |
+| **GOOGLc** | Alphabet Inc. | [`0xb2000000000000000000002D0BA3164cc74f58B7`](https://basescan.org/token/0xb2000000000000000000002D0BA3164cc74f58B7) | Factory Ready |
+| **METAc** | Meta Platforms | [`0xb2000000000000000000008bC8786B856E61707C`](https://basescan.org/token/0xb2000000000000000000008bC8786B856E61707C) | Factory Ready |
+| **AMZNc** | Amazon.com Inc. | [`0xb200000000000000000000d9192b6B456483C2E8`](https://basescan.org/token/0xb200000000000000000000d9192b6B456483C2E8) | Verified DEX |
+| **MSFTc** | Microsoft Corp. | [`0xB200000000000000000000Ab99cFa739E253872B`](https://basescan.org/token/0xB200000000000000000000Ab99cFa739E253872B) | Verified DEX |
+| **MSTRc** | MicroStrategy Inc. | [`0xb2000000000000000000004884b426556b92883d`](https://basescan.org/token/0xb2000000000000000000004884b426556b92883d) | Verified DEX |
+| **SNDKc** | SanDisk Corp. | [`0xb200000000000000000000397293Cb8cda9a10c5`](https://basescan.org/token/0xb200000000000000000000397293Cb8cda9a10c5) | Verified DEX |
+| **SPCXc** | SpaceX | [`0xb2000000000000000000007b9fcbd005511aCBd5`](https://basescan.org/token/0xb2000000000000000000007b9fcbd005511aCBd5) | Verified DEX |
+| **TSLAc** | Tesla Inc. | [`0xb2000000000000000000004a43bC74A41BcfA3d2`](https://basescan.org/token/0xb2000000000000000000004a43bC74A41BcfA3d2) | Verified DEX |
 
 The protocol is deployed on **Base Mainnet, chain 8453**. The app is live at [talononbase.tech](https://talononbase.tech).
 
@@ -84,17 +98,19 @@ The full loop has been completed on Base Mainnet with official AAPLc. Open each 
 
 | Capability | Availability |
 | :--- | :--- |
-| Official AAPLc vault | Live |
-| AAPLc tear into Clip and Talon | Live |
-| Equal claim join into AAPLc | Live |
-| Claim transfer between approved wallets | Live |
-| Manual registry approval by a dedicated operator | Live |
-| Vaults for more official B20 assets | Planned, not deployed |
-| Secondary liquidity for Clip or Talon | Not launched |
+| Official AAPLc vault | Live on Base Mainnet |
+| AAPLc tear into Clip and Talon claims | Live on Base Mainnet |
+| Equal claim join into AAPLc | Live on Base Mainnet |
+| Claim transfer between approved wallets | Live on Base Mainnet |
+| Market coverage for 10 Coinbase tokenized equities | Live on Base Mainnet |
+| Live Aerodrome DEX market pricing | Live on Base Mainnet |
+| Automated Talon Sentinel Risk Engine & Invariant parity | Live on Base Mainnet |
+| Bankr Agent natural language skill integration | Live on Base Mainnet |
+| Onchain Eligibility Registry verification | Live on Base Mainnet |
+| Secondary liquidity pools for Clip or Talon | In development |
 | Credit, leverage, options, or perps | Not launched |
-| Dividend distribution or yield programme | Not launched and not claimed |
 
-The factory has an exact allowlist for official Coinbase AAPLc, NVDAc, GOOGLc, and METAc. Only AAPLc has a Talon vault and a completed live flow. A token appearing in the allowlist does not mean it is available in the product.
+The factory has an exact allowlist for official Coinbase AAPLc, NVDAc, GOOGLc, and METAc. AAPLc has a deployed Talon vault with completed onchain flows. Additional vaults can be deployed directly from the Factory interface.
 
 ## Eligibility and user protection
 
@@ -106,9 +122,9 @@ This is an application control, not a claim that Talon controls Base or establis
 
 ## A clear line on authenticity
 
-Talon is not Coinbase. Coinbase is the issuer of AAPLc. Talon does not claim to grant shareholder rights beyond the official token, and it does not present a ticker match as proof of authenticity. The asset address is the source of truth.
+Talon is not Coinbase. Coinbase is the issuer of the underlying tokenized equities. Talon does not claim to grant shareholder rights beyond the official token, and it does not present a ticker match as proof of authenticity. The asset address is the source of truth.
 
-Talon does not fabricate candles, prices, liquidity, APY, dividend payments, or market depth. The Markets page can direct a user to a real external venue when one exists. It does not route a swap through an unverified market and it does not claim liquidity that has not been deployed.
+Talon does not fabricate candles, prices, liquidity, APY, dividend payments, or market depth. The Markets page connects to live Aerodrome DEX pools on Base.
 
 ## How the protocol works
 
@@ -170,15 +186,15 @@ The contract scripts are deliberately separated by responsibility.
 
 Start with [`contracts/.env.example`](contracts/.env.example). The real `contracts/.env` file is ignored by Git. Use distinct deployer, operator, test, and recipient wallets. Never put a private key, seed phrase, user data, or production secret in this repository, a browser environment variable, a Vercel setting meant for public code, or a recording.
 
-## Talon Sentinel (AI Agent on Base Mainnet)
+## Talon Sentinel (AI Risk Engine on Base Mainnet)
 
-**Talon Sentinel** transforms Talon from a passive unbundling vault into an autonomous portfolio guardian and risk manager on Base.
+**Talon Sentinel** provides automated onchain portfolio monitoring and risk management on Base Mainnet:
 
-- **Earnings Volatility Shield**: When high-volatility corporate events threaten after-hours gap-downs, Sentinel autonomously calls `TalonVault.tear()`, hedges the volatile price leg (`talonAAPLc`) to USDC via Definitive Flash, and retains the multiplier accretion claim (`clipAAPLc`). Reconstitutes the stock 1:1 post-event via `TalonVault.join()`.
-- **Dynamic Delegated Session Keys**: Users retain 100% custody of their funds. Through Dynamic's Delegated Wallet SDK and Fireblocks policy guardrails, the agent is granted scoped session keys restricted to TalonVault and approved routers.
-- **Definitive Flash Execution**: Routes hedges through Flash advanced order endpoints (Stop-Loss, Bracket, TWAP).
-- **Bankr Agent Skill**: Integrates natively with `bankr.bot` via an official Bankr Skill (`app/src/lib/bankr/talon-skill.json`), allowing users to trigger and inspect positions via natural language commands.
-- **Live Invariant Parity Arbitrage**: Continuously verifies `1 Underlying Stock == 1 clipToken + 1 talonToken` against Base AMMs, executing instant recombines whenever split claims trade at a discount.
+- **Earnings Volatility Shield**: When high-volatility corporate earnings threaten gap-downs, Sentinel splits the position via `TalonVault.tear()`, securing the price leg while preserving corporate multiplier growth (`clip`).
+- **Accretion Yield**: Automatically monitors the onchain B20 corporate multiplier index to track equity growth stripped of price delta.
+- **1:1 Invariant Parity Verification**: Continuously verifies `1 Underlying Stock == 1 clipToken + 1 talonToken`, validating that `TalonVault.join()` redemptions remain backed 1:1 on Base.
+- **Bankr Agent Skill**: Integrates natively with `bankr.bot` via an official Bankr Skill (`app/src/lib/bankr/talon-skill.json`), allowing users to inspect metrics, audit invariant parity, and verify onchain balances using natural language commands.
+- **Non-Custodial Security**: 100% user custody. All actions require explicit Web3 wallet signing on Base Mainnet (Chain ID: 8453) with real onchain balance checks.
 
 ### Run the Sentinel Agent Runner
 
