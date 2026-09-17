@@ -132,7 +132,7 @@ export default function HomePage() {
     {
       symbol: "MSTRc",
       key: "MSTR",
-      name: "Strategy Inc.",
+      name: "MicroStrategy Inc.",
       address: OFFICIAL_TOKENS[6].address,
       Logo: MstrLogo,
       status: "Verified DEX",
