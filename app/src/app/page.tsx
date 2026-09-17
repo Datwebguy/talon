@@ -374,7 +374,7 @@ export default function HomePage() {
         <LaunchRail />
 
         {/* Signature product visual */}
-        <div className="hidden mt-14 max-w-5xl mx-auto rounded-[32px] bg-[#050B24] p-5 sm:p-8 text-left shadow-[0_30px_90px_rgba(5,11,36,0.20)] relative overflow-hidden">
+        <div className="mt-14 max-w-5xl mx-auto rounded-[32px] bg-[#050B24] p-5 sm:p-8 text-left shadow-[0_30px_90px_rgba(5,11,36,0.20)] relative overflow-hidden">
           <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#010FEE]/40 blur-3xl" />
           <div className="absolute -bottom-28 left-1/3 h-64 w-64 rounded-full bg-[#7C3AED]/20 blur-3xl" />
           <div className="relative flex flex-col lg:flex-row lg:items-center gap-8">
@@ -567,7 +567,7 @@ export default function HomePage() {
       {/* ===================================================================
           2. THREE-COLUMN TRUST SIGNALS: CORE FINANCIAL PRIMITIVES
          =================================================================== */}
-      <section className="hidden py-16 sm:py-24 bg-[#F8FAFC] dark:bg-[#080D26] border-y border-[#E2E8F4] dark:border-[#1E294B] transition-colors">
+      <section className="py-16 sm:py-24 bg-[#F8FAFC] dark:bg-[#080D26] border-y border-[#E2E8F4] dark:border-[#1E294B] transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="text-xs font-mono font-bold text-[#010FEE] dark:text-blue-400 uppercase tracking-wider mb-2">
@@ -865,7 +865,7 @@ export default function HomePage() {
       {/* ===================================================================
           6. CAPITAL STRUCTURE COMPARISON MATRIX
          =================================================================== */}
-      <section className="hidden py-16 sm:py-24 bg-[#F8FAFC] dark:bg-[#080D26] border-y border-[#E2E8F4] dark:border-[#1E294B] transition-colors">
+      <section className="py-16 sm:py-24 bg-[#F8FAFC] dark:bg-[#080D26] border-y border-[#E2E8F4] dark:border-[#1E294B] transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="text-xs font-mono font-bold text-[#010FEE] dark:text-blue-400 uppercase tracking-wider mb-2">
