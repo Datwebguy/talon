@@ -471,8 +471,8 @@ export default function SentinelPage() {
             <div className="text-3xl sm:text-4xl font-black text-[#050B24] dark:text-white font-mono tracking-tight">
               {loading ? "—" : `$${spotPrice.toFixed(2)}`}
             </div>
-            <div className="text-[11px] text-[#94A3B8] dark:text-[#64748B] font-mono">
-              Base: {selectedToken.address.slice(0, 6)}...{selectedToken.address.slice(-4)}
+            <div className="text-[11px] text-[#94A3B8] dark:text-[#64748B]">
+              Official Coinbase tokenized stock on Base
             </div>
           </div>
         </div>
@@ -488,7 +488,7 @@ export default function SentinelPage() {
               {loading ? "—" : `${metrics?.multiplier.toFixed(4) || "1.0000"}x`}
             </div>
             <div className="text-[11px] text-[#94A3B8] dark:text-[#64748B]">
-              Tracked by <span className="font-mono font-medium text-[#010FEE] dark:text-blue-400">clip{selectedSymbol}</span>
+              Corporate actions growth index
             </div>
           </div>
         </div>
@@ -496,24 +496,24 @@ export default function SentinelPage() {
         {/* 3. Vault Protocol State (Muted / Secondary Card) */}
         <div className="bg-white dark:bg-[#0D152F] p-5 sm:p-6 rounded-3xl border border-[#E2E8F4] dark:border-[#1E294B] shadow-xs space-y-3 flex flex-col justify-between transition-all">
           <div className="flex items-center justify-between text-xs font-medium text-[#64748B] dark:text-[#94A3B8]">
-            <span>Vault Protocol State</span>
+            <span>Vault Status</span>
             <ShieldAlert className="w-4 h-4 text-[#010FEE] dark:text-blue-400" />
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-[#050B24] dark:text-white font-mono">
-                {selectedToken.hasDeployedVault ? "Active" : "Ready"}
+                {selectedToken.hasDeployedVault ? "Active" : "Coming Soon"}
               </span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                 selectedToken.hasDeployedVault
                   ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-                  : "bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300"
+                  : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
               }`}>
-                {selectedToken.hasDeployedVault ? "Base Vault Live" : "Factory Ready"}
+                {selectedToken.hasDeployedVault ? "Live on Base" : "In Progress"}
               </span>
             </div>
             <div className="text-[11px] text-[#94A3B8] dark:text-[#64748B]">
-              {selectedToken.hasDeployedVault ? "1:1 Non-Custodial Vault on Base" : "Deployable directly via Factory"}
+              {selectedToken.hasDeployedVault ? "Non-custodial 1:1 split vault" : "Splitting not yet available"}
             </div>
           </div>
         </div>
@@ -556,8 +556,8 @@ export default function SentinelPage() {
                   </p>
                 </div>
               </div>
-              <span className="text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
-                Chain ID: 8453
+              <span className="text-xs font-medium text-[#94A3B8] dark:text-[#64748B]">
+                Base Mainnet
               </span>
             </div>
 
