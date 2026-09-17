@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   ShieldAlert,
   ShieldCheck,
-  Bot,
   Zap,
   TrendingUp,
   Activity,
@@ -388,10 +387,6 @@ export default function SentinelPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F4] dark:border-[#1E294B] pb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[#010FEE] dark:text-blue-400 mb-1.5">
-            <Bot className="w-4 h-4" />
-            <span>Autonomous Risk Engine • Base Mainnet (8453)</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-black text-[#050B24] dark:text-white tracking-tight">
             Talon Sentinel
           </h1>
