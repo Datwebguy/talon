@@ -48,5 +48,8 @@ dist/
 /video-chrome-profile/
 /video-tools/
 /reference-frames/
+/talon-video/*.mp4
+/talon-video/snapshots/
+/talon-video/sample_*.png
 
 .vercel
