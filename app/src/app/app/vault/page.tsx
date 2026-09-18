@@ -751,76 +751,21 @@ export default function VaultPage() {
             </div>
           </div>
 
-          {/* Verified Base Contract Details */}
-          <div className="pt-4 border-t border-[#E2E8F4] dark:border-[#1E294B] space-y-2">
-            <div className="text-[10px] uppercase font-bold text-[#94A3B8] dark:text-[#64748B] tracking-wider">
-              Base Mainnet Contracts
+          {/* Security & Verification */}
+          <div className="pt-4 border-t border-[#E2E8F4] dark:border-[#1E294B] flex items-center justify-between text-xs text-[#64748B] dark:text-[#94A3B8]">
+            <div className="flex items-center gap-1.5 font-medium">
+              <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span>Verified 1:1 Invariant on Base</span>
             </div>
-            <div className="space-y-1.5 text-xs">
-              <div className="flex items-center justify-between text-[#64748B] dark:text-[#94A3B8]">
-                <span>TalonFactory</span>
-                <a
-                  href={`https://basescan.org/address/${FACTORY_ADDRESS}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono text-[#010FEE] dark:text-blue-400 hover:underline flex items-center gap-1"
-                >
-                  {FACTORY_ADDRESS.slice(0, 6)}...{FACTORY_ADDRESS.slice(-4)}
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-
-              <div className="flex items-center justify-between text-[#64748B] dark:text-[#94A3B8]">
-                <span>{selectedToken.symbol} Vault</span>
-                {vaultAddress ? (
-                  <a
-                    href={`https://basescan.org/address/${vaultAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono text-[#010FEE] dark:text-blue-400 hover:underline flex items-center gap-1"
-                  >
-                    {vaultAddress.slice(0, 6)}...{vaultAddress.slice(-4)}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ) : (
-                  <span className="font-mono text-xs text-purple-600 dark:text-purple-400">Ready to Deploy</span>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between text-[#64748B] dark:text-[#94A3B8]">
-                <span>{clipSymbol}</span>
-                {clipAddress ? (
-                  <a
-                    href={`https://basescan.org/address/${clipAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono text-[#010FEE] dark:text-blue-400 hover:underline flex items-center gap-1"
-                  >
-                    {clipAddress.slice(0, 6)}...{clipAddress.slice(-4)}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ) : (
-                  <span className="font-mono text-xs">Pending Vault</span>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between text-[#64748B] dark:text-[#94A3B8]">
-                <span>{talonSymbol}</span>
-                {talonAddress ? (
-                  <a
-                    href={`https://basescan.org/address/${talonAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono text-[#010FEE] dark:text-blue-400 hover:underline flex items-center gap-1"
-                  >
-                    {talonAddress.slice(0, 6)}...{talonAddress.slice(-4)}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ) : (
-                  <span className="font-mono text-xs">Pending Vault</span>
-                )}
-              </div>
-            </div>
+            <a
+              href={`https://basescan.org/token/${selectedToken.address}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#010FEE] dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
+            >
+              <span>Verify on Basescan</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
           </div>
         </div>
       </div>
