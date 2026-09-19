@@ -330,16 +330,17 @@ export function WalletModal({ isPrivyEnabled = false }: { isPrivyEnabled?: boole
 
             {/* If Privy is enabled, show Privy Social / Email Login */}
             {isPrivyEnabled && (
-              <PrivyLoginButton onSuccess={closeModal} />
+              <div className="space-y-3">
+                <PrivyLoginButton onSuccess={closeModal} />
+                <div className="relative flex py-0.5 items-center">
+                  <div className="flex-grow border-t border-[#E2E8F4] dark:border-[#1E294B]"></div>
+                  <span className="flex-shrink mx-3 text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">
+                    Or connect wallet
+                  </span>
+                  <div className="flex-grow border-t border-[#E2E8F4] dark:border-[#1E294B]"></div>
+                </div>
+              </div>
             )}
-
-            {/* Mobile Guidance Banner */}
-            <div className="p-3 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 flex items-start gap-2.5 text-xs text-blue-800 dark:text-blue-300">
-              <span className="font-bold shrink-0">📱 Mobile:</span>
-              <span className="leading-snug">
-                Use <strong>Coinbase Smart Wallet</strong> for 1-tap FaceID, or <strong>WalletConnect</strong> to open MetaMask, Rainbow, or Trust.
-              </span>
-            </div>
 
             {/* Error Message */}
             {connectError && (
@@ -472,7 +473,7 @@ export function WalletModal({ isPrivyEnabled = false }: { isPrivyEnabled?: boole
                 className="w-full py-3 px-4 rounded-full bg-[#EEF2FF] dark:bg-[#1E2B62] hover:bg-[#E0E7FF] dark:hover:bg-[#2A3B80] border border-[#010FEE]/20 dark:border-blue-500/30 text-xs font-bold text-[#010FEE] dark:text-blue-300 transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Switch to Another Wallet (MetaMask, Coinbase, etc.)</span>
+                <span>Switch Wallet</span>
               </button>
 
               {/* Disconnect Button */}
