@@ -4,11 +4,12 @@
 
 ## Split Coinbase Tokenized Stocks on Base. Choose what you hold.
 
+[![Bankr Hackathon](https://img.shields.io/badge/Bankr%20Hackathon-Agent%20Track-FF5A00?style=for-the-badge&logo=robot)](https://bankr.bot)
 [![Base Mainnet](https://img.shields.io/badge/Base%20Mainnet-8453-0052FF?style=for-the-badge)](https://basescan.org)
 [![Official Coinbase Equities](https://img.shields.io/badge/Coinbase%20Equities-10%20Supported-2563EB?style=for-the-badge)](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb)
 [![Live protocol](https://img.shields.io/badge/Protocol-Live-16A34A?style=for-the-badge)](https://talononbase.tech)
 
-[Open the app](https://talononbase.tech) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
+[Open the app](https://talononbase.tech) &nbsp; [Sentinel & Bankr Copilot](https://talononbase.tech/app/sentinel) &nbsp; [Bankr Agent Spec](BANKR.md) &nbsp; [Verify official AAPLc](https://basescan.org/token/0xb200000000000000000000C2e324d24d7eEcd1fb) &nbsp; [Watch the Builder Quest](https://x.com/buildonbase/status/2095105184120664122)
 
 </div>
 
@@ -186,24 +187,44 @@ The contract scripts are deliberately separated by responsibility.
 
 Start with [`contracts/.env.example`](contracts/.env.example). The real `contracts/.env` file is ignored by Git. Use distinct deployer, operator, test, and recipient wallets. Never put a private key, seed phrase, user data, or production secret in this repository, a browser environment variable, a Vercel setting meant for public code, or a recording.
 
-## Talon Sentinel (AI Risk Engine on Base Mainnet)
+## Talon Sentinel & Bankr Agent Copilot
 
-**Talon Sentinel** provides automated onchain portfolio monitoring and risk management on Base Mainnet:
+**Talon Sentinel** is an autonomous onchain risk engine and conversational AI copilot built for Base Mainnet (8453), powered by an official **Bankr Agent Skill** ([`BANKR.md`](BANKR.md) / [`app/src/lib/bankr/talon-skill.json`](app/src/lib/bankr/talon-skill.json)):
 
 - **Earnings Volatility Shield**: When high-volatility corporate earnings threaten gap-downs, Sentinel splits the position via `TalonVault.tear()`, securing the price leg while preserving corporate multiplier growth (`clip`).
 - **Accretion Yield**: Automatically monitors the onchain B20 corporate multiplier index to track equity growth stripped of price delta.
 - **1:1 Invariant Parity Verification**: Continuously verifies `1 Underlying Stock == 1 clipToken + 1 talonToken`, validating that `TalonVault.join()` redemptions remain backed 1:1 on Base.
-- **Bankr Agent Skill**: Integrates natively with `bankr.bot` via an official Bankr Skill (`app/src/lib/bankr/talon-skill.json`), allowing users to inspect metrics, audit invariant parity, and verify onchain balances using natural language commands.
-- **Non-Custodial Security**: 100% user custody. All actions require explicit Web3 wallet signing on Base Mainnet (Chain ID: 8453) with real onchain balance checks.
+- **Bankr Agent Copilot (`bankr.bot`)**: Integrates natively with the Bankr AI Agent ecosystem. Users can inspect metrics, audit invariant parity, and trigger unbundling or recombining directly through plain English prompts in the UI or via autonomous bots.
+- **Non-Custodial Security**: 100% user custody. All state changes require explicit Web3 wallet signing on Base Mainnet (Chain ID: 8453) with real onchain balance checks.
 
-### Run the Sentinel Agent Runner
+### 🤖 Official Bankr Skill Tools (`talon-skill.json`)
+
+The machine-readable Bankr Agent Skill manifest is deployed at [`/bankr-skill.json`](https://talononbase.tech/bankr-skill.json) (or [`/api/bankr/skill`](https://talononbase.tech/api/bankr/skill)):
+
+| Tool | Action | Base Mainnet Contract Call |
+| :--- | :--- | :--- |
+| `talon_get_status` | Query spot price, B20 multiplier, earnings countdown, and vault backing | Reads `TalonVault.getVaultStats()` & B20 contract |
+| `talon_check_parity` | Audit mathematical 1:1 invariant backing (`1 Stock == 1 Clip + 1 Talon`) | Reads onchain supplies of Underlying, Clip, and Talon |
+| `talon_activate_earnings_shield` | Unbundle stock before volatility spike; flash-hedge price risk into USDC | Calls `TalonVault.tear()` & isolates downside |
+| `talon_recombine_stock` | Burn equal Clip + Talon claims to redeem underlying Coinbase stock 1:1 | Calls `TalonVault.join()` on Base Mainnet |
+
+### Sample Prompts for Bankr Copilot
+
+Judges and users can test conversational execution directly in the live Sentinel UI:
+- `"Audit 1:1 invariant parity for NVDAC on Base"`
+- `"Check AAPLc risk metrics and B20 corporate multiplier"`
+- `"Shield 1.0 AAPLc ahead of corporate earnings"`
+- `"Recombine 1.0 clipAAPLc and 1.0 talonAAPLc into raw AAPLc"`
+
+### Run the Sentinel Agent Runner Locally
 
 ```bash
 cd app
 npx tsx scripts/run-sentinel.ts
 ```
 
-Visit the live Sentinel UI at `/app/sentinel`.
+Visit the live Sentinel UI and Bankr Copilot at [talononbase.tech/app/sentinel](https://talononbase.tech/app/sentinel).
+For complete architecture and hackathon details, see [`BANKR.md`](BANKR.md).
 
 ## Builder Quest
 
