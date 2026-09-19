@@ -50,7 +50,9 @@ export function TearPanel({ tokenAddress, decimals }: TearPanelProps) {
           <span className="font-bold text-[#050B24]">Amount to Deposit</span>
           <div className="flex items-center gap-1.5">
             <span>Available:</span>
-            <span className="text-[#050B24] font-mono font-bold">{balanceVal.toFixed(4)}</span>
+            <span className="text-[#050B24] font-mono font-bold">
+              {isConnected ? balanceVal.toFixed(4) : "—"}
+            </span>
             <span className="font-semibold">{tokenMeta.symbol}</span>
           </div>
         </div>

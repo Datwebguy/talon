@@ -245,19 +245,23 @@ export function SplitDesk({ initialStrategy = "both" }: SplitDeskProps) {
           <div className="flex items-center gap-2">
             <span className="text-[#64748B] dark:text-[#94A3B8]">Available:</span>
             <span className="font-mono font-bold text-[#050B24] dark:text-white">
-              {activeTab === "tear"
-                ? `${balanceVal.toFixed(4)} AAPLc`
-                : `${maxJoin.toFixed(4)} Pairs`}
+              {isConnected
+                ? activeTab === "tear"
+                  ? `${balanceVal.toFixed(4)} AAPLc`
+                  : `${maxJoin.toFixed(4)} Pairs`
+                : "—"}
             </span>
-            <button
-              type="button"
-              onClick={() =>
-                setAmount(activeTab === "tear" ? maxTear.toString() : maxJoin.toString())
-              }
-              className="text-[11px] font-bold text-[#010FEE] dark:text-blue-400 hover:underline ml-1 cursor-pointer"
-            >
-              MAX
-            </button>
+            {isConnected && (activeTab === "tear" ? maxTear > 0 : maxJoin > 0) && (
+              <button
+                type="button"
+                onClick={() =>
+                  setAmount(activeTab === "tear" ? maxTear.toString() : maxJoin.toString())
+                }
+                className="text-[11px] font-bold text-[#010FEE] dark:text-blue-400 hover:underline ml-1 cursor-pointer"
+              >
+                MAX
+              </button>
+            )}
           </div>
         </div>
 

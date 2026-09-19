@@ -51,7 +51,7 @@ export function JoinPanel({ tokenAddress, decimals }: JoinPanelProps) {
             <span className="text-[10px] text-[#010FEE] font-bold px-2 py-0.5 rounded-full bg-white">Multiplier</span>
           </div>
           <div className="text-xl font-mono font-black text-[#050B24]">
-            {clipBalance.toFixed(4)}
+            {isConnected ? clipBalance.toFixed(4) : "—"}
           </div>
         </div>
 
@@ -61,7 +61,7 @@ export function JoinPanel({ tokenAddress, decimals }: JoinPanelProps) {
             <span className="text-[10px] text-[#2563EB] font-bold px-2 py-0.5 rounded-full bg-white">Principal</span>
           </div>
           <div className="text-xl font-mono font-black text-[#050B24]">
-            {talonBalance.toFixed(4)}
+            {isConnected ? talonBalance.toFixed(4) : "—"}
           </div>
         </div>
       </div>
@@ -72,7 +72,9 @@ export function JoinPanel({ tokenAddress, decimals }: JoinPanelProps) {
           <span className="font-bold text-[#050B24]">Amount to Recombine</span>
           <div className="flex items-center gap-1.5">
             <span>Max Recombinable:</span>
-            <span className="text-[#050B24] font-mono font-bold">{maxJoinable.toFixed(4)}</span>
+            <span className="text-[#050B24] font-mono font-bold">
+              {isConnected ? maxJoinable.toFixed(4) : "—"}
+            </span>
             <span className="font-semibold">{tokenMeta.symbol}</span>
           </div>
         </div>

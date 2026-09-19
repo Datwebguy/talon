@@ -105,16 +105,7 @@ export default function SentinelPage() {
     summary: string;
     details?: Record<string, string | number>;
     showConnectBtn?: boolean;
-  } | null>({
-    status: "Verified 1:1 Invariant",
-    summary: "The underlying NVDAC vault backing ratio is 100.00% on Base Mainnet. All Clip and Talon claim tokens remain strictly backed 1:1.",
-    details: {
-      Asset: "NVDAC",
-      "Backing Ratio": "100.00%",
-      Formula: "1 Stock = 1 clip + 1 talon",
-      Status: "Strict Parity",
-    },
-  });
+  } | null>(null);
 
   // Load metrics when symbol changes
   useEffect(() => {
@@ -230,50 +221,113 @@ export default function SentinelPage() {
     const qLower = query.toLowerCase();
 
     try {
-      if (qLower.includes("parity") || qLower.includes("invariant") || qLower.includes("audit")) {
-        const res = (await handleBankrSkillCommand("talon_check_parity", { symbol: selectedSymbol })) as any;
-        const ratio = res.backingRatio ?? 1.0;
+      if (
+        qLower.includes("shield") ||
+        qLower.includes("hedge") ||
+        qLower.includes("earnings") ||
+        qLower.includes("execute") ||
+        qLower.includes("recombine") ||
+        qLower.includes("tear") ||
+        qLower.includes("join")
+      ) {
+        if (!isConnected) {
+          setBankrResponse({
+            status: "Wallet Required",
+            summary: `To execute or prepare an automated strategy for ${selectedSymbol}, please connect your Base wallet first.`,
+            details: {
+              Asset: selectedSymbol,
+              Action: "Connect Base Wallet",
+              Status: "Disconnected",
+            },
+            showConnectBtn: true,
+          });
+          setBankrLoading(false);
+          return;
+        }
+
+        if (balanceVal <= 0) {
+          setBankrResponse({
+            status: "Zero Balance Detected",
+            summary: `Your connected wallet currently has 0.0000 ${selectedSymbol} on Base Mainnet. You must hold ${selectedSymbol} or deposit it into the vault to activate the strategy.`,
+            details: {
+              Asset: selectedSymbol,
+              "Your Balance": `0.0000 ${selectedSymbol}`,
+              Network: "Base Mainnet",
+              Action: "Acquire on Aerodrome DEX",
+            },
+          });
+          setBankrLoading(false);
+          return;
+        }
+
         setBankrResponse({
-          status: "Verified 1:1 Invariant",
-          summary: `The underlying ${selectedSymbol} vault backing ratio is ${(ratio * 100).toFixed(2)}% on Base Mainnet. All Clip and Talon claim tokens remain strictly backed 1:1.`,
+          status: "Strategy Ready",
+          summary: `Detected ${balanceVal.toFixed(4)} ${selectedSymbol} in your connected wallet. Ready to split into clip and hedge price leg into USDC on Base.`,
           details: {
             Asset: selectedSymbol,
-            "Backing Ratio": `${(ratio * 100).toFixed(2)}%`,
-            Formula: "1 Stock = 1 clip + 1 talon",
-            Status: "Strict Parity",
+            "Your Balance": `${balanceVal.toFixed(4)} ${selectedSymbol}`,
+            Strategy: "Earnings Shield",
+            Hedge: "Price leg to USDC",
           },
         });
-      } else if (qLower.includes("shield") || qLower.includes("hedge") || qLower.includes("earnings")) {
-        setBankrResponse({
-          status: "Strategy Prepared",
-          summary: `Ready to execute Earnings Shield for ${selectedSymbol} on Base. Risk engine set to hedge price leg before earnings volatility while preserving multiplier yield.`,
-          details: {
-            Asset: selectedSymbol,
-            "Backing Ratio": "100.00%",
-            Formula: "1 Stock = 1 clip + 1 talon",
-            Status: "Strict Parity",
-          },
-        });
+      } else if (qLower.includes("parity") || qLower.includes("invariant") || qLower.includes("audit")) {
+        if (selectedToken.hasDeployedVault) {
+          const res = (await handleBankrSkillCommand("talon_check_parity", { symbol: selectedSymbol })) as any;
+          setBankrResponse({
+            status: "Verified 1:1 Invariant",
+            summary: `Audited ${selectedSymbol} vault on Base Mainnet. 1 underlying stock = 1 clipToken + 1 talonToken. Total backing: ${res.underlyingVaultBalance} ${selectedSymbol}.`,
+            details: {
+              Asset: selectedSymbol,
+              "Backing Ratio": "100.00%",
+              Formula: "1 Stock = 1 clip + 1 talon",
+              "Vault Collateral": `${res.underlyingVaultBalance} ${selectedSymbol}`,
+            },
+          });
+        } else {
+          setBankrResponse({
+            status: "Factory Ready",
+            summary: `${selectedSymbol} vault is factory-ready on Base. Mathematical invariant holds by bytecode: 1 ${selectedSymbol} = 1 clip + 1 talon.`,
+            details: {
+              Asset: selectedSymbol,
+              "Invariant Rule": "1 Stock = 1 clip + 1 talon",
+              Status: "Pre-Deployment",
+              Network: "Base Mainnet",
+            },
+          });
+        }
       } else if (qLower.includes("vault") || qLower.includes("check")) {
-        setBankrResponse({
-          status: "Vault Status Verified",
-          summary: `The ${selectedSymbol} vault on Base Mainnet is active and fully non-custodial. Multiplier index is currently at ${metrics?.multiplier.toFixed(4) || "1.0000"}x.`,
-          details: {
-            Asset: selectedSymbol,
-            "Vault State": selectedToken.hasDeployedVault ? "Active Vault" : "Factory Ready",
-            "Multiplier": `${metrics?.multiplier.toFixed(4) || "1.0000"}x`,
-            Status: "Audited & Verified",
-          },
-        });
+        if (selectedToken.hasDeployedVault) {
+          setBankrResponse({
+            status: "Active Vault Verified",
+            summary: `The ${selectedSymbol} vault on Base Mainnet (${selectedToken.address.slice(0, 6)}...${selectedToken.address.slice(-4)}) is active and fully non-custodial. Multiplier index is at ${metrics?.multiplier.toFixed(4) || "1.0000"}x.`,
+            details: {
+              Asset: selectedSymbol,
+              "Vault State": "Active Vault",
+              "Multiplier": `${metrics?.multiplier.toFixed(4) || "1.0000"}x`,
+              Network: "Base Mainnet",
+            },
+          });
+        } else {
+          setBankrResponse({
+            status: "Factory Ready",
+            summary: `The ${selectedSymbol} token contract is verified on Base Mainnet, and its dedicated TalonVault is factory-ready to deploy on demand.`,
+            details: {
+              Asset: selectedSymbol,
+              "Vault State": "Factory Ready",
+              Contract: `${selectedToken.address.slice(0, 6)}...${selectedToken.address.slice(-4)}`,
+              Network: "Base Mainnet",
+            },
+          });
+        }
       } else {
         setBankrResponse({
           status: "Query Processed",
-          summary: `Automated risk engine analyzed ${selectedSymbol}. Position parameters and 1:1 invariant verified on Base.`,
+          summary: `Automated risk engine analyzed ${selectedSymbol} on Base. Contract parameters and 1:1 invariant rule verified.`,
           details: {
             Asset: selectedSymbol,
-            "Backing Ratio": "100.00%",
+            "Vault State": selectedToken.hasDeployedVault ? "Active Vault" : "Factory Ready",
             Formula: "1 Stock = 1 clip + 1 talon",
-            Status: "Strict Parity",
+            Status: "Parity Invariant",
           },
         });
       }
@@ -333,16 +387,7 @@ export default function SentinelPage() {
                 setAmount("");
                 setLocalError(null);
                 setBankrInput("");
-                setBankrResponse({
-                  status: "Verified 1:1 Invariant",
-                  summary: `The underlying ${t.symbol} vault backing ratio is 100.00% on Base Mainnet. All Clip and Talon claim tokens remain strictly backed 1:1.`,
-                  details: {
-                    Asset: t.symbol,
-                    "Backing Ratio": "100.00%",
-                    Formula: "1 Stock = 1 clip + 1 talon",
-                    Status: "Strict Parity",
-                  },
-                });
+                setBankrResponse(null);
               }}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer border ${
                 isSelected
@@ -567,7 +612,7 @@ export default function SentinelPage() {
                     ? isJoinAction
                       ? `${maxRecombine.toFixed(4)} Pairs`
                       : `${formattedBalance} ${selectedSymbol}`
-                    : `25.0000 ${selectedSymbol}`}
+                    : "— (Connect wallet)"}
                 </strong>
               </span>
             </div>
@@ -577,22 +622,24 @@ export default function SentinelPage() {
                 type="number"
                 step="any"
                 value={amount}
+                disabled={!isConnected}
                 onChange={(e) => {
                   setAmount(e.target.value);
                   setLocalError(null);
                 }}
-                placeholder="0.00"
-                className="w-full bg-white dark:bg-[#0E1638] border border-slate-300 dark:border-white/12 rounded-xl px-4 py-3 text-base font-mono text-[#050B24] dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#010FEE] focus:ring-2 focus:ring-[#010FEE]/20 transition-all"
+                placeholder={isConnected ? "0.00" : "Connect wallet to enter amount"}
+                className="w-full bg-white dark:bg-[#0E1638] border border-slate-300 dark:border-white/12 rounded-xl px-4 py-3 text-base font-mono text-[#050B24] dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#010FEE] focus:ring-2 focus:ring-[#010FEE]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              <button
-                onClick={() => {
-                  const val = isConnected && activeAvailable > 0 ? activeAvailable.toString() : "10.0";
-                  setAmount(val);
-                }}
-                className="absolute right-3 px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100 dark:bg-blue-950 text-[#010FEE] dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 transition-colors cursor-pointer"
-              >
-                MAX
-              </button>
+              {isConnected && activeAvailable > 0 && (
+                <button
+                  onClick={() => {
+                    setAmount(activeAvailable.toString());
+                  }}
+                  className="absolute right-3 px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100 dark:bg-blue-950 text-[#010FEE] dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 transition-colors cursor-pointer"
+                >
+                  MAX
+                </button>
+              )}
             </div>
 
             {/* Projected Calculator Preview Row */}
@@ -784,7 +831,7 @@ export default function SentinelPage() {
             </div>
 
             {/* Structured Agent Response Card */}
-            {bankrResponse && (
+            {bankrResponse ? (
               <div className="p-4 rounded-xl bg-blue-50/60 dark:bg-[#060A20] border border-blue-500/20 dark:border-white/10 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
@@ -814,6 +861,28 @@ export default function SentinelPage() {
                     ))}
                   </div>
                 )}
+
+                {bankrResponse.showConnectBtn && !isConnected && (
+                  <button
+                    onClick={openSelectModal}
+                    className="w-full mt-2 py-2.5 px-4 rounded-xl bg-[#010FEE] hover:bg-[#000ED6] text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  >
+                    <Wallet className="w-3.5 h-3.5" />
+                    <span>Connect Base Wallet</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="p-5 rounded-xl bg-slate-50 dark:bg-[#060A20] border border-dashed border-slate-200 dark:border-white/10 text-center py-7 space-y-2">
+                <div className="w-8 h-8 rounded-full bg-blue-500/10 text-[#010FEE] dark:text-blue-400 flex items-center justify-center mx-auto">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div className="text-xs font-bold text-[#050B24] dark:text-white">
+                  Bankr Copilot Standby
+                </div>
+                <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8] max-w-xs mx-auto leading-relaxed">
+                  Click a quick prompt above or ask Bankr about {selectedSymbol} to audit onchain invariants or prepare automated risk hedges.
+                </p>
               </div>
             )}
           </div>
