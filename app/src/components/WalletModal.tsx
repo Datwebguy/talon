@@ -17,6 +17,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { TalonLogo } from "./TalonLogo";
+import { PrivyLoginButton } from "./PrivyLoginButton";
 
 // Official High-Fidelity SVG icons for popular Web3 wallets
 function CoinbaseIcon({ className = "w-9 h-9" }: { className?: string }) {
@@ -126,7 +127,17 @@ function BrowserWalletIcon({ className = "w-9 h-9" }: { className?: string }) {
   );
 }
 
-export function WalletModal() {
+function WalletConnectIcon({ className = "w-9 h-9" }: { className?: string }) {
+  return (
+    <div className={`shrink-0 rounded-xl bg-[#3B99FC]/15 border border-[#3B99FC]/30 flex items-center justify-center text-[#3B99FC] shadow-sm ${className}`}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.5 8.5C9.1 5 14.9 5 18.5 8.5L19.2 9.2C19.5 9.5 19.5 10 19.2 10.3L17.7 11.8C17.5 12 17.2 12 17 11.8L16 10.8C13.8 8.6 10.2 8.6 8 10.8L7 11.8C6.8 12 6.5 12 6.3 11.8L4.8 10.3C4.5 10 4.5 9.5 4.8 9.2L5.5 8.5ZM21.5 11.5L22.9 12.9C23.2 13.2 23.2 13.7 22.9 14L18.4 18.5C18.1 18.8 17.6 18.8 17.3 18.5L14.7 15.9C14.6 15.8 14.4 15.8 14.3 15.9L11.7 18.5C11.4 18.8 10.9 18.8 10.6 18.5L6.1 14C5.8 13.7 5.8 13.2 6.1 12.9L7.5 11.5C7.8 11.2 8.3 11.2 8.6 11.5L11.2 14.1C11.3 14.2 11.5 14.2 11.6 14.1L14.2 11.5C14.5 11.2 15 11.2 15.3 11.5L17.9 14.1C18 14.2 18.2 14.2 18.3 14.1L20.9 11.5C21.2 11.2 21.7 11.2 21.5 11.5Z" fill="#3B99FC" />
+      </svg>
+    </div>
+  );
+}
+
+export function WalletModal({ isPrivyEnabled = false }: { isPrivyEnabled?: boolean }) {
   const { isOpen, view, closeModal, openSelectModal } = useWalletModal();
   const { address, isConnected } = useAccount();
   const { connectors, connectAsync, isPending } = useConnect();
@@ -190,10 +201,18 @@ export function WalletModal() {
 
     if (id.includes("coinbase") || name.includes("coinbase")) {
       return {
-        displayName: "Coinbase Wallet",
-        sub: "Coinbase Extension & Smart Wallet",
+        displayName: "Coinbase Smart Wallet",
+        sub: "Instant FaceID / Passkey & Extension",
         badge: "Base Native",
         icon: <CoinbaseIcon />,
+      };
+    }
+    if (id.includes("walletconnect") || name.includes("walletconnect")) {
+      return {
+        displayName: "WalletConnect",
+        sub: "MetaMask, Rainbow, Trust, Mobile Apps",
+        badge: "Mobile & QR",
+        icon: <WalletConnectIcon />,
       };
     }
     if (id.includes("metamask") || name.includes("metamask")) {
@@ -257,16 +276,17 @@ export function WalletModal() {
       return true;
     });
 
-    // Custom priority: Coinbase first (Base native), then MetaMask, OKX, Phantom, Rabby, Rainbow, and generic at the bottom
+    // Custom priority: Coinbase first (Base native), then WalletConnect, MetaMask, OKX, Phantom, Rabby, Rainbow, and generic at the bottom
     const getRank = (c: any) => {
       const id = c.id.toLowerCase();
       const name = c.name.toLowerCase();
       if (id.includes("coinbase") || name.includes("coinbase")) return 1;
-      if (id.includes("metamask") || name.includes("metamask")) return 2;
-      if (id.includes("okx") || name.includes("okx")) return 3;
-      if (id.includes("phantom") || name.includes("phantom")) return 4;
-      if (id.includes("rabby") || name.includes("rabby")) return 5;
-      if (id.includes("rainbow") || name.includes("rainbow")) return 6;
+      if (id.includes("walletconnect") || name.includes("walletconnect")) return 2;
+      if (id.includes("metamask") || name.includes("metamask")) return 3;
+      if (id.includes("okx") || name.includes("okx")) return 4;
+      if (id.includes("phantom") || name.includes("phantom")) return 5;
+      if (id.includes("rabby") || name.includes("rabby")) return 6;
+      if (id.includes("rainbow") || name.includes("rainbow")) return 7;
       return 99; // Generic Browser Wallet last
     };
 
@@ -307,6 +327,19 @@ export function WalletModal() {
             <p className="text-xs sm:text-sm text-[#475569] dark:text-[#94A3B8] leading-relaxed">
               Select your preferred wallet extension or provider to connect to Base Mainnet.
             </p>
+
+            {/* If Privy is enabled, show Privy Social / Email Login */}
+            {isPrivyEnabled && (
+              <PrivyLoginButton onSuccess={closeModal} />
+            )}
+
+            {/* Mobile Guidance Banner */}
+            <div className="p-3 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 flex items-start gap-2.5 text-xs text-blue-800 dark:text-blue-300">
+              <span className="font-bold shrink-0">📱 Mobile:</span>
+              <span className="leading-snug">
+                Use <strong>Coinbase Smart Wallet</strong> for 1-tap FaceID, or <strong>WalletConnect</strong> to open MetaMask, Rainbow, or Trust.
+              </span>
+            </div>
 
             {/* Error Message */}
             {connectError && (
